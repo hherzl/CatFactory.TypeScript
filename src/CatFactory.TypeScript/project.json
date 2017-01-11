@@ -1,0 +1,16 @@
+﻿{
+  "version": "1.0.0-alpha-build00",
+  "authors": [
+    "C. Herzl"
+  ],
+  "dependencies": {
+    "NETStandard.Library": "1.6.0",
+    "CatFactory": "1.0.0-alpha-build16"
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50"
+    }
+  }
+}
