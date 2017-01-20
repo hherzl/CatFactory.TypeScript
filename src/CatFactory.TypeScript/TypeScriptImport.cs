@@ -33,7 +33,7 @@ namespace CatFactory.TypeScript
 
         public override String ToString()
         {
-            return String.Format("{{ {0}}} from \"{1}\"", String.Join(",", Types), From);
+            return String.Format("{{ {0} }} from \"{1}\"", String.Join(", ", Types), From);
         }
     }
 }

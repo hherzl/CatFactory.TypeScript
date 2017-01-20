@@ -38,6 +38,35 @@ namespace CatFactory.TypeScript
                     start = 1;
                 }
 
+                foreach (var attribute in ObjectDefinition.Attributes)
+                {
+                    output.AppendFormat("{0}@{1}(", Indent(start), attribute.Name);
+
+                    if (attribute.Sets.Count > 0)
+                    {
+                        output.Append("{");
+
+                        output.AppendLine();
+
+                        for (var i = 0; i < attribute.Sets.Count; i++)
+                        {
+                            output.AppendFormat("{0}{1}", Indent(start + 1), attribute.Sets[i]);
+
+                            if (i < attribute.Sets.Count - 1)
+                            {
+                                output.Append(",");
+                            }
+
+                            output.AppendLine();
+                        }
+
+                        output.Append("}");
+                    }
+
+                    output.AppendFormat(")");
+                    output.AppendLine();
+                }
+
                 output.AppendFormat("{0}{1}interface {2}", Indent(start), ObjectDefinition.AccessModifier == AccessModifier.Public ? "export " : String.Empty, ObjectDefinition.Name);
 
                 if (ObjectDefinition.HasInheritance)

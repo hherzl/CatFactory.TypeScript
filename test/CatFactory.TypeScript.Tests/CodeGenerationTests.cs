@@ -43,6 +43,8 @@ namespace CatFactory.TypeScript.Tests
                 Implements = new List<String>() { "IContact" }
             };
 
+            classDefinition.Namespaces.Add(new TypeScriptImport(new String[] { "IContact" }, "./IContact").ToString());
+
             classDefinition.Fields = new List<FieldDefinition>()
             {
                 new FieldDefinition("string", "firstName"),
@@ -70,20 +72,36 @@ namespace CatFactory.TypeScript.Tests
                 Implements = new List<String>() { "OnInit" }
             };
 
-            classDefinition.Namespaces.Add(new TypeScriptImport(new String[] { "Injectable " }, "@angular/core").ToString());
+            classDefinition.Namespaces.Add(new TypeScriptImport(new String[] { "Injectable" }, "@angular/core").ToString());
+            classDefinition.Namespaces.Add(new TypeScriptImport(new String[] { "Component", "OnInit" }, "@angular/core").ToString());
+            classDefinition.Namespaces.Add(new TypeScriptImport(new String[] { "Router" }, "@angular/router").ToString());
+            classDefinition.Namespaces.Add(new TypeScriptImport(new String[] { "IListResponse" }, "../../responses/list.response").ToString());
+            classDefinition.Namespaces.Add(new TypeScriptImport(new String[] { "OrderSummary" }, "../../models/order.summary").ToString());
+            classDefinition.Namespaces.Add(new TypeScriptImport(new String[] { "SalesService" }, "../../services/sales.service").ToString());
 
-            classDefinition.Attributes.Add(new MetadataAttribute("Injectable"));
-
-            classDefinition.Constructors.Add(new ClassConstructorDefinition());
-
-            classDefinition.Fields = new List<FieldDefinition>()
+            classDefinition.Attributes.Add(new MetadataAttribute("Component")
             {
-                new FieldDefinition("number", "pageSize"),
-                new FieldDefinition("number", "pageNumber"),
-                new FieldDefinition("string", "salesOrderNumber"),
-                new FieldDefinition("string", "customerName"),
-                new FieldDefinition("IListResponse<OrderSummary>", "result")
-            };
+                Sets = new List<String>()
+                {
+                    "selector: \"order-list\"",
+                    "template: require(\"./order-list.component.html\")"
+                }
+            });
+
+            classDefinition.Constructors.Add(new ClassConstructorDefinition()
+            {
+                Parameters = new List<ParameterDefinition>()
+                {
+                    new ParameterDefinition("Router", "router") { AccessModifier = AccessModifier.Private },
+                    new ParameterDefinition("SalesService", "service") { AccessModifier = AccessModifier.Private }
+                }
+            });
+
+            classDefinition.Fields.Add(new FieldDefinition("number", "pageSize"));
+            classDefinition.Fields.Add(new FieldDefinition("number", "pageNumber"));
+            classDefinition.Fields.Add(new FieldDefinition("string", "salesOrderNumber"));
+            classDefinition.Fields.Add(new FieldDefinition("string", "customerName"));
+            classDefinition.Fields.Add(new FieldDefinition("IListResponse<OrderSummary>", "result"));
 
             classDefinition.Methods.Add(new MethodDefinition("void", "ngOnInit"));
             classDefinition.Methods.Add(new MethodDefinition("void", "search"));

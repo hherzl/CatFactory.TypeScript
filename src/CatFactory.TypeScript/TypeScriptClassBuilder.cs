@@ -51,7 +51,30 @@ namespace CatFactory.TypeScript
 
                 foreach (var attribute in ObjectDefinition.Attributes)
                 {
-                    output.AppendFormat("{0}@{1}()", Indent(start), attribute.Name);
+                    output.AppendFormat("{0}@{1}(", Indent(start), attribute.Name);
+
+                    if (attribute.Sets.Count > 0)
+                    {
+                        output.Append("{");
+
+                        output.AppendLine();
+
+                        for (var i = 0; i < attribute.Sets.Count; i++)
+                        {
+                            output.AppendFormat("{0}{1}", Indent(start + 1), attribute.Sets[i]);
+
+                            if (i < attribute.Sets.Count - 1)
+                            {
+                                output.Append(",");
+                            }
+
+                            output.AppendLine();
+                        }
+
+                        output.Append("}");
+                    }
+
+                    output.AppendFormat(")");
                     output.AppendLine();
                 }
 
@@ -101,7 +124,9 @@ namespace CatFactory.TypeScript
 
                     foreach (var constructor in ObjectDefinition.Constructors)
                     {
-                        output.AppendFormat("{0}constructor() {1}", Indent(start + 1), "{");
+                        var parameters = constructor.Parameters.Select(item => String.Format("{0} {1}: {2}", item.AccessModifier.ToString().ToLower(), item.Name, item.Type)).ToList();
+
+                        output.AppendFormat("{0}constructor({1}) {2}", Indent(start + 1), parameters.Count == 0 ? String.Empty : String.Join(", ", parameters), "{");
                         output.AppendLine();
 
                         foreach (var line in constructor.Lines)
