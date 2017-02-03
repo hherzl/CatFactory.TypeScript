@@ -9,18 +9,11 @@ namespace CatFactory.TypeScript
     {
         public TypeScriptInterfaceBuilder()
         {
-            ObjectDefinition = new TypeScriptInterfaceDefinition();
         }
 
-        public ITypeScriptInterfaceDefinition ObjectDefinition { get; set; }
+        public ITypeScriptInterfaceDefinition ObjectDefinition { get; set; } = new TypeScriptInterfaceDefinition();
 
-        public override String FileName
-        {
-            get
-            {
-                return ObjectDefinition.Name;
-            }
-        }
+        public override String FileName => ObjectDefinition.Name;
 
         public override String Code
         {
@@ -79,15 +72,6 @@ namespace CatFactory.TypeScript
 
                 output.AppendFormat(" {0}", "{");
                 output.AppendLine();
-
-                if (ObjectDefinition.Fields.Count > 0)
-                {
-                    foreach (var field in ObjectDefinition.Fields)
-                    {
-                        output.AppendFormat("{0}{1}: {2};", Indent(start + 1), field.Name, field.Type);
-                        output.AppendLine();
-                    }
-                }
 
                 if (ObjectDefinition.Properties.Count > 0)
                 {

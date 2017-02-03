@@ -9,18 +9,12 @@ namespace CatFactory.TypeScript
     {
         public TypeScriptClassBuilder()
         {
-            ObjectDefinition = new TypeScriptClassDefinition();
         }
 
-        public ITypeScriptClassDefinition ObjectDefinition { get; set; }
+        public ITypeScriptClassDefinition ObjectDefinition { get; set; } = new TypeScriptClassDefinition();
 
         public override String FileName
-        {
-            get
-            {
-                return ObjectDefinition.Name;
-            }
-        }
+            => ObjectDefinition.Name;
 
         public override String Code
         {
@@ -49,34 +43,7 @@ namespace CatFactory.TypeScript
                     start = 1;
                 }
 
-                foreach (var attribute in ObjectDefinition.Attributes)
-                {
-                    output.AppendFormat("{0}@{1}(", Indent(start), attribute.Name);
-
-                    if (attribute.Sets.Count > 0)
-                    {
-                        output.Append("{");
-
-                        output.AppendLine();
-
-                        for (var i = 0; i < attribute.Sets.Count; i++)
-                        {
-                            output.AppendFormat("{0}{1}", Indent(start + 1), attribute.Sets[i]);
-
-                            if (i < attribute.Sets.Count - 1)
-                            {
-                                output.Append(",");
-                            }
-
-                            output.AppendLine();
-                        }
-
-                        output.Append("}");
-                    }
-
-                    output.AppendFormat(")");
-                    output.AppendLine();
-                }
+                this.AddAttributes(output, start);
 
                 output.AppendFormat("{0}{1}class {2}", Indent(start), ObjectDefinition.AccessModifier == AccessModifier.Public ? "export " : String.Empty, ObjectDefinition.Name);
 
@@ -104,7 +71,7 @@ namespace CatFactory.TypeScript
                     {
                         if (property.IsAutomatic)
                         {
-                            ObjectDefinition.Fields.Add(new FieldDefinition(property.Type, namingConvention.GetFieldName(property.Name)) { AccessModifier = AccessModifier.Private });
+                            ObjectDefinition.Fields.Add(new FieldDefinition(AccessModifier.Private, property.Type, namingConvention.GetFieldName(property.Name)));
                         }
                     }
                 }
