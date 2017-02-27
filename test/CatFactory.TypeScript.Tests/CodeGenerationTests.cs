@@ -175,7 +175,7 @@ namespace CatFactory.TypeScript.Tests
 
             classDefinition.Methods.Add(new MethodDefinition("boolean", "equals", new ParameterDefinition("any", "obj"))
             {
-                Lines = new List<CodeLine>()
+                Lines = new List<ILine>()
                 {
                     new CodeLine("return false;")
                 }
@@ -183,7 +183,7 @@ namespace CatFactory.TypeScript.Tests
 
             classDefinition.Methods.Add(new MethodDefinition("number", "getHashCode")
             {
-                Lines = new List<CodeLine>()
+                Lines = new List<ILine>()
                 {
                     new CodeLine("return 0;")
                 }
@@ -191,11 +191,31 @@ namespace CatFactory.TypeScript.Tests
 
             classDefinition.Methods.Add(new MethodDefinition("string", "toString")
             {
-                Lines = new List<CodeLine>()
+                Lines = new List<ILine>()
                 {
                     new CodeLine("return \"\";")
                 }
             });
+
+            var classBuilder = new TypeScriptClassBuilder()
+            {
+                ObjectDefinition = classDefinition,
+                OutputDirectory = "C:\\Temp\\CatFactory.TypeScript"
+            };
+
+            classBuilder.CreateFile();
+        }
+
+        [Fact]
+        public void TestTypeScriptClassWithReadOnlyFieldsGeneration()
+        {
+            var classDefinition = new TypeScriptClassDefinition()
+            {
+                Name = "Tokens"
+            };
+
+            classDefinition.Fields.Add(new FieldDefinition("number", "foo") { IsStatic = true, IsReadOnly = true, Value = "123" });
+            classDefinition.Fields.Add(new FieldDefinition("string", "bar") { IsStatic = true, IsReadOnly = true, Value = "\"hello\"" });
 
             var classBuilder = new TypeScriptClassBuilder()
             {

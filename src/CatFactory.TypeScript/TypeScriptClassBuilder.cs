@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CatFactory.CodeFactory;
 using CatFactory.OOP;
 
 namespace CatFactory.TypeScript
@@ -15,6 +17,11 @@ namespace CatFactory.TypeScript
 
         public override String FileName
             => ObjectDefinition.Name;
+
+        protected override String GetComment(String description)
+        {
+            return String.Format("//{0}", description);
+        }
 
         public override String Code
         {
@@ -80,7 +87,30 @@ namespace CatFactory.TypeScript
                 {
                     foreach (var field in ObjectDefinition.Fields)
                     {
-                        output.AppendFormat("{0}{1} {2}: {3};", Indent(start + 1), field.AccessModifier.ToString().ToLower(), field.Name, field.Type);
+                        var fieldDefinition = new List<String>();
+
+                        fieldDefinition.Add(field.AccessModifier.ToString().ToLower());
+
+                        if (field.IsStatic)
+                        {
+                            fieldDefinition.Add("static");
+                        }
+
+                        if (field.IsReadOnly)
+                        {
+                            fieldDefinition.Add("readonly");
+                        }
+
+                        fieldDefinition.Add(String.Format("{0}:", field.Name));
+                        fieldDefinition.Add(field.Type);
+
+                        if (!String.IsNullOrEmpty(field.Value))
+                        {
+                            fieldDefinition.Add("=");
+                            fieldDefinition.Add(field.Value);
+                        }
+
+                        output.AppendFormat("{0}{1};", Indent(start + 1), String.Join(" ", fieldDefinition));
                         output.AppendLine();
                     }
                 }
@@ -151,8 +181,18 @@ namespace CatFactory.TypeScript
 
                             foreach (var line in property.GetBody)
                             {
-                                output.AppendFormat("{0}{1};", Indent(start + line.Indent), line.Content);
-                                output.AppendLine();
+                                var commentCast = line as CommentLine;
+
+                                if (commentCast == null)
+                                {
+                                    output.AppendFormat("{0}{1};", Indent(start + line.Indent), line.Content);
+                                    output.AppendLine();
+                                }
+                                else
+                                {
+                                    output.AppendFormat("{0}{1};", Indent(start + line.Indent), GetComment(line.Content));
+                                    output.AppendLine();
+                                }
                             }
 
                             output.AppendFormat("{0}{1}", Indent(start + 1), "}");
@@ -165,8 +205,18 @@ namespace CatFactory.TypeScript
 
                             foreach (var line in property.SetBody)
                             {
-                                output.AppendFormat("{0}{1};", Indent(start + line.Indent), line.Content);
-                                output.AppendLine();
+                                var commentCast = line as CommentLine;
+
+                                if (commentCast == null)
+                                {
+                                    output.AppendFormat("{0}{1};", Indent(start + line.Indent), line.Content);
+                                    output.AppendLine();
+                                }
+                                else
+                                {
+                                    output.AppendFormat("{0}{1};", Indent(start + line.Indent), GetComment(line.Content));
+                                    output.AppendLine();
+                                }
                             }
 
                             output.AppendFormat("{0}{1}", Indent(start + 1), "}");
@@ -195,8 +245,18 @@ namespace CatFactory.TypeScript
 
                         foreach (var line in method.Lines)
                         {
-                            output.AppendFormat("{0}{1}", Indent(start + 2 + line.Indent), line);
-                            output.AppendLine();
+                            var commentCast = line as CommentLine;
+
+                            if (commentCast == null)
+                            {
+                                output.AppendFormat("{0}{1};", Indent(start + line.Indent), line.Content);
+                                output.AppendLine();
+                            }
+                            else
+                            {
+                                output.AppendFormat("{0}{1};", Indent(start + line.Indent), GetComment(line.Content));
+                                output.AppendLine();
+                            }
                         }
 
                         output.AppendFormat("{0}{1}", Indent(start + 1), "}");
