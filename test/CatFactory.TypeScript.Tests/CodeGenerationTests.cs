@@ -214,8 +214,9 @@ namespace CatFactory.TypeScript.Tests
                 Name = "Tokens"
             };
 
-            classDefinition.Fields.Add(new FieldDefinition("number", "foo") { IsStatic = true, IsReadOnly = true, Value = "123" });
-            classDefinition.Fields.Add(new FieldDefinition("string", "bar") { IsStatic = true, IsReadOnly = true, Value = "\"hello\"" });
+            classDefinition.AddConstant("number", "foo", "123");
+            classDefinition.AddConstant("string", "bar", "\"hello\"");
+            classDefinition.AddConstant("string", "zaz", "\"ABCDEF\"");
 
             var classBuilder = new TypeScriptClassBuilder()
             {
@@ -227,3 +228,4 @@ namespace CatFactory.TypeScript.Tests
         }
     }
 }
+    
