@@ -11,7 +11,7 @@ namespace CatFactory.TypeScript.Tests
         [Fact]
         public void TestTypeScriptInterfaceWithPropertiesGeneration()
         {
-            var interfaceDefinition = new TypeScriptInterfaceDefinition()
+            var interfaceDefinition = new TypeScriptInterfaceDefinition
             {
                 Name = "IPerson"
             };
@@ -22,7 +22,7 @@ namespace CatFactory.TypeScript.Tests
             interfaceDefinition.Properties.Add(new PropertyDefinition("string", "gender"));
             interfaceDefinition.Properties.Add(new PropertyDefinition("Date", "birthDate"));
 
-            var classBuilder = new TypeScriptInterfaceBuilder()
+            var classBuilder = new TypeScriptInterfaceBuilder
             {
                 ObjectDefinition = interfaceDefinition,
                 OutputDirectory = "C:\\Temp\\CatFactory.TypeScript"
@@ -34,7 +34,7 @@ namespace CatFactory.TypeScript.Tests
         [Fact]
         public void TestTypeScriptInterfaceWithNamespaceAndPropertiesGeneration()
         {
-            var interfaceDefinition = new TypeScriptInterfaceDefinition()
+            var interfaceDefinition = new TypeScriptInterfaceDefinition
             {
                 Namespace = "ContactManager",
                 Name = "IContact"
@@ -46,7 +46,7 @@ namespace CatFactory.TypeScript.Tests
             interfaceDefinition.Properties.Add(new PropertyDefinition("string", "gender"));
             interfaceDefinition.Properties.Add(new PropertyDefinition("Date", "birthDate"));
 
-            var classBuilder = new TypeScriptInterfaceBuilder()
+            var classBuilder = new TypeScriptInterfaceBuilder
             {
                 ObjectDefinition = interfaceDefinition,
                 OutputDirectory = "C:\\Temp\\CatFactory.TypeScript"
@@ -58,15 +58,15 @@ namespace CatFactory.TypeScript.Tests
         [Fact]
         public void TestTypeScriptClassWithFieldsGeneration()
         {
-            var classDefinition = new TypeScriptClassDefinition()
+            var classDefinition = new TypeScriptClassDefinition
             {
                 Namespace = "ContactManager",
                 Name = "Contact",
                 BaseClass = "Entity",
-                Implements = new List<String>() { "IContact" }
+                Implements = new List<string>() { "IContact" }
             };
 
-            classDefinition.AddImport(new String[] { "IContact" }, "./IContact");
+            classDefinition.AddImport("IContact", "./IContact");
 
             classDefinition.Fields.Add(new FieldDefinition("string", "firstName"));
             classDefinition.Fields.Add(new FieldDefinition("string", "middleName"));
@@ -74,56 +74,7 @@ namespace CatFactory.TypeScript.Tests
             classDefinition.Fields.Add(new FieldDefinition("string", "gender"));
             classDefinition.Fields.Add(new FieldDefinition("Date", "birthDate"));
 
-            var classBuilder = new TypeScriptClassBuilder()
-            {
-                ObjectDefinition = classDefinition,
-                OutputDirectory = "C:\\Temp\\CatFactory.TypeScript"
-            };
-
-            classBuilder.CreateFile();
-        }
-
-        [Fact]
-        public void TestTypeScriptClassComponentGeneration()
-        {
-            var classDefinition = new TypeScriptClassDefinition()
-            {
-                Name = "OrderListComponent",
-                Implements = new List<String>() { "OnInit" }
-            };
-
-            classDefinition.AddImport(new String[] { "Injectable" }, "@angular/core");
-            classDefinition.AddImport(new String[] { "Component", "OnInit" }, "@angular/core");
-            classDefinition.AddImport(new String[] { "Router" }, "@angular/router");
-            classDefinition.AddImport(new String[] { "IListResponse" }, "../../responses/list.response");
-            classDefinition.AddImport(new String[] { "OrderSummary" }, "../../models/order.summary");
-            classDefinition.AddImport(new String[] { "SalesService" }, "../../services/sales.service");
-
-            classDefinition.Attributes.Add(new MetadataAttribute("Component")
-            {
-                Sets = new List<MetadataAttributeSet>()
-                {
-                    new MetadataAttributeSet("selector", "\"order-list\""),
-                    new MetadataAttributeSet("template", "require(\"./order-list.component.html\")")
-                }
-            });
-
-            classDefinition.Constructors.Add(new ClassConstructorDefinition(
-                new ParameterDefinition(AccessModifier.Private, "Router", "router"),
-                new ParameterDefinition(AccessModifier.Private, "SalesService", "service"))
-            );
-
-            classDefinition.Fields.Add(new FieldDefinition("number", "pageSize"));
-            classDefinition.Fields.Add(new FieldDefinition("number", "pageNumber"));
-            classDefinition.Fields.Add(new FieldDefinition("string", "salesOrderNumber"));
-            classDefinition.Fields.Add(new FieldDefinition("string", "customerName"));
-            classDefinition.Fields.Add(new FieldDefinition("IListResponse<OrderSummary>", "result"));
-
-            classDefinition.Methods.Add(new MethodDefinition("void", "ngOnInit"));
-            classDefinition.Methods.Add(new MethodDefinition("void", "search"));
-            classDefinition.Methods.Add(new MethodDefinition("void", "details", new ParameterDefinition("OrderSummary", "order")));
-
-            var classBuilder = new TypeScriptClassBuilder()
+            var classBuilder = new TypeScriptClassBuilder
             {
                 ObjectDefinition = classDefinition,
                 OutputDirectory = "C:\\Temp\\CatFactory.TypeScript"
@@ -135,7 +86,7 @@ namespace CatFactory.TypeScript.Tests
         [Fact]
         public void TestTypeScriptClassWithPropertiesGeneration()
         {
-            var classDefinition = new TypeScriptClassDefinition()
+            var classDefinition = new TypeScriptClassDefinition
             {
                 Namespace = "HumanResources",
                 Name = "Employee"
@@ -147,7 +98,7 @@ namespace CatFactory.TypeScript.Tests
             classDefinition.Properties.Add(new PropertyDefinition("string", "gender"));
             classDefinition.Properties.Add(new PropertyDefinition("Date", "birthDate"));
 
-            var classBuilder = new TypeScriptClassBuilder()
+            var classBuilder = new TypeScriptClassBuilder
             {
                 ObjectDefinition = classDefinition,
                 OutputDirectory = "C:\\Temp\\CatFactory.TypeScript"
@@ -159,7 +110,7 @@ namespace CatFactory.TypeScript.Tests
         [Fact]
         public void TestTypeScriptClassWithPropertiesAndMethodsGeneration()
         {
-            var classDefinition = new TypeScriptClassDefinition()
+            var classDefinition = new TypeScriptClassDefinition
             {
                 Namespace = "School",
                 Name = "Student"
@@ -189,7 +140,7 @@ namespace CatFactory.TypeScript.Tests
                 }
             });
 
-            classDefinition.Methods.Add(new MethodDefinition("string", "toString")
+            classDefinition.Methods.Add(new MethodDefinition("string", "tostring")
             {
                 Lines = new List<ILine>()
                 {
@@ -197,7 +148,7 @@ namespace CatFactory.TypeScript.Tests
                 }
             });
 
-            var classBuilder = new TypeScriptClassBuilder()
+            var classBuilder = new TypeScriptClassBuilder
             {
                 ObjectDefinition = classDefinition,
                 OutputDirectory = "C:\\Temp\\CatFactory.TypeScript"
@@ -209,7 +160,7 @@ namespace CatFactory.TypeScript.Tests
         [Fact]
         public void TestTypeScriptClassWithReadOnlyFieldsGeneration()
         {
-            var classDefinition = new TypeScriptClassDefinition()
+            var classDefinition = new TypeScriptClassDefinition
             {
                 Name = "Tokens"
             };
@@ -218,7 +169,7 @@ namespace CatFactory.TypeScript.Tests
             classDefinition.AddConstant("string", "bar", "\"hello\"");
             classDefinition.AddConstant("string", "zaz", "\"ABCDEF\"");
 
-            var classBuilder = new TypeScriptClassBuilder()
+            var classBuilder = new TypeScriptClassBuilder
             {
                 ObjectDefinition = classDefinition,
                 OutputDirectory = "C:\\Temp\\CatFactory.TypeScript"
@@ -226,6 +177,204 @@ namespace CatFactory.TypeScript.Tests
 
             classBuilder.CreateFile();
         }
+
+        [Fact]
+        public void TestTypeScriptClassServiceGeneration()
+        {
+            var classDefinition = new TypeScriptClassDefinition
+            {
+                Name = "NorthwindService"
+            };
+
+            classDefinition.Attributes.Add(new MetadataAttribute("Injectable"));
+
+            classDefinition.AddImport("Injectable", "@angular/core");
+            classDefinition.AddImport(new string[] { "Http", "Response" }, "@angular/http");
+            classDefinition.AddImport("Observable", "rxjs/Observable");
+
+            classDefinition.Constructors.Add(new ClassConstructorDefinition(new ParameterDefinition(AccessModifier.Private, "Http", "http"))
+            {
+                Lines = new List<ILine>()
+                {
+                    new CodeLine("this.api = \"{0}\";", "api/Northwind")
+                }
+            });
+
+            classDefinition.Fields.Add(new FieldDefinition("string", "api"));
+
+            classDefinition.Methods.Add(new MethodDefinition("Observable<Response>", "getOrders", new ParameterDefinition("number", "pageNumber"), new ParameterDefinition("number", "pageSize"))
+            {
+                Lines = new List<ILine>()
+                {
+                    new CodeLine("var url = [this.api, \"Sales\", \"Order\"].join(\"/\");"),
+                    new CodeLine(),
+                    new CodeLine("return this.http.get(url);")
+                }
+            });
+
+            classDefinition.Methods.Add(new MethodDefinition("Observable<Response>", "getOrder", new ParameterDefinition("number", "id"))
+            {
+                Lines = new List<ILine>()
+                {
+                    new CodeLine("var url = [this.api, \"Sales\", \"Order\", id].join(\"/\");"),
+                    new CodeLine(),
+                    new CodeLine("return this.http.get(url);")
+                }
+            });
+
+            var classBuilder = new TypeScriptClassBuilder
+            {
+                ObjectDefinition = classDefinition,
+                OutputDirectory = "C:\\Temp\\CatFactory.TypeScript"
+            };
+
+            classBuilder.CreateFile();
+        }
+
+        [Fact]
+        public void TestTypeScriptClassComponentGeneration()
+        {
+            var classDefinition = new TypeScriptClassDefinition
+            {
+                Name = "OrderListComponent",
+                Implements = new List<string>() { "OnInit" }
+            };
+
+            classDefinition.AddImport(new string[] { "Component", "Injectable", "OnInit" }, "@angular/core");
+            classDefinition.AddImport("Router", "@angular/router");
+            classDefinition.AddImport("SalesService", "../../services/sales.service");
+            classDefinition.AddImport("OrderSummary", "../../models/order.summary");
+            classDefinition.AddImport("IListResponse", "../../responses/list.response");
+
+            classDefinition.Attributes.Add(new MetadataAttribute("Component")
+            {
+                Sets = new List<MetadataAttributeSet>()
+                {
+                    new MetadataAttributeSet("selector", "\"order-list\""),
+                    new MetadataAttributeSet("template", "require(\"./order-list.component.html\")")
+                }
+            });
+
+            classDefinition.Constructors.Add(new ClassConstructorDefinition(
+                new ParameterDefinition(AccessModifier.Private, "Router", "router"),
+                new ParameterDefinition(AccessModifier.Private, "SalesService", "service"))
+            );
+
+            classDefinition.Fields.Add(new FieldDefinition("number", "pageSize"));
+            classDefinition.Fields.Add(new FieldDefinition("number", "pageNumber"));
+            classDefinition.Fields.Add(new FieldDefinition("string", "salesOrderNumber"));
+            classDefinition.Fields.Add(new FieldDefinition("string", "customerName"));
+            classDefinition.Fields.Add(new FieldDefinition("IListResponse<OrderSummary>", "result"));
+
+            classDefinition.Methods.Add(new MethodDefinition("void", "ngOnInit")
+            {
+                Lines = new List<ILine>()
+                {
+                    new TodoLine("Add logic for this operation")
+                }
+            });
+
+            classDefinition.Methods.Add(new MethodDefinition("void", "search")
+            {
+                Lines = new List<ILine>()
+                {
+                    new TodoLine("Add logic for this operation")
+                }
+            });
+
+            classDefinition.Methods.Add(new MethodDefinition("void", "details", new ParameterDefinition("OrderSummary", "order"))
+            {
+                Lines = new List<ILine>()
+                {
+                    new TodoLine("Add logic for this operation")
+                }
+            });
+
+            var classBuilder = new TypeScriptClassBuilder
+            {
+                ObjectDefinition = classDefinition,
+                OutputDirectory = "C:\\Temp\\CatFactory.TypeScript"
+            };
+
+            classBuilder.CreateFile();
+        }
+
+        [Fact]
+        public void TestTypeScriptModule()
+        {
+            var moduleDefinition = new TypeScriptModuleDefinition();
+
+            moduleDefinition.Constants.Add(new ConstantDefinition(AccessModifier.Public, "string", "foo", "\"foo value\""));
+
+            var codeBuilder = new TypeScriptModuleBuilder(moduleDefinition)
+            {
+                ModuleFileName = "Shipping",
+                OutputDirectory = "C:\\Temp\\CatFactory.TypeScript"
+            };
+
+            codeBuilder.CreateFile();
+        }
+
+        [Fact]
+        public void TestAngularConfigurationGeneration()
+        {
+            var moduleDefinition = new TypeScriptModuleDefinition();
+
+            moduleDefinition.AddImport("NgModule", "@angular/core");
+            moduleDefinition.AddImport("RouterModule", "@angular/router");
+            moduleDefinition.AddImport("AppComponent", "./components/app/app.component");
+
+            var constantLines = new List<ILine>()
+            {
+                new CodeLine(1, "bootstrap: [],"),
+                new CodeLine(1, "declarations: [],"),
+                new CodeLine(1, "imports: [],"),
+                new CodeLine(1, "providers: []")
+            };
+
+            moduleDefinition.Constants.Add(new ConstantDefinition("NgModule", "sharedConfig", new TypeScriptObjectValue { Value = constantLines }));
+
+            var codeBuilder = new TypeScriptModuleBuilder(moduleDefinition)
+            {
+                ModuleFileName = "app.module.shared",
+                OutputDirectory = "C:\\Temp\\CatFactory.TypeScript"
+            };
+
+            codeBuilder.CreateFile();
+        }
+
+        [Fact]
+        public void TestRefactInterfaceGeneration()
+        {
+            var classDefinition = new TypeScriptClassDefinition
+            {
+                Name = "Gamer",
+                Implements = new List<string>() { "IGamer" }
+            };
+
+            classDefinition.AddImport("IGamer", "./IGamer");
+
+            classDefinition.Properties.Add(new PropertyDefinition("string", "firstName"));
+            classDefinition.Properties.Add(new PropertyDefinition("string", "middleName"));
+            classDefinition.Properties.Add(new PropertyDefinition("string", "lastName"));
+
+            var classBuilder = new TypeScriptClassBuilder
+            {
+                ObjectDefinition = classDefinition,
+                OutputDirectory = "C:\\Temp\\CatFactory.TypeScript"
+            };
+
+            classBuilder.CreateFile();
+
+            var interfaceDefinition = classDefinition.RefactInterface();
+
+            var interfaceBuilder = new TypeScriptInterfaceBuilder
+            {
+                ObjectDefinition = interfaceDefinition,
+                OutputDirectory = "C:\\Temp\\CatFactory.TypeScript"
+            };
+
+            interfaceBuilder.CreateFile();
+        }
     }
 }
-    

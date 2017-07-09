@@ -1,11 +1,18 @@
 ﻿{
-  "version": "1.0.0-alpha-build04",
+  "version": "1.0.0-alpha-build05",
+  "title": "CatFactory.TypeScript",
+  "description": "CatFactory package for TypeScript",
+  "packOptions": {
+    "repository": {
+      "url": "https://github.com/hherzl/CatFactory.TypeScript"
+    }
+  },
   "authors": [
     "C. Herzl"
   ],
   "dependencies": {
-    "NETStandard.Library": "1.6.0",
-    "CatFactory": "1.0.0-alpha-build32"
+    "NETStandard.Library": "1.6.1",
+    "CatFactory": "1.0.0-alpha-build40"
   },
 
   "frameworks": {

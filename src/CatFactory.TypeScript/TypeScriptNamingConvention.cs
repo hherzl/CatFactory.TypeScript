@@ -1,44 +1,43 @@
 ﻿using System;
 using System.Linq;
-using CatFactory.CodeFactory;
 
 namespace CatFactory.TypeScript
 {
     public class TypeScriptNamingConvention : INamingConvention
     {
-        public String ValidName(String name)
+        public string ValidName(string name)
         {
             // todo: add logic to validate name
 
-            return String.Join("", name.Split(' ').Select(item => NamingConvention.GetPascalCase(item)));
+            return string.Join("", name.Split(' ').Select(item => NamingConvention.GetPascalCase(item)));
         }
 
-        public String GetInterfaceName(String value)
+        public string GetInterfaceName(string value)
         {
-            return NamingConvention.GetPascalCase(String.Format("I{0}", ValidName(value)));
+            return NamingConvention.GetPascalCase(string.Format("I{0}", ValidName(value)));
         }
 
-        public String GetClassName(String value)
+        public string GetClassName(string value)
         {
             return NamingConvention.GetPascalCase(ValidName(value));
         }
 
-        public String GetFieldName(String value)
+        public string GetFieldName(string value)
         {
-            return String.Format("m_{0}", NamingConvention.GetCamelCase(ValidName(value)));
+            return string.Format("m_{0}", NamingConvention.GetCamelCase(ValidName(value)));
         }
 
-        public String GetPropertyName(String value)
-        {
-            return NamingConvention.GetCamelCase(ValidName(value));
-        }
-
-        public String GetMethodName(String value)
+        public string GetPropertyName(string value)
         {
             return NamingConvention.GetCamelCase(ValidName(value));
         }
 
-        public String GetParameterName(String value)
+        public string GetMethodName(string value)
+        {
+            return NamingConvention.GetCamelCase(ValidName(value));
+        }
+
+        public string GetParameterName(string value)
         {
             return NamingConvention.GetCamelCase(ValidName(value));
         }

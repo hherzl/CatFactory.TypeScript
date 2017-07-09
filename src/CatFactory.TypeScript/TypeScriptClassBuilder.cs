@@ -15,15 +15,20 @@ namespace CatFactory.TypeScript
 
         public ITypeScriptClassDefinition ObjectDefinition { get; set; } = new TypeScriptClassDefinition();
 
-        public override String FileName
+        public override string FileName
             => ObjectDefinition.Name;
 
-        protected override String GetComment(String description)
+        protected override string GetComment(string description)
         {
-            return String.Format("//{0}", description);
+            return string.Format("//{0}", description);
         }
 
-        public override String Code
+        protected string GetTodo(string description)
+        {
+            return string.Format("// todo: {0}", description);
+        }
+
+        public override string Code
         {
             get
             {
@@ -42,7 +47,7 @@ namespace CatFactory.TypeScript
 
                 var start = 0;
 
-                if (!String.IsNullOrEmpty(ObjectDefinition.Namespace))
+                if (!string.IsNullOrEmpty(ObjectDefinition.Namespace))
                 {
                     output.AppendFormat("namespace {0} {1}", ObjectDefinition.Namespace, "{");
                     output.AppendLine();
@@ -52,25 +57,23 @@ namespace CatFactory.TypeScript
 
                 this.AddAttributes(output, start);
 
-                output.AppendFormat("{0}{1}class {2}", Indent(start), ObjectDefinition.AccessModifier == AccessModifier.Public ? "export " : String.Empty, ObjectDefinition.Name);
+                output.AppendFormat("{0}{1}class {2}", Indent(start), ObjectDefinition.AccessModifier == AccessModifier.Public ? "export " : string.Empty, ObjectDefinition.Name);
 
                 if (ObjectDefinition.HasInheritance)
                 {
-                    if (!String.IsNullOrEmpty(ObjectDefinition.BaseClass))
+                    if (!string.IsNullOrEmpty(ObjectDefinition.BaseClass))
                     {
                         output.AppendFormat(" extends {0}", ObjectDefinition.BaseClass);
                     }
 
                     if (ObjectDefinition.Implements.Count > 0)
                     {
-                        output.AppendFormat(" implements {0}", String.Join(", ", ObjectDefinition.Implements));
+                        output.AppendFormat(" implements {0}", string.Join(", ", ObjectDefinition.Implements));
                     }
                 }
 
                 output.AppendFormat(" {0}", "{");
                 output.AppendLine();
-
-                var namingConvention = new TypeScriptNamingConvention();
 
                 if (ObjectDefinition.Properties.Count > 0)
                 {
@@ -78,7 +81,7 @@ namespace CatFactory.TypeScript
                     {
                         if (property.IsAutomatic)
                         {
-                            ObjectDefinition.Fields.Add(new FieldDefinition(AccessModifier.Private, property.Type, namingConvention.GetFieldName(property.Name)));
+                            ObjectDefinition.Fields.Add(new FieldDefinition(AccessModifier.Private, property.Type, NamingConvention.GetFieldName(property.Name)));
                         }
                     }
                 }
@@ -87,7 +90,7 @@ namespace CatFactory.TypeScript
                 {
                     foreach (var field in ObjectDefinition.Fields)
                     {
-                        var fieldDefinition = new List<String>();
+                        var fieldDefinition = new List<string>();
 
                         fieldDefinition.Add(field.AccessModifier.ToString().ToLower());
 
@@ -101,16 +104,16 @@ namespace CatFactory.TypeScript
                             fieldDefinition.Add("readonly");
                         }
 
-                        fieldDefinition.Add(String.Format("{0}:", field.Name));
+                        fieldDefinition.Add(string.Format("{0}:", field.Name));
                         fieldDefinition.Add(field.Type);
 
-                        if (!String.IsNullOrEmpty(field.Value))
+                        if (!string.IsNullOrEmpty(field.Value))
                         {
                             fieldDefinition.Add("=");
                             fieldDefinition.Add(field.Value);
                         }
 
-                        output.AppendFormat("{0}{1};", Indent(start + 1), String.Join(" ", fieldDefinition));
+                        output.AppendFormat("{0}{1};", Indent(start + 1), string.Join(" ", fieldDefinition));
                         output.AppendLine();
                     }
                 }
@@ -121,9 +124,9 @@ namespace CatFactory.TypeScript
 
                     foreach (var constructor in ObjectDefinition.Constructors)
                     {
-                        var parameters = constructor.Parameters.Select(item => String.Format("{0} {1}: {2}", item.AccessModifier.ToString().ToLower(), item.Name, item.Type)).ToList();
+                        var parameters = constructor.Parameters.Select(item => string.Format("{0} {1}: {2}", item.AccessModifier.ToString().ToLower(), item.Name, item.Type)).ToList();
 
-                        output.AppendFormat("{0}constructor({1}) {2}", Indent(start + 1), parameters.Count == 0 ? String.Empty : String.Join(", ", parameters), "{");
+                        output.AppendFormat("{0}constructor({1}) {2}", Indent(start + 1), parameters.Count == 0 ? string.Empty : string.Join(", ", parameters), "{");
                         output.AppendLine();
 
                         foreach (var line in constructor.Lines)
@@ -147,7 +150,7 @@ namespace CatFactory.TypeScript
 
                         if (property.IsAutomatic)
                         {
-                            var fieldName = namingConvention.GetFieldName(property.Name);
+                            var fieldName = NamingConvention.GetFieldName(property.Name);
 
                             output.AppendFormat("{0}{1} get {2}(): {3} {4}", Indent(start + 1), property.AccessModifier.ToString().ToLower(), property.Name, property.Type, "{");
                             output.AppendLine();
@@ -185,12 +188,12 @@ namespace CatFactory.TypeScript
 
                                 if (commentCast == null)
                                 {
-                                    output.AppendFormat("{0}{1};", Indent(start + line.Indent), line.Content);
+                                    output.AppendFormat("{0}{1}", Indent(start + line.Indent), line.Content);
                                     output.AppendLine();
                                 }
                                 else
                                 {
-                                    output.AppendFormat("{0}{1};", Indent(start + line.Indent), GetComment(line.Content));
+                                    output.AppendFormat("{0}{1}", Indent(start + line.Indent), GetComment(line.Content));
                                     output.AppendLine();
                                 }
                             }
@@ -209,12 +212,12 @@ namespace CatFactory.TypeScript
 
                                 if (commentCast == null)
                                 {
-                                    output.AppendFormat("{0}{1};", Indent(start + line.Indent), line.Content);
+                                    output.AppendFormat("{0}{1}", Indent(start + line.Indent), line.Content);
                                     output.AppendLine();
                                 }
                                 else
                                 {
-                                    output.AppendFormat("{0}{1};", Indent(start + line.Indent), GetComment(line.Content));
+                                    output.AppendFormat("{0}{1}", Indent(start + line.Indent), GetComment(line.Content));
                                     output.AppendLine();
                                 }
                             }
@@ -238,23 +241,26 @@ namespace CatFactory.TypeScript
                     {
                         var method = ObjectDefinition.Methods[i];
 
-                        var parameters = method.Parameters.Select(item => String.Format("{0}: {1}", item.Name, item.Type));
+                        var parameters = method.Parameters.Select(item => string.Format("{0}: {1}", item.Name, item.Type));
 
-                        output.AppendFormat("{0}{1} {2}({3}): {4} {5}", Indent(start + 1), method.AccessModifier.ToString().ToLower(), method.Name, method.Parameters.Count == 0 ? String.Empty : String.Join(", ", method.Parameters.Select(item => String.Format("{0}: {1}", item.Name, item.Type))), method.Type, "{");
+                        output.AppendFormat("{0}{1} {2}({3}): {4} {5}", Indent(start + 1), method.AccessModifier.ToString().ToLower(), method.Name, method.Parameters.Count == 0 ? string.Empty : string.Join(", ", method.Parameters.Select(item => string.Format("{0}: {1}", item.Name, item.Type))), method.Type, "{");
                         output.AppendLine();
 
                         foreach (var line in method.Lines)
                         {
-                            var commentCast = line as CommentLine;
-
-                            if (commentCast == null)
+                            if (line is CodeLine)
                             {
-                                output.AppendFormat("{0}{1};", Indent(start + line.Indent), line.Content);
+                                output.AppendFormat("{0}{1}", Indent(start + 2 + line.Indent), line.Content);
                                 output.AppendLine();
                             }
-                            else
+                            else if (line is CommentLine)
                             {
-                                output.AppendFormat("{0}{1};", Indent(start + line.Indent), GetComment(line.Content));
+                                output.AppendFormat("{0}{1}", Indent(start + 2 + line.Indent), GetComment(line.Content));
+                                output.AppendLine();
+                            }
+                            else if (line is TodoLine)
+                            {
+                                output.AppendFormat("{0}{1}", Indent(start + 2 + line.Indent), GetTodo(line.Content));
                                 output.AppendLine();
                             }
                         }
@@ -272,7 +278,7 @@ namespace CatFactory.TypeScript
                 output.AppendFormat("{0}{1}", Indent(start), "}");
                 output.AppendLine();
 
-                if (!String.IsNullOrEmpty(ObjectDefinition.Namespace))
+                if (!string.IsNullOrEmpty(ObjectDefinition.Namespace))
                 {
                     output.AppendFormat("{0}", "}");
                     output.AppendLine();

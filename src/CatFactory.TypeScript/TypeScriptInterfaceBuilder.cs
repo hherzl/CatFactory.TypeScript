@@ -13,9 +13,10 @@ namespace CatFactory.TypeScript
 
         public ITypeScriptInterfaceDefinition ObjectDefinition { get; set; } = new TypeScriptInterfaceDefinition();
 
-        public override String FileName => ObjectDefinition.Name;
+        public override string FileName
+            => ObjectDefinition.Name;
 
-        public override String Code
+        public override string Code
         {
             get
             {
@@ -23,7 +24,7 @@ namespace CatFactory.TypeScript
 
                 var start = 0;
 
-                if (!String.IsNullOrEmpty(ObjectDefinition.Namespace))
+                if (!string.IsNullOrEmpty(ObjectDefinition.Namespace))
                 {
                     output.AppendFormat("namespace {0} {1}", ObjectDefinition.Namespace, "{");
                     output.AppendLine();
@@ -60,13 +61,13 @@ namespace CatFactory.TypeScript
                     output.AppendLine();
                 }
 
-                output.AppendFormat("{0}{1}interface {2}", Indent(start), ObjectDefinition.AccessModifier == AccessModifier.Public ? "export " : String.Empty, ObjectDefinition.Name);
+                output.AppendFormat("{0}{1}interface {2}", Indent(start), ObjectDefinition.AccessModifier == AccessModifier.Public ? "export " : string.Empty, ObjectDefinition.Name);
 
                 if (ObjectDefinition.HasInheritance)
                 {
                     if (ObjectDefinition.Implements.Count > 0)
                     {
-                        output.AppendFormat(" implements {0}", String.Join(", ", ObjectDefinition.Implements));
+                        output.AppendFormat(" implements {0}", string.Join(", ", ObjectDefinition.Implements));
                     }
                 }
 
@@ -86,7 +87,9 @@ namespace CatFactory.TypeScript
                 {
                     foreach (var method in ObjectDefinition.Methods)
                     {
-                        output.AppendFormat("{0}{1}({2}): {3};", Indent(start + 1), method.Name, method.Parameters.Count == 0 ? String.Empty : String.Join(", ", method.Parameters.Select(item => String.Format("{0}: {1}", item.Name, item.Type))), method.Type);
+                        var parameters = string.Join(", ", method.Parameters.Select(item => string.Format("{0}: {1}", item.Name, item.Type)));
+
+                        output.AppendFormat("{0}{1}({2}): {3};", Indent(start + 1), method.Name, method.Parameters.Count == 0 ? string.Empty : parameters, method.Type);
                         output.AppendLine();
                     }
                 }
@@ -94,7 +97,7 @@ namespace CatFactory.TypeScript
                 output.AppendFormat("{0}{1}", Indent(start), "}");
                 output.AppendLine();
 
-                if (!String.IsNullOrEmpty(ObjectDefinition.Namespace))
+                if (!string.IsNullOrEmpty(ObjectDefinition.Namespace))
                 {
                     output.AppendFormat("{0}", "}");
                     output.AppendLine();

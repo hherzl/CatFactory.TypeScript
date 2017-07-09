@@ -12,12 +12,13 @@ namespace CatFactory.TypeScript
             foreach (var attribute in attributes)
             {
                 output.AppendFormat("@{0}", attribute.Name);
+                output.Append("(");
 
                 if (attribute.Sets.Count > 0)
                 {
                     if (attribute.HasMembers)
                     {
-                        output.Append("({");
+                        output.Append("{");
                         output.AppendLine();
 
                         for (var i = 0; i < attribute.Sets.Count; i++)
@@ -36,8 +37,10 @@ namespace CatFactory.TypeScript
                         output.AppendLine();
                     }
 
-                    output.Append("})");
+                    output.Append("}");
                 }
+
+                output.Append(")");
 
                 output.AppendLine();
             }

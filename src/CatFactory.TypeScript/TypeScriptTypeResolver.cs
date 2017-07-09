@@ -8,9 +8,9 @@ namespace CatFactory.TypeScript
         {
         }
 
-        public virtual String Resolve(String type)
+        public virtual string Resolve(string type)
         {
-            var value = String.Empty;
+            var value = string.Empty;
 
             switch (type)
             {
@@ -21,7 +21,7 @@ namespace CatFactory.TypeScript
                 case "nvarchar":
                 case "ntext":
                 case "xml":
-                    value = "string";
+                    value = "String";
                     break;
 
                 case "money":
