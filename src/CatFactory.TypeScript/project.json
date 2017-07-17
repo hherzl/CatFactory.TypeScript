@@ -1,5 +1,5 @@
 ﻿{
-  "version": "1.0.0-alpha-build05",
+  "version": "2.0.0-alpha-build00",
   "title": "CatFactory.TypeScript",
   "description": "CatFactory package for TypeScript",
   "packOptions": {
@@ -12,7 +12,7 @@
   ],
   "dependencies": {
     "NETStandard.Library": "1.6.1",
-    "CatFactory": "1.0.0-alpha-build40"
+    "CatFactory": "2.0.0-alpha-build00"
   },
 
   "frameworks": {
