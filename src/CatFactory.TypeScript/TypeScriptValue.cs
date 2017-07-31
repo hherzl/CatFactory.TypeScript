@@ -7,9 +7,4 @@ namespace CatFactory.TypeScript
     {
         public Object Value { get; set; }
     }
-
-    public class TypeScriptArrayValue : IArrayValue
-    {
-        public Object[] Value { get; set; }
-    }
 }
