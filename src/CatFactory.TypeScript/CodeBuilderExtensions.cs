@@ -47,13 +47,9 @@ namespace CatFactory.TypeScript
         }
 
         public static void AddAttributes(this TypeScriptInterfaceBuilder codeBuilder, StringBuilder output, Int32 start)
-        {
-            AddAttributes(codeBuilder, codeBuilder.ObjectDefinition.Attributes, output, start);
-        }
+            => AddAttributes(codeBuilder, codeBuilder.ObjectDefinition.Attributes, output, start);
 
         public static void AddAttributes(this TypeScriptClassBuilder codeBuilder, StringBuilder output, Int32 start)
-        {
-            AddAttributes(codeBuilder, codeBuilder.ObjectDefinition.Attributes, output, start);
-        }
+            => AddAttributes(codeBuilder, codeBuilder.ObjectDefinition.Attributes, output, start);
     }
 }

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
-using CatFactory.OOP;
 
 namespace CatFactory.TypeScript
 {
@@ -11,7 +9,7 @@ namespace CatFactory.TypeScript
         {
         }
 
-        public ITypeScriptInterfaceDefinition ObjectDefinition { get; set; } = new TypeScriptInterfaceDefinition();
+        public ITypeScriptInterfaceDefinition ObjectDefinition { get; set; }
 
         public override string FileName
             => ObjectDefinition.Name;
@@ -61,7 +59,7 @@ namespace CatFactory.TypeScript
                     output.AppendLine();
                 }
 
-                output.AppendFormat("{0}{1}interface {2}", Indent(start), ObjectDefinition.AccessModifier == AccessModifier.Public ? "export " : string.Empty, ObjectDefinition.Name);
+                output.AppendFormat("{0}{1}interface {2}", Indent(start), ObjectDefinition.Export ? "export " : string.Empty, ObjectDefinition.Name);
 
                 if (ObjectDefinition.HasInheritance)
                 {

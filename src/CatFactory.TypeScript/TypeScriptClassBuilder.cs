@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CatFactory.CodeFactory;
@@ -13,20 +12,16 @@ namespace CatFactory.TypeScript
         {
         }
 
-        public ITypeScriptClassDefinition ObjectDefinition { get; set; } = new TypeScriptClassDefinition();
+        public ITypeScriptClassDefinition ObjectDefinition { get; set; }
 
         public override string FileName
             => ObjectDefinition.Name;
 
         protected override string GetComment(string description)
-        {
-            return string.Format("//{0}", description);
-        }
+            => string.Format("//{0}", description);
 
         protected string GetTodo(string description)
-        {
-            return string.Format("// todo: {0}", description);
-        }
+            => string.Format("// todo: {0}", description);
 
         public override string Code
         {
@@ -56,8 +51,8 @@ namespace CatFactory.TypeScript
                 }
 
                 this.AddAttributes(output, start);
-
-                output.AppendFormat("{0}{1}class {2}", Indent(start), ObjectDefinition.AccessModifier == AccessModifier.Public ? "export " : string.Empty, ObjectDefinition.Name);
+                
+                output.AppendFormat("{0}{1}class {2}", Indent(start), ObjectDefinition.Export ? "export " : string.Empty, ObjectDefinition.Name);
 
                 if (ObjectDefinition.HasInheritance)
                 {

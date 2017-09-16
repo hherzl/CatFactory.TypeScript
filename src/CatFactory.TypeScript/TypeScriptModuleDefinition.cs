@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using CatFactory.OOP;
 
 namespace CatFactory.TypeScript
 {
     public class TypeScriptModuleDefinition
     {
-        private List<ConstantDefinition> m_constants;
-
-
         public TypeScriptModuleDefinition()
         {
         }
 
         public string Name { get; set; }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private List<string> m_namespaces;
 
         public List<string> Namespaces
@@ -28,6 +26,9 @@ namespace CatFactory.TypeScript
                 m_namespaces = value;
             }
         }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private List<ConstantDefinition> m_constants;
 
         public List<ConstantDefinition> Constants
         {

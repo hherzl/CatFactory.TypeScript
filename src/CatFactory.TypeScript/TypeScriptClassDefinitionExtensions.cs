@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using CatFactory.OOP;
 
 namespace CatFactory.TypeScript
@@ -7,9 +6,7 @@ namespace CatFactory.TypeScript
     public static class TypeScriptClassDefinitionExtensions
     {
         public static void AddConstant(this TypeScriptClassDefinition classDefinition, string type, string name, string value)
-        {
-            classDefinition.Fields.Add(new FieldDefinition(type, name) { IsStatic = true, IsReadOnly = true, Value = value });
-        }
+            => classDefinition.Fields.Add(new FieldDefinition(type, name) { IsStatic = true, IsReadOnly = true, Value = value });
 
         public static TypeScriptInterfaceDefinition RefactInterface(this TypeScriptClassDefinition classDefinition, params string[] exclusions)
         {
