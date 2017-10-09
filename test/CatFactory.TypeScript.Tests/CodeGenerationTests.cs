@@ -343,7 +343,7 @@ namespace CatFactory.TypeScript.Tests
         }
 
         [Fact]
-        public void TestRefactInterfaceGeneration()
+        public void TestRefactInterface()
         {
             var classDefinition = new TypeScriptClassDefinition
             {
@@ -374,6 +374,20 @@ namespace CatFactory.TypeScript.Tests
             };
 
             interfaceBuilder.CreateFile();
+        }
+
+        [Fact]
+        public void TestRefactClass()
+        {
+            var customerClassDefinition = (new Customer()).RefactClass();
+
+            var classBuilder = new TypeScriptClassBuilder
+            {
+                ObjectDefinition = customerClassDefinition,
+                OutputDirectory = "C:\\Temp\\CatFactory.TypeScript"
+            };
+
+            classBuilder.CreateFile();
         }
     }
 }

@@ -24,6 +24,10 @@ namespace CatFactory.TypeScript
                     value = "String";
                     break;
 
+                case "String":
+                    value = "string";
+                    break;
+
                 case "money":
                 case "decimal":
                 case "numeric":
@@ -31,6 +35,13 @@ namespace CatFactory.TypeScript
                 case "smallint":
                 case "int":
                 case "bigint":
+
+                case "Int16":
+                case "Int32":
+                case "Int64":
+                case "Single":
+                case "Decimal":
+                case "Double":
                     value = "number";
                     break;
 
@@ -47,15 +58,18 @@ namespace CatFactory.TypeScript
                     break;
 
                 case "bit":
+                case "Boolean":
                     value = "bool";
                     break;
 
                 case "datetime":
                 case "datetime2":
+                case "DateTime":
                     value = "Date";
                     break;
 
                 default:
+                    value = "any";
                     break;
             }
 

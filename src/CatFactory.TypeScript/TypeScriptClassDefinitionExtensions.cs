@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Reflection;
 using CatFactory.OOP;
 
 namespace CatFactory.TypeScript
@@ -11,6 +12,7 @@ namespace CatFactory.TypeScript
         public static TypeScriptInterfaceDefinition RefactInterface(this TypeScriptClassDefinition classDefinition, params string[] exclusions)
         {
             var interfaceDefinition = new TypeScriptInterfaceDefinition();
+
             var namingConvention = new TypeScriptNamingConvention();
 
             interfaceDefinition.Name = namingConvention.GetInterfaceName(classDefinition.Name);
@@ -37,6 +39,27 @@ namespace CatFactory.TypeScript
             }
 
             return interfaceDefinition;
+        }
+
+        public static TypeScriptClassDefinition RefactClass(this object obj)
+        {
+            var sourceType = obj.GetType();
+
+            var classDefinition = new TypeScriptClassDefinition
+            {
+                Name = sourceType.Name
+            };
+
+            var typeResolver = new TypeScriptTypeResolver();
+
+            var namingConvention = new TypeScriptNamingConvention();
+
+            foreach (var property in sourceType.GetProperties().Where(item => item.CanRead && item.CanWrite))
+            {
+                classDefinition.Properties.Add(new PropertyDefinition(typeResolver.Resolve(property.PropertyType.Name), namingConvention.GetPropertyName(property.Name)));
+            }
+
+            return classDefinition;
         }
     }
 }
