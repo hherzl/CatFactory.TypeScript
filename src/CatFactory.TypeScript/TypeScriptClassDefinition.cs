@@ -1,5 +1,4 @@
-﻿using System;
-using CatFactory.OOP;
+﻿using CatFactory.OOP;
 
 namespace CatFactory.TypeScript
 {
@@ -9,6 +8,6 @@ namespace CatFactory.TypeScript
         {
         }
 
-        public Boolean Export { get; set; } = true;
+        public bool Export { get; set; } = true;
     }
 }

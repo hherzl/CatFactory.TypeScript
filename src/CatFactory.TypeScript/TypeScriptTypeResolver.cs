@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CatFactory.TypeScript
+﻿namespace CatFactory.TypeScript
 {
     public class TypeScriptTypeResolver : ITypeResolver
     {

@@ -1,10 +1,9 @@
-﻿using System;
-using CatFactory.OOP;
+﻿using CatFactory.OOP;
 
 namespace CatFactory.TypeScript
 {
     public interface ITypeScriptInterfaceDefinition : IInterfaceDefinition
     {
-        Boolean Export { get; set; }
+        bool Export { get; set; }
     }
 }

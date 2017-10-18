@@ -10,25 +10,25 @@ namespace CatFactory.TypeScript.Tests
         [Fact]
         public void TestClassValidation()
         {
-            var classDefinition = new TypeScriptClassDefinition
+            var definition = new TypeScriptClassDefinition
             {
                 Namespace = "Acme",
                 Name = "SalesRepository"
             };
 
-            classDefinition.AddImport("IRepository", "./IRepository");
+            definition.AddImport("IRepository", "./IRepository");
 
-            classDefinition.Constructors.Add(new ClassConstructorDefinition());
+            definition.Constructors.Add(new ClassConstructorDefinition());
 
-            classDefinition.Properties.Add(new PropertyDefinition("string", "firstName"));
-            classDefinition.Properties.Add(new PropertyDefinition("string", "middleName"));
-            classDefinition.Properties.Add(new PropertyDefinition("string", "lastName"));
-            classDefinition.Properties.Add(new PropertyDefinition("string", "gender"));
-            classDefinition.Properties.Add(new PropertyDefinition("Date", "birthDate"));
+            definition.Properties.Add(new PropertyDefinition("string", "firstName"));
+            definition.Properties.Add(new PropertyDefinition("string", "middleName"));
+            definition.Properties.Add(new PropertyDefinition("string", "lastName"));
+            definition.Properties.Add(new PropertyDefinition("string", "gender"));
+            definition.Properties.Add(new PropertyDefinition("Date", "birthDate"));
 
             var validator = new TypeScriptClassDefinitionValidator();
 
-            var validations = validator.Validate(classDefinition).ToList();
+            var validations = validator.Validate(definition).ToList();
 
             Assert.True(validations.Where(item => item.LogLevel == LogLevel.Error || item.LogLevel == LogLevel.Critical).Count() == 0);
         }
@@ -36,24 +36,24 @@ namespace CatFactory.TypeScript.Tests
         [Fact]
         public void TestClassValidationWithErrors()
         {
-            var classDefinition = new TypeScriptClassDefinition
+            var definition = new TypeScriptClassDefinition
             {
                 Namespace = "Acme",
                 Name = "SalesUow"
             };
 
-            classDefinition.Constructors.Add(new ClassConstructorDefinition());
-            classDefinition.Constructors.Add(new ClassConstructorDefinition());
+            definition.Constructors.Add(new ClassConstructorDefinition());
+            definition.Constructors.Add(new ClassConstructorDefinition());
 
-            classDefinition.Properties.Add(new PropertyDefinition("DbContext", "DbContext"));
-            classDefinition.Properties.Add(new PropertyDefinition("DbContext", "DbContext"));
+            definition.Properties.Add(new PropertyDefinition("DbContext", "DbContext"));
+            definition.Properties.Add(new PropertyDefinition("DbContext", "DbContext"));
 
-            classDefinition.Methods.Add(new MethodDefinition("number", "SaveChanges"));
-            classDefinition.Methods.Add(new MethodDefinition("number", "SaveChanges"));
+            definition.Methods.Add(new MethodDefinition("number", "SaveChanges"));
+            definition.Methods.Add(new MethodDefinition("number", "SaveChanges"));
 
             var validator = new TypeScriptClassDefinitionValidator();
 
-            var validations = validator.Validate(classDefinition).ToList();
+            var validations = validator.Validate(definition).ToList();
 
             Assert.True(validations.Where(item => item.LogLevel == LogLevel.Error || item.LogLevel == LogLevel.Critical).Count() > 0);
         }

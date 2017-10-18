@@ -8,6 +8,21 @@ namespace CatFactory.TypeScript
 {
     public class TypeScriptClassBuilder : TypeScriptCodeBuilder
     {
+        public static void CreateFiles(string outputDirectory, string subdirectory, bool forceOverwrite, params TypeScriptClassDefinition[] definitions)
+        {
+            foreach (var definition in definitions)
+            {
+                var codeBuilder = new TypeScriptClassBuilder
+                {
+                    OutputDirectory = outputDirectory,
+                    ForceOverwrite = forceOverwrite,
+                    ObjectDefinition = definition
+                };
+
+                codeBuilder.CreateFile(subdirectory);
+            }
+        }
+
         public TypeScriptClassBuilder()
         {
         }

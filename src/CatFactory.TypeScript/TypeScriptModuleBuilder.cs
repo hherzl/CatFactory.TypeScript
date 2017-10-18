@@ -6,6 +6,21 @@ namespace CatFactory.TypeScript
 {
     public class TypeScriptModuleBuilder : CodeBuilder
     {
+        public static void CreateFiles(string outputDirectory, string subdirectory, string moduleFileName, bool forceOverwrite, params TypeScriptModuleDefinition[] definitions)
+        {
+            foreach (var definition in definitions)
+            {
+                var codeBuilder = new TypeScriptModuleBuilder(definition)
+                {
+                    OutputDirectory = outputDirectory,
+                    ModuleFileName = moduleFileName,
+                    ForceOverwrite = forceOverwrite
+                };
+
+                codeBuilder.CreateFile(subdirectory);
+            }
+        }
+
         public TypeScriptModuleBuilder(TypeScriptModuleDefinition module)
         {
             Module = module;

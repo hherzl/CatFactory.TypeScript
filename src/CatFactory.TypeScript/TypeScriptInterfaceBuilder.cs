@@ -5,6 +5,21 @@ namespace CatFactory.TypeScript
 {
     public class TypeScriptInterfaceBuilder : TypeScriptCodeBuilder
     {
+        public static void CreateFiles(string outputDirectory, string subdirectory, bool forceOverwrite, params TypeScriptInterfaceDefinition[] definitions)
+        {
+            foreach (var definition in definitions)
+            {
+                var codeBuilder = new TypeScriptInterfaceBuilder
+                {
+                    OutputDirectory = outputDirectory,
+                    ForceOverwrite = forceOverwrite,
+                    ObjectDefinition = definition
+                };
+
+                codeBuilder.CreateFile(subdirectory);
+            }
+        }
+
         public TypeScriptInterfaceBuilder()
         {
         }
