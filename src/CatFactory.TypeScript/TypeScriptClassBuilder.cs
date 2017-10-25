@@ -32,7 +32,7 @@ namespace CatFactory.TypeScript
         public override string FileName
             => ObjectDefinition.Name;
 
-        protected override string GetComment(string description)
+        protected virtual string GetComment(string description)
             => string.Format("//{0}", description);
 
         protected string GetTodo(string description)
