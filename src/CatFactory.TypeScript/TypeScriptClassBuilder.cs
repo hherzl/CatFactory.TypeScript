@@ -134,7 +134,9 @@ namespace CatFactory.TypeScript
 
                     foreach (var constructor in ObjectDefinition.Constructors)
                     {
-                        var parameters = constructor.Parameters.Select(item => string.Format("{0} {1}: {2}", item.AccessModifier.ToString().ToLower(), item.Name, item.Type)).ToList();
+                        // todo: add access modifier for parameters in constructor
+
+                        var parameters = constructor.Parameters.Select(item => string.Format("public {0}: {1}", item.Name, item.Type)).ToList();
 
                         output.AppendFormat("{0}constructor({1}) {2}", Indent(start + 1), parameters.Count == 0 ? string.Empty : string.Join(", ", parameters), "{");
                         output.AppendLine();

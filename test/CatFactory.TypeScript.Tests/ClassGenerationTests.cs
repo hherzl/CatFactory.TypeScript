@@ -123,7 +123,7 @@ namespace CatFactory.TypeScript.Tests
             definition.AddImport(new string[] { "Http", "Response" }, "@angular/http");
             definition.AddImport("Observable", "rxjs/Observable");
 
-            definition.Constructors.Add(new ClassConstructorDefinition(new ParameterDefinition(AccessModifier.Private, "Http", "http"))
+            definition.Constructors.Add(new ClassConstructorDefinition(new ParameterDefinition("Http", "http"))
             {
                 Lines = new List<ILine>()
                 {
@@ -184,8 +184,8 @@ namespace CatFactory.TypeScript.Tests
             });
 
             definition.Constructors.Add(new ClassConstructorDefinition(
-                new ParameterDefinition(AccessModifier.Private, "Router", "router"),
-                new ParameterDefinition(AccessModifier.Private, "SalesService", "service"))
+                new ParameterDefinition("Router", "router"),
+                new ParameterDefinition("SalesService", "service"))
             );
 
             definition.Fields.Add(new FieldDefinition("number", "pageSize"));
