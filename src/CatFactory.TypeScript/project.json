@@ -1,7 +1,7 @@
 ﻿{
-  "version": "3.0.0-alpha-build03",
+  "version": "3.0.0-alpha-build04",
   "title": "CatFactory.TypeScript",
-  "description": "CatFactory package for TypeScript code generation",
+  "description": "CatFactory package for TypeScript scaffolding",
   "packOptions": {
     "repository": {
       "url": "https://github.com/hherzl/CatFactory.TypeScript"
@@ -12,7 +12,7 @@
   ],
   "dependencies": {
     "NETStandard.Library": "1.6.1",
-    "CatFactory": "3.0.0-alpha-build04"
+    "CatFactory": "3.0.0-alpha-build06"
   },
 
   "frameworks": {
