@@ -1,18 +1,23 @@
 ﻿{
-  "version": "3.0.0-alpha-build04",
+  "version": "3.0.0-alpha-build05",
   "title": "CatFactory.TypeScript",
-  "description": "CatFactory package for TypeScript scaffolding",
+  "description": "CatFactory package for TypeScript",
   "packOptions": {
+    "summary": "CatFactory package for TypeScript",
+    "tags": [ "TypeScript" ],
+    "releaseNotes": "3.0.0-alpha-build05 version: Package update",
+    "requireLicenseAcceptance": false,
     "repository": {
+      "type": "git",
       "url": "https://github.com/hherzl/CatFactory.TypeScript"
     }
   },
   "authors": [
-    "C. Herzl"
+    "H. Herzl"
   ],
   "dependencies": {
     "NETStandard.Library": "1.6.1",
-    "CatFactory": "3.0.0-alpha-build06"
+    "CatFactory": "3.0.0-alpha-build09"
   },
 
   "frameworks": {
