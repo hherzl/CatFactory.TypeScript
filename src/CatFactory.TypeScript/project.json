@@ -1,11 +1,11 @@
 ﻿{
-  "version": "3.0.0-alpha-build05",
+  "version": "3.0.0-alpha-build06",
   "title": "CatFactory.TypeScript",
   "description": "CatFactory package for TypeScript",
   "packOptions": {
     "summary": "CatFactory package for TypeScript",
     "tags": [ "TypeScript" ],
-    "releaseNotes": "3.0.0-alpha-build05 version: Package update",
+    "releaseNotes": "3.0.0-alpha-build06 version: Core package update",
     "requireLicenseAcceptance": false,
     "repository": {
       "type": "git",
@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "NETStandard.Library": "1.6.1",
-    "CatFactory": "3.0.0-alpha-build09"
+    "CatFactory": "3.0.0-alpha-build10"
   },
 
   "frameworks": {
