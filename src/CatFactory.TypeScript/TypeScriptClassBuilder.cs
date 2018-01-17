@@ -27,7 +27,7 @@ namespace CatFactory.TypeScript
         {
         }
 
-        public ITypeScriptClassDefinition ObjectDefinition { get; set; }
+        public new ITypeScriptClassDefinition ObjectDefinition { get; set; }
 
         public override string FileName
             => ObjectDefinition.Name;

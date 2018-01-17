@@ -9,8 +9,8 @@ namespace CatFactory.TypeScript
         public string ValidName(string name)
             => string.Join("", name.Split(' ').Select(item => NamingConvention.GetPascalCase(item)));
 
-        public string GetNamespace(string value)
-            => NamingConvention.GetPascalCase(ValidName(value));
+        public string GetNamespace(params string[] values)
+            => string.Join(".", values.Select(item => ValidName(item)));
 
         public string GetInterfaceName(string value)
             => NamingConvention.GetPascalCase(string.Format("I{0}", ValidName(value)));

@@ -8,7 +8,7 @@ namespace CatFactory.TypeScript
         public override string FileExtension
             => "ts";
 
-        public new TypeScriptNamingConvention NamingConvention
+        public TypeScriptNamingConvention NamingConvention
             => new TypeScriptNamingConvention();
     }
 }
