@@ -50,13 +50,11 @@ namespace CatFactory.TypeScript
                 Name = sourceType.Name
             };
 
-            var typeResolver = new TypeScriptTypeResolver();
-
             var namingConvention = new TypeScriptNamingConvention();
 
             foreach (var property in sourceType.GetProperties().Where(item => item.CanRead && item.CanWrite))
             {
-                classDefinition.Properties.Add(new PropertyDefinition(typeResolver.Resolve(property.PropertyType.Name), namingConvention.GetPropertyName(property.Name)));
+                classDefinition.Properties.Add(new PropertyDefinition(TypeScriptTypeResolver.Resolve(property.PropertyType.Name), namingConvention.GetPropertyName(property.Name)));
             }
 
             return classDefinition;
