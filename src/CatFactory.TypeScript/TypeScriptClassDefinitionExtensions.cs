@@ -54,6 +54,8 @@ namespace CatFactory.TypeScript
 
             foreach (var property in sourceType.GetProperties().Where(item => item.CanRead && item.CanWrite))
             {
+                classDefinition.Fields.Add(new FieldDefinition(TypeScriptTypeResolver.Resolve(property.PropertyType.Name), namingConvention.GetFieldName(property.Name)));
+
                 classDefinition.Properties.Add(new PropertyDefinition(TypeScriptTypeResolver.Resolve(property.PropertyType.Name), namingConvention.GetPropertyName(property.Name)));
             }
 

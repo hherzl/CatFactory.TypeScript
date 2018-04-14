@@ -8,6 +8,17 @@ namespace CatFactory.TypeScript.Tests
     public class ClassGenerationTests
     {
         [Fact]
+        public void TestTypeScriptBaseClassGeneration()
+        {
+            var definition = new TypeScriptClassDefinition
+            {
+                Name = "Entity"
+            };
+
+            TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
+        }
+
+        [Fact]
         public void TestTypeScriptClassWithFieldsGeneration()
         {
             var definition = new TypeScriptClassDefinition
@@ -15,13 +26,14 @@ namespace CatFactory.TypeScript.Tests
                 Namespace = "ContactManager",
                 Name = "Contact",
                 BaseClass = "Entity",
-                Implements = new List<string>()
+                Implements = new List<string>
                 {
                     "IContact"
                 }
             };
 
             definition.AddImport("IContact", "./IContact");
+            definition.AddImport("Entity", "./Entity");
 
             definition.Fields.Add(new FieldDefinition("string", "firstName"));
             definition.Fields.Add(new FieldDefinition("string", "middleName"));
@@ -41,6 +53,12 @@ namespace CatFactory.TypeScript.Tests
                 Name = "Employee"
             };
 
+            definition.Fields.Add(new FieldDefinition("string", "m_firstName"));
+            definition.Fields.Add(new FieldDefinition("string", "m_middleName"));
+            definition.Fields.Add(new FieldDefinition("string", "m_lastName"));
+            definition.Fields.Add(new FieldDefinition("string", "m_gender"));
+            definition.Fields.Add(new FieldDefinition("Date", "m_birthDate"));
+
             definition.Properties.Add(new PropertyDefinition("string", "firstName"));
             definition.Properties.Add(new PropertyDefinition("string", "middleName"));
             definition.Properties.Add(new PropertyDefinition("string", "lastName"));
@@ -59,6 +77,14 @@ namespace CatFactory.TypeScript.Tests
                 Name = "Student"
             };
 
+            definition.Fields.Add(new FieldDefinition("string", "m_firstName"));
+            definition.Fields.Add(new FieldDefinition("string", "m_middleName"));
+            definition.Fields.Add(new FieldDefinition("string", "m_lastName"));
+            definition.Fields.Add(new FieldDefinition("string", "m_gender"));
+            definition.Fields.Add(new FieldDefinition("Date", "m_birthDate"));
+            definition.Fields.Add(new FieldDefinition("string", "m_fullName"));
+            definition.Fields.Add(new FieldDefinition("number", "m_age"));
+
             definition.Properties.Add(new PropertyDefinition("string", "firstName"));
             definition.Properties.Add(new PropertyDefinition("string", "middleName"));
             definition.Properties.Add(new PropertyDefinition("string", "lastName"));
@@ -69,7 +95,7 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Methods.Add(new MethodDefinition("boolean", "equals", new ParameterDefinition("any", "obj"))
             {
-                Lines = new List<ILine>()
+                Lines = new List<ILine>
                 {
                     new CodeLine("return false;")
                 }
@@ -77,7 +103,7 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Methods.Add(new MethodDefinition("number", "getHashCode")
             {
-                Lines = new List<ILine>()
+                Lines = new List<ILine>
                 {
                     new CodeLine("return 0;")
                 }
@@ -85,7 +111,7 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Methods.Add(new MethodDefinition("string", "tostring")
             {
-                Lines = new List<ILine>()
+                Lines = new List<ILine>
                 {
                     new CodeLine("return \"\";")
                 }
@@ -125,7 +151,7 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Constructors.Add(new ClassConstructorDefinition(new ParameterDefinition("Http", "http"))
             {
-                Lines = new List<ILine>()
+                Lines = new List<ILine>
                 {
                     new CodeLine("this.api = \"{0}\";", "api/Northwind")
                 }
@@ -135,7 +161,7 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Methods.Add(new MethodDefinition("Observable<Response>", "getOrders", new ParameterDefinition("number", "pageNumber"), new ParameterDefinition("number", "pageSize"))
             {
-                Lines = new List<ILine>()
+                Lines = new List<ILine>
                 {
                     new CodeLine("var url = [this.api, \"Sales\", \"Order\"].join(\"/\");"),
                     new CodeLine(),
@@ -145,7 +171,7 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Methods.Add(new MethodDefinition("Observable<Response>", "getOrder", new ParameterDefinition("number", "id"))
             {
-                Lines = new List<ILine>()
+                Lines = new List<ILine>
                 {
                     new CodeLine("var url = [this.api, \"Sales\", \"Order\", id].join(\"/\");"),
                     new CodeLine(),
@@ -162,7 +188,7 @@ namespace CatFactory.TypeScript.Tests
             var definition = new TypeScriptClassDefinition
             {
                 Name = "OrderListComponent",
-                Implements = new List<string>()
+                Implements = new List<string>
                 {
                     "OnInit"
                 }
@@ -196,7 +222,7 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Methods.Add(new MethodDefinition("void", "ngOnInit")
             {
-                Lines = new List<ILine>()
+                Lines = new List<ILine>
                 {
                     new TodoLine("Add logic for this operation")
                 }
@@ -204,7 +230,7 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Methods.Add(new MethodDefinition("void", "search")
             {
-                Lines = new List<ILine>()
+                Lines = new List<ILine>
                 {
                     new TodoLine("Add logic for this operation")
                 }
@@ -212,7 +238,7 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Methods.Add(new MethodDefinition("void", "details", new ParameterDefinition("OrderSummary", "order"))
             {
-                Lines = new List<ILine>()
+                Lines = new List<ILine>
                 {
                     new TodoLine("Add logic for this operation")
                 }

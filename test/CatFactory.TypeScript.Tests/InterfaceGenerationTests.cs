@@ -47,7 +47,7 @@ namespace CatFactory.TypeScript.Tests
             var classDefinition = new TypeScriptClassDefinition
             {
                 Name = "Gamer",
-                Implements = new List<string>()
+                Implements = new List<string>
                 {
                     "IGamer"
                 }
@@ -64,6 +64,21 @@ namespace CatFactory.TypeScript.Tests
             var interfaceDefinition = classDefinition.RefactInterface();
 
             TypeScriptInterfaceBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, interfaceDefinition);
+        }
+
+        [Fact]
+        public void TestTypeScriptRepositoryGeneration()
+        {
+            var definition = new TypeScriptInterfaceDefinition
+            {
+                Name = "ISalesRepository"
+            };
+
+            definition.Properties.Add(new PropertyDefinition("DbContext", "dbContext"));
+            definition.Methods.Add(new MethodDefinition("number", "saveChanges"));
+            definition.Methods.Add(new MethodDefinition("number", "saveChangesAsync"));
+
+            TypeScriptInterfaceBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
         }
     }
 }

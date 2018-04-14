@@ -1,11 +1,11 @@
 ﻿{
-  "version": "3.0.0-alpha-build08",
+  "version": "3.0.0-alpha-build09",
   "title": "CatFactory.TypeScript",
   "description": "CatFactory package for TypeScript",
   "packOptions": {
     "summary": "CatFactory package for TypeScript",
     "tags": [ "TypeScript" ],
-    "releaseNotes": "3.0.0-alpha-build08 version: Core package update",
+    "releaseNotes": "3.0.0-alpha-build09 version: Addition of translate feature for code builders. Quick start: https://www.codeproject.com/Tips/1166380/Generating-TypeScript-Code-with-CatFactory",
     "requireLicenseAcceptance": false,
     "repository": {
       "type": "git",
@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "NETStandard.Library": "1.6.1",
-    "CatFactory": "3.0.0-alpha-build12"
+    "CatFactory": "3.0.0-alpha-build13"
   },
 
   "frameworks": {

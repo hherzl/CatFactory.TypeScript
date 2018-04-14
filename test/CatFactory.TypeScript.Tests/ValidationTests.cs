@@ -28,9 +28,9 @@ namespace CatFactory.TypeScript.Tests
 
             var validator = new TypeScriptClassDefinitionValidator();
 
-            var validations = validator.Validate(definition).ToList();
+            var validationResult = validator.Validate(definition);
 
-            Assert.True(validations.Where(item => item.LogLevel == LogLevel.Error || item.LogLevel == LogLevel.Critical).Count() == 0);
+            Assert.True(validationResult.ValidationMessages.Where(item => item.LogLevel == LogLevel.Error || item.LogLevel == LogLevel.Critical).Count() == 0);
         }
 
         [Fact]
@@ -53,9 +53,9 @@ namespace CatFactory.TypeScript.Tests
 
             var validator = new TypeScriptClassDefinitionValidator();
 
-            var validations = validator.Validate(definition).ToList();
+            var validationResult = validator.Validate(definition);
 
-            Assert.True(validations.Where(item => item.LogLevel == LogLevel.Error || item.LogLevel == LogLevel.Critical).Count() > 0);
+            Assert.True(validationResult.ValidationMessages.Where(item => item.LogLevel == LogLevel.Error || item.LogLevel == LogLevel.Critical).Count() > 0);
         }
     }
 }

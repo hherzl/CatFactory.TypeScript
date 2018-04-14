@@ -28,7 +28,7 @@ namespace CatFactory.TypeScript.Tests
             definition.AddImport("RouterModule", "@angular/router");
             definition.AddImport("AppComponent", "./components/app/app.component");
 
-            var constantLines = new List<ILine>()
+            var constantLines = new List<ILine>
             {
                 new CodeLine(1, "bootstrap: [],"),
                 new CodeLine(1, "declarations: [],"),

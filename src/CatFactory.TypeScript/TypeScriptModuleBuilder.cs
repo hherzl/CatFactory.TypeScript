@@ -36,76 +36,153 @@ namespace CatFactory.TypeScript
         public override string FileExtension
             => "ts";
 
-        public override string Code
+        public override void Translating()
         {
-            get
+            //var output = new StringBuilder();
+
+            if (Module.Namespaces.Count > 0)
             {
-                var output = new StringBuilder();
-
-                if (Module.Namespaces.Count > 0)
+                foreach (var import in Module.Namespaces)
                 {
-                    foreach (var import in Module.Namespaces)
-                    {
-                        output.AppendFormat("import {0};", import);
-                        output.AppendLine();
-                    }
+                    //output.AppendFormat("import {0};", import);
+                    //output.AppendLine();
 
-                    output.AppendLine();
+                    Lines.Add(new CodeLine("import {0};", import));
                 }
 
-                var start = string.IsNullOrEmpty(Module.Name) ? 0 : 1;
+                //output.AppendLine();
 
-                if (Module.Constants.Count > 0)
+                Lines.Add(new CodeLine());
+            }
+
+            var start = string.IsNullOrEmpty(Module.Name) ? 0 : 1;
+
+            if (Module.Constants.Count > 0)
+            {
+                foreach (var constant in Module.Constants)
                 {
-                    foreach (var constant in Module.Constants)
+                    var constantDefinition = new List<string>();
+
+                    constantDefinition.Add("export");
+                    constantDefinition.Add("const");
+
+                    constantDefinition.Add(string.Format("{0}: {1}", constant.Name, constant.Type));
+
+                    if (constant.Value != null)
                     {
-                        var constantDefinition = new List<string>();
+                        var cast = constant.Value as TypeScriptObjectValue;
 
-                        constantDefinition.Add("export");
-                        constantDefinition.Add("const");
-
-                        constantDefinition.Add(string.Format("{0}: {1}", constant.Name, constant.Type));
-
-                        if (constant.Value != null)
+                        if (cast == null)
                         {
-                            var cast = constant.Value as TypeScriptObjectValue;
+                            constantDefinition.Add("=");
 
-                            if (cast == null)
+                            constantDefinition.Add(constant.Value.ToString());
+
+                            //output.AppendFormat("{0}{1};", Indent(start), string.Join(" ", constantDefinition));
+                            //output.AppendLine();
+
+                            Lines.Add(new CodeLine("{0}{1};", Indent(start), string.Join(" ", constantDefinition)));
+                        }
+                        else
+                        {
+                            var lines = cast.Value as IEnumerable<ILine>;
+
+                            if (lines != null)
                             {
-                                constantDefinition.Add("=");
+                                //output.AppendFormat("{0}{1} = {{", Indent(start), string.Join(" ", constantDefinition));
+                                //output.AppendLine();
 
-                                constantDefinition.Add(constant.Value.ToString());
+                                Lines.Add(new CodeLine("{0}{1} = {{", Indent(start), string.Join(" ", constantDefinition)));
 
-                                output.AppendFormat("{0}{1};", Indent(start), string.Join(" ", constantDefinition));
-                                output.AppendLine();
-                            }
-                            else
-                            {
-                                if (cast.Value is IEnumerable<ILine>)
+                                foreach (var line in lines)
                                 {
-                                    output.AppendFormat("{0}{1} = {{", Indent(start), string.Join(" ", constantDefinition));
-                                    output.AppendLine();
+                                    //output.AppendFormat("{0}{1}", Indent(start + line.Indent), line.Content);
+                                    //output.AppendLine();
 
-                                    var content = cast.Value as IEnumerable<ILine>;
-
-                                    foreach (var line in content)
-                                    {
-                                        output.AppendFormat("{0}{1}", Indent(start + line.Indent), line.Content);
-                                        output.AppendLine();
-                                    }
-
-                                    output.Append("};");
-                                    output.AppendLine();
+                                    Lines.Add(new CodeLine("{0}{1}", Indent(start + line.Indent), line.Content));
                                 }
+
+                                //output.Append("};");
+                                //output.AppendLine();
+
+                                Lines.Add(new CodeLine("};"));
                             }
                         }
-
-                        
                     }
-                }
 
-                return output.ToString();
+                }
             }
         }
+
+        //public override string Code
+        //{
+        //    get
+        //    {
+        //        var output = new StringBuilder();
+
+        //        if (Module.Namespaces.Count > 0)
+        //        {
+        //            foreach (var import in Module.Namespaces)
+        //            {
+        //                output.AppendFormat("import {0};", import);
+        //                output.AppendLine();
+        //            }
+
+        //            output.AppendLine();
+        //        }
+
+        //        var start = string.IsNullOrEmpty(Module.Name) ? 0 : 1;
+
+        //        if (Module.Constants.Count > 0)
+        //        {
+        //            foreach (var constant in Module.Constants)
+        //            {
+        //                var constantDefinition = new List<string>();
+
+        //                constantDefinition.Add("export");
+        //                constantDefinition.Add("const");
+
+        //                constantDefinition.Add(string.Format("{0}: {1}", constant.Name, constant.Type));
+
+        //                if (constant.Value != null)
+        //                {
+        //                    var cast = constant.Value as TypeScriptObjectValue;
+
+        //                    if (cast == null)
+        //                    {
+        //                        constantDefinition.Add("=");
+
+        //                        constantDefinition.Add(constant.Value.ToString());
+
+        //                        output.AppendFormat("{0}{1};", Indent(start), string.Join(" ", constantDefinition));
+        //                        output.AppendLine();
+        //                    }
+        //                    else
+        //                    {
+        //                        var lines = cast.Value as IEnumerable<ILine>;
+
+        //                        if (lines != null)
+        //                        {
+        //                            output.AppendFormat("{0}{1} = {{", Indent(start), string.Join(" ", constantDefinition));
+        //                            output.AppendLine();
+
+        //                            foreach (var line in lines)
+        //                            {
+        //                                output.AppendFormat("{0}{1}", Indent(start + line.Indent), line.Content);
+        //                                output.AppendLine();
+        //                            }
+
+        //                            output.Append("};");
+        //                            output.AppendLine();
+        //                        }
+        //                    }
+        //                }
+
+        //            }
+        //        }
+
+        //        return output.ToString();
+        //    }
+        //}
     }
 }

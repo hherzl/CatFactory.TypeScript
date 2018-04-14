@@ -1,10 +1,9 @@
-﻿using System;
-using CatFactory.CodeFactory;
+﻿using CatFactory.CodeFactory;
 
 namespace CatFactory.TypeScript
 {
     public class TypeScriptObjectValue : IObjectValue
     {
-        public Object Value { get; set; }
+        public object Value { get; set; }
     }
 }

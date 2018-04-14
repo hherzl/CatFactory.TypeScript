@@ -1,5 +1,4 @@
-﻿using System;
-using CatFactory.CodeFactory;
+﻿using CatFactory.CodeFactory;
 
 namespace CatFactory.TypeScript
 {

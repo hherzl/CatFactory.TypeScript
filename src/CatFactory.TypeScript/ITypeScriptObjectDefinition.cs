@@ -4,6 +4,5 @@ namespace CatFactory.TypeScript
 {
     public interface ITypeScriptObjectDefinition : IObjectDefinition
     {
-
     }
 }
