@@ -5,16 +5,20 @@ using Xunit;
 
 namespace CatFactory.TypeScript.Tests
 {
-    public class ModuleGenerationTests
+    public class ModuleScaffoldingTests
     {
         [Fact]
         public void TestTypeScriptModule()
         {
-            var definition = new TypeScriptModuleDefinition();
-
-            definition.Constants.Add(new ConstantDefinition(AccessModifier.Public, "string", "foo", "\"foo value\""));
-            definition.Constants.Add(new ConstantDefinition(AccessModifier.Public, "number", "bar", "1000"));
-            definition.Constants.Add(new ConstantDefinition(AccessModifier.Public, "boolean", "zaz", "true"));
+            var definition = new TypeScriptModuleDefinition
+            {
+                Constants =
+                {
+                    new ConstantDefinition(AccessModifier.Public, "string", "foo", "'foo value'"),
+                    new ConstantDefinition(AccessModifier.Public, "number", "bar", "1000"),
+                    new ConstantDefinition(AccessModifier.Public, "boolean", "zaz", "true")
+                }
+            };
 
             TypeScriptModuleBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, "Shipping", true, definition);
         }

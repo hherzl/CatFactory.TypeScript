@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Reflection;
 using CatFactory.OOP;
 
 namespace CatFactory.TypeScript
@@ -7,7 +6,12 @@ namespace CatFactory.TypeScript
     public static class TypeScriptClassDefinitionExtensions
     {
         public static void AddConstant(this TypeScriptClassDefinition classDefinition, string type, string name, string value)
-            => classDefinition.Fields.Add(new FieldDefinition(type, name) { IsStatic = true, IsReadOnly = true, Value = value });
+            => classDefinition.Fields.Add(new FieldDefinition(type, name)
+            {
+                IsStatic = true,
+                IsReadOnly = true,
+                Value = value
+            });
 
         public static TypeScriptInterfaceDefinition RefactInterface(this TypeScriptClassDefinition classDefinition, params string[] exclusions)
         {
@@ -20,9 +24,7 @@ namespace CatFactory.TypeScript
             interfaceDefinition.Namespaces = classDefinition.Namespaces;
 
             foreach (var @event in classDefinition.Events.Where(item => item.AccessModifier == AccessModifier.Public && !exclusions.Contains(item.Name)))
-            {
                 interfaceDefinition.Events.Add(new EventDefinition(@event.Type, @event.Name));
-            }
 
             foreach (var property in classDefinition.Properties.Where(item => item.AccessModifier == AccessModifier.Public && !exclusions.Contains(item.Name)))
             {
@@ -34,9 +36,7 @@ namespace CatFactory.TypeScript
             }
 
             foreach (var method in classDefinition.Methods.Where(item => item.AccessModifier == AccessModifier.Public && !exclusions.Contains(item.Name)))
-            {
                 interfaceDefinition.Methods.Add(new MethodDefinition(method.Type, method.Name, method.Parameters.ToArray()));
-            }
 
             return interfaceDefinition;
         }

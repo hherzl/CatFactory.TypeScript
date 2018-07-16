@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using CatFactory.OOP;
-using Microsoft.Extensions.Logging;
+﻿using CatFactory.OOP;
 using Xunit;
 
 namespace CatFactory.TypeScript.Tests
@@ -18,7 +16,7 @@ namespace CatFactory.TypeScript.Tests
 
             definition.AddImport("IRepository", "./IRepository");
 
-            definition.Constructors.Add(new ClassConstructorDefinition());
+            definition.Constructors.Add(new TypeScriptClassConstructorDefinition());
 
             definition.Properties.Add(new PropertyDefinition("string", "firstName"));
             definition.Properties.Add(new PropertyDefinition("string", "middleName"));
@@ -30,7 +28,7 @@ namespace CatFactory.TypeScript.Tests
 
             var validationResult = validator.Validate(definition);
 
-            Assert.True(validationResult.ValidationMessages.Where(item => item.LogLevel == LogLevel.Error || item.LogLevel == LogLevel.Critical).Count() == 0);
+            Assert.True(validationResult.IsValid);
         }
 
         [Fact]
@@ -42,8 +40,8 @@ namespace CatFactory.TypeScript.Tests
                 Name = "SalesUow"
             };
 
-            definition.Constructors.Add(new ClassConstructorDefinition());
-            definition.Constructors.Add(new ClassConstructorDefinition());
+            definition.Constructors.Add(new TypeScriptClassConstructorDefinition());
+            definition.Constructors.Add(new TypeScriptClassConstructorDefinition());
 
             definition.Properties.Add(new PropertyDefinition("DbContext", "DbContext"));
             definition.Properties.Add(new PropertyDefinition("DbContext", "DbContext"));
@@ -55,7 +53,7 @@ namespace CatFactory.TypeScript.Tests
 
             var validationResult = validator.Validate(definition);
 
-            Assert.True(validationResult.ValidationMessages.Where(item => item.LogLevel == LogLevel.Error || item.LogLevel == LogLevel.Critical).Count() > 0);
+            Assert.False(validationResult.IsValid);
         }
     }
 }

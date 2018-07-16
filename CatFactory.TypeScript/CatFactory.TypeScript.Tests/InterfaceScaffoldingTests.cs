@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using CatFactory.OOP;
+﻿using CatFactory.OOP;
 using Xunit;
 
 namespace CatFactory.TypeScript.Tests
 {
-    public class InterfaceGenerationTests
+    public class InterfaceScaffoldingTests
     {
         [Fact]
         public void TestTypeScriptInterfaceWithPropertiesGeneration()
@@ -47,13 +46,17 @@ namespace CatFactory.TypeScript.Tests
             var classDefinition = new TypeScriptClassDefinition
             {
                 Name = "Gamer",
-                Implements = new List<string>
+                Implements =
                 {
                     "IGamer"
                 }
             };
 
             classDefinition.AddImport("IGamer", "./IGamer");
+
+            classDefinition.Fields.Add(new FieldDefinition("string", "m_firstName"));
+            classDefinition.Fields.Add(new FieldDefinition("string", "m_middleName"));
+            classDefinition.Fields.Add(new FieldDefinition("string", "m_lastName"));
 
             classDefinition.Properties.Add(new PropertyDefinition("string", "firstName"));
             classDefinition.Properties.Add(new PropertyDefinition("string", "middleName"));

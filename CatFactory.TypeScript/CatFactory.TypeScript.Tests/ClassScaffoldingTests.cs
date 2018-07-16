@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using CatFactory.CodeFactory;
+﻿using CatFactory.CodeFactory;
 using CatFactory.OOP;
 using Xunit;
 
 namespace CatFactory.TypeScript.Tests
 {
-    public class ClassGenerationTests
+    public class ClassScaffoldingTests
     {
         [Fact]
         public void TestTypeScriptBaseClassGeneration()
@@ -26,7 +25,7 @@ namespace CatFactory.TypeScript.Tests
                 Namespace = "ContactManager",
                 Name = "Contact",
                 BaseClass = "Entity",
-                Implements = new List<string>
+                Implements =
                 {
                     "IContact"
                 }
@@ -95,7 +94,7 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Methods.Add(new MethodDefinition("boolean", "equals", new ParameterDefinition("any", "obj"))
             {
-                Lines = new List<ILine>
+                Lines =
                 {
                     new CodeLine("return false;")
                 }
@@ -103,7 +102,7 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Methods.Add(new MethodDefinition("number", "getHashCode")
             {
-                Lines = new List<ILine>
+                Lines =
                 {
                     new CodeLine("return 0;")
                 }
@@ -111,9 +110,9 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Methods.Add(new MethodDefinition("string", "tostring")
             {
-                Lines = new List<ILine>
+                Lines =
                 {
-                    new CodeLine("return \"\";")
+                    new CodeLine("return '';")
                 }
             });
 
@@ -129,7 +128,7 @@ namespace CatFactory.TypeScript.Tests
             };
 
             definition.AddConstant("number", "foo", "123");
-            definition.AddConstant("string", "bar", "\"hello\"");
+            definition.AddConstant("string", "bar", "'hello'");
             definition.AddConstant("string", "zaz", "\"ABCDEF\"");
 
             TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
@@ -149,11 +148,11 @@ namespace CatFactory.TypeScript.Tests
             definition.AddImport(new string[] { "Http", "Response" }, "@angular/http");
             definition.AddImport("Observable", "rxjs/Observable");
 
-            definition.Constructors.Add(new ClassConstructorDefinition(new ParameterDefinition("Http", "http"))
+            definition.Constructors.Add(new TypeScriptClassConstructorDefinition(new TypeScriptParameterDefinition("Http", "http"))
             {
-                Lines = new List<ILine>
+                Lines =
                 {
-                    new CodeLine("this.api = \"{0}\";", "api/Northwind")
+                    new CodeLine("this.api = '{0}';", "api/Northwind")
                 }
             });
 
@@ -161,21 +160,17 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Methods.Add(new MethodDefinition("Observable<Response>", "getOrders", new ParameterDefinition("number", "pageNumber"), new ParameterDefinition("number", "pageSize"))
             {
-                Lines = new List<ILine>
+                Lines =
                 {
-                    new CodeLine("var url = [this.api, \"Sales\", \"Order\"].join(\"/\");"),
-                    new CodeLine(),
-                    new CodeLine("return this.http.get(url);")
+                    new CodeLine("return this.http.get([this.api, 'Sales', 'Order'].join('/'));")
                 }
             });
 
             definition.Methods.Add(new MethodDefinition("Observable<Response>", "getOrder", new ParameterDefinition("number", "id"))
             {
-                Lines = new List<ILine>
+                Lines =
                 {
-                    new CodeLine("var url = [this.api, \"Sales\", \"Order\", id].join(\"/\");"),
-                    new CodeLine(),
-                    new CodeLine("return this.http.get(url);")
+                    new CodeLine("return this.http.get([this.api, 'Sales', 'Order', id].join('/'));")
                 }
             });
 
@@ -188,7 +183,7 @@ namespace CatFactory.TypeScript.Tests
             var definition = new TypeScriptClassDefinition
             {
                 Name = "OrderListComponent",
-                Implements = new List<string>
+                Implements =
                 {
                     "OnInit"
                 }
@@ -202,16 +197,16 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Attributes.Add(new MetadataAttribute("Component")
             {
-                Sets = new List<MetadataAttributeSet>()
+                Sets =
                 {
-                    new MetadataAttributeSet("selector", "\"order-list\""),
-                    new MetadataAttributeSet("template", "require(\"./order-list.component.html\")")
+                    new MetadataAttributeSet("selector", "'order-list'"),
+                    new MetadataAttributeSet("template", "require('./order-list.component.html')")
                 }
             });
 
-            definition.Constructors.Add(new ClassConstructorDefinition(
-                new ParameterDefinition("Router", "router"),
-                new ParameterDefinition("SalesService", "service"))
+            definition.Constructors.Add(new TypeScriptClassConstructorDefinition(
+                new TypeScriptParameterDefinition(AccessModifier.Private, "Router", "router"),
+                new TypeScriptParameterDefinition(AccessModifier.Private, "SalesService", "service"))
             );
 
             definition.Fields.Add(new FieldDefinition("number", "pageSize"));
@@ -222,7 +217,7 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Methods.Add(new MethodDefinition("void", "ngOnInit")
             {
-                Lines = new List<ILine>
+                Lines =
                 {
                     new TodoLine("Add logic for this operation")
                 }
@@ -230,7 +225,7 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Methods.Add(new MethodDefinition("void", "search")
             {
-                Lines = new List<ILine>
+                Lines =
                 {
                     new TodoLine("Add logic for this operation")
                 }
@@ -238,7 +233,7 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Methods.Add(new MethodDefinition("void", "details", new ParameterDefinition("OrderSummary", "order"))
             {
-                Lines = new List<ILine>
+                Lines =
                 {
                     new TodoLine("Add logic for this operation")
                 }

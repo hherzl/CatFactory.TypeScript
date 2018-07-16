@@ -1,25 +1,46 @@
 ﻿using System.Collections.Generic;
+using CatFactory.CodeFactory;
+using CatFactory.OOP;
 
 namespace CatFactory.TypeScript
 {
     public static class TypeScriptCodeBuilderExtensions
     {
-        public static void AddImport(this TypeScriptClassDefinition classDefinition, IEnumerable<string> types, string from)
-            => classDefinition.Namespaces.Add(string.Format("{{ {0} }} from \"{1}\"", string.Join(", ", types), from));
+        private static void AddAttributes(TypeScriptCodeBuilder codeBuilder, List<MetadataAttribute> attributes, int start)
+        {
+            foreach (var attribute in attributes)
+            {
+                var declaration = new List<string>
+                {
+                    string.Format("@{0}", attribute.Name),
+                    "("
+                };
 
-        public static void AddImport(this TypeScriptClassDefinition classDefinition, string type, string from)
-            => classDefinition.Namespaces.Add(string.Format("{{ {0} }} from \"{1}\"", type, from));
+                if (attribute.Sets.Count > 0)
+                {
+                    if (attribute.HasMembers)
+                    {
+                        declaration.Add("{");
 
-        public static void AddImport(this TypeScriptInterfaceDefinition interfaceDefinition, IEnumerable<string> types, string from)
-            => interfaceDefinition.Namespaces.Add(string.Format("{{ {0} }} from \"{1}\"", string.Join(", ", types), from));
+                        codeBuilder.Lines.Add(new CodeLine(string.Join("", declaration)));
 
-        public static void AddImport(this TypeScriptInterfaceDefinition interfaceDefinition, string type, string from)
-            => interfaceDefinition.Namespaces.Add(string.Format("{{ {0} }} from \"{1}\"", type, from));
+                        for (var i = 0; i < attribute.Sets.Count; i++)
+                        {
+                            var set = attribute.Sets[i];
 
-        public static void AddImport(this TypeScriptModuleDefinition moduleDefinition, IEnumerable<string> types, string from)
-            => moduleDefinition.Namespaces.Add(string.Format("{{ {0} }} from \"{1}\"", string.Join(", ", types), from));
+                            codeBuilder.Lines.Add(new CodeLine("{0}{1}: {2}{3}", codeBuilder.Indent(start + 1), set.Name, set.Value, i < attribute.Sets.Count - 1 ? "," : string.Empty));
+                        }
+                    }
 
-        public static void AddImport(this TypeScriptModuleDefinition moduleDefinition, string type, string from)
-            => moduleDefinition.Namespaces.Add(string.Format("{{ {0} }} from \"{1}\"", type, from));
+                    codeBuilder.Lines.Add(new CodeLine("})"));
+                }
+            }
+        }
+
+        public static void AddAttributes(this TypeScriptInterfaceBuilder codeBuilder, int start)
+            => AddAttributes(codeBuilder, codeBuilder.ObjectDefinition.Attributes, start);
+
+        public static void AddAttributes(this TypeScriptClassBuilder codeBuilder, int start)
+            => AddAttributes(codeBuilder, codeBuilder.ObjectDefinition.Attributes, start);
     }
 }
