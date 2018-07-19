@@ -8,6 +8,7 @@
 
             switch (type)
             {
+                case "string":
                 case "String":
                     value = "string";
                     break;
@@ -27,6 +28,7 @@
                     value = "number";
                     break;
 
+                case "bool":
                 case "Boolean":
                     value = "bool";
                     break;

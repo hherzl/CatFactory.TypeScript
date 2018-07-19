@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using CatFactory.CodeFactory;
 
 namespace CatFactory.TypeScript
@@ -33,8 +32,6 @@ namespace CatFactory.TypeScript
 
         public override void Translating()
         {
-            var output = new StringBuilder();
-
             var start = 0;
 
             if (!string.IsNullOrEmpty(ObjectDefinition.Namespace))
@@ -61,15 +58,11 @@ namespace CatFactory.TypeScript
                         dec.Add(string.Format("{0}{1}", Indent(start + 1), attribute.Sets[i]));
 
                         if (i < attribute.Sets.Count - 1)
-                        {
-                            output.Append(",");
                             dec.Add(";");
-                        }
 
                         dec.Add("\r\n");
                     }
 
-                    output.Append("}");
                     dec.Add("}");
                 }
             }

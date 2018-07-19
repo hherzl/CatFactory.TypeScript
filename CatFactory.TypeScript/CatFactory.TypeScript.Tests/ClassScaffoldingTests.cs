@@ -249,5 +249,13 @@ namespace CatFactory.TypeScript.Tests
 
             TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
         }
+
+        [Fact]
+        public void TestRefactAnonymous()
+        {
+            var definition = (new { ID = 0, Name = "", Description = "" }).RefactClass(name: "Anonymous");
+
+            TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
+        }
     }
 }

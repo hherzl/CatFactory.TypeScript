@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using CatFactory.CodeFactory;
 using CatFactory.OOP;
 
 namespace CatFactory.TypeScript
@@ -13,11 +14,34 @@ namespace CatFactory.TypeScript
                 Value = value
             });
 
-        public static TypeScriptInterfaceDefinition RefactInterface(this TypeScriptClassDefinition classDefinition, params string[] exclusions)
+        public static TypeScriptClassDefinition RefactClass(this object obj, string name = null, ICodeNamingConvention namingConvention = null)
+        {
+            var sourceType = obj.GetType();
+
+            var classDefinition = new TypeScriptClassDefinition
+            {
+                Name = string.IsNullOrEmpty(name) ? sourceType.Name : name
+            };
+
+            if (namingConvention == null)
+                namingConvention = new TypeScriptNamingConvention();
+
+            foreach (var property in sourceType.GetProperties().Where(item => item.CanRead))
+            {
+                classDefinition.Fields.Add(new FieldDefinition(TypeScriptTypeResolver.Resolve(property.PropertyType.Name), namingConvention.GetFieldName(property.Name)));
+
+                classDefinition.Properties.Add(new PropertyDefinition(TypeScriptTypeResolver.Resolve(property.PropertyType.Name), namingConvention.GetPropertyName(property.Name)));
+            }
+
+            return classDefinition;
+        }
+
+        public static TypeScriptInterfaceDefinition RefactInterface(this TypeScriptClassDefinition classDefinition, ICodeNamingConvention namingConvention = null, params string[] exclusions)
         {
             var interfaceDefinition = new TypeScriptInterfaceDefinition();
 
-            var namingConvention = new TypeScriptNamingConvention();
+            if (namingConvention == null)
+                namingConvention = new TypeScriptNamingConvention();
 
             interfaceDefinition.Name = namingConvention.GetInterfaceName(classDefinition.Name);
 
@@ -39,27 +63,6 @@ namespace CatFactory.TypeScript
                 interfaceDefinition.Methods.Add(new MethodDefinition(method.Type, method.Name, method.Parameters.ToArray()));
 
             return interfaceDefinition;
-        }
-
-        public static TypeScriptClassDefinition RefactClass(this object obj)
-        {
-            var sourceType = obj.GetType();
-
-            var classDefinition = new TypeScriptClassDefinition
-            {
-                Name = sourceType.Name
-            };
-
-            var namingConvention = new TypeScriptNamingConvention();
-
-            foreach (var property in sourceType.GetProperties().Where(item => item.CanRead && item.CanWrite))
-            {
-                classDefinition.Fields.Add(new FieldDefinition(TypeScriptTypeResolver.Resolve(property.PropertyType.Name), namingConvention.GetFieldName(property.Name)));
-
-                classDefinition.Properties.Add(new PropertyDefinition(TypeScriptTypeResolver.Resolve(property.PropertyType.Name), namingConvention.GetPropertyName(property.Name)));
-            }
-
-            return classDefinition;
         }
     }
 }
