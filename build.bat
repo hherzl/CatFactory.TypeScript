@@ -1,7 +1,7 @@
 cls
 set initialPath=%cd%
-set srcPath=%cd%\CatFactory.TypeScript\CatFactory.TypeScript
-set testPath=%cd%\CatFactory.TypeScript\CatFactory.TypeScript.Tests
+set srcPath=%cd%\CatFactory.TypeScript
+set testPath=%cd%\CatFactory.TypeScript.Tests
 cd %srcPath%
 dotnet build
 cd %testPath%
