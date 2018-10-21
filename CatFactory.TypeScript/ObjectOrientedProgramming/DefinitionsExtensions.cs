@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using CatFactory.CodeFactory;
 using CatFactory.OOP;
+using CatFactory.TypeScript.CodeFactory;
 
-namespace CatFactory.TypeScript
+namespace CatFactory.TypeScript.ObjectOrientedProgramming
 {
-    public static class TypeScriptClassDefinitionExtensions
+    public static class DefinitionsExtensions
     {
         public static void AddConstant(this TypeScriptClassDefinition classDefinition, string type, string name, string value)
             => classDefinition.Fields.Add(new FieldDefinition(type, name)
@@ -13,6 +15,24 @@ namespace CatFactory.TypeScript
                 IsReadOnly = true,
                 Value = value
             });
+
+        public static void AddImport(this TypeScriptClassDefinition classDefinition, IEnumerable<string> types, string from)
+            => classDefinition.Namespaces.Add(string.Format("{{ {0} }} from '{1}'", string.Join(", ", types), from));
+
+        public static void AddImport(this TypeScriptClassDefinition classDefinition, string type, string from)
+            => classDefinition.Namespaces.Add(string.Format("{{ {0} }} from '{1}'", type, from));
+
+        public static void AddImport(this TypeScriptInterfaceDefinition interfaceDefinition, IEnumerable<string> types, string from)
+            => interfaceDefinition.Namespaces.Add(string.Format("{{ {0} }} from '{1}'", string.Join(", ", types), from));
+
+        public static void AddImport(this TypeScriptInterfaceDefinition interfaceDefinition, string type, string from)
+            => interfaceDefinition.Namespaces.Add(string.Format("{{ {0} }} from '{1}'", type, from));
+
+        public static void AddImport(this TypeScriptModuleDefinition moduleDefinition, IEnumerable<string> types, string from)
+            => moduleDefinition.Namespaces.Add(string.Format("{{ {0} }} from '{1}'", string.Join(", ", types), from));
+
+        public static void AddImport(this TypeScriptModuleDefinition moduleDefinition, string type, string from)
+            => moduleDefinition.Namespaces.Add(string.Format("{{ {0} }} from '{1}'", type, from));
 
         public static TypeScriptClassDefinition RefactClass(this object obj, string name = null, ICodeNamingConvention namingConvention = null)
         {

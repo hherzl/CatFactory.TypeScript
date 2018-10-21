@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using CatFactory.CodeFactory;
 
-namespace CatFactory.TypeScript
+namespace CatFactory.TypeScript.CodeFactory
 {
     public class TypeScriptNamingConvention : ICodeNamingConvention
     {

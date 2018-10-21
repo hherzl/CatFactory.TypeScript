@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using CatFactory.CodeFactory;
+using CatFactory.TypeScript.ObjectOrientedProgramming;
 
-namespace CatFactory.TypeScript
+namespace CatFactory.TypeScript.CodeFactory
 {
     public class TypeScriptModuleBuilder : CodeBuilder
     {
@@ -63,9 +64,7 @@ namespace CatFactory.TypeScript
 
                     if (constant.Value != null)
                     {
-                        var cast = constant.Value as TypeScriptObjectValue;
-
-                        if (cast == null)
+                        if (!(constant.Value is TypeScriptObjectValue cast))
                         {
                             constantDefinition.Add("=");
 

@@ -1,5 +1,8 @@
 ﻿using CatFactory.CodeFactory;
 using CatFactory.OOP;
+using CatFactory.TypeScript.CodeFactory;
+using CatFactory.TypeScript.ObjectOrientedProgramming;
+using CatFactory.TypeScript.Tests.Models;
 using Xunit;
 
 namespace CatFactory.TypeScript.Tests
@@ -28,17 +31,19 @@ namespace CatFactory.TypeScript.Tests
                 Implements =
                 {
                     "IContact"
+                },
+                Fields =
+                {
+                    new FieldDefinition("string", "firstName"),
+                    new FieldDefinition("string", "middleName"),
+                    new FieldDefinition("string", "lastName"),
+                    new FieldDefinition("string", "gender"),
+                    new FieldDefinition("Date", "birthDate")
                 }
             };
 
             definition.AddImport("IContact", "./IContact");
             definition.AddImport("Entity", "./Entity");
-
-            definition.Fields.Add(new FieldDefinition("string", "firstName"));
-            definition.Fields.Add(new FieldDefinition("string", "middleName"));
-            definition.Fields.Add(new FieldDefinition("string", "lastName"));
-            definition.Fields.Add(new FieldDefinition("string", "gender"));
-            definition.Fields.Add(new FieldDefinition("Date", "birthDate"));
 
             TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
         }
@@ -49,20 +54,24 @@ namespace CatFactory.TypeScript.Tests
             var definition = new TypeScriptClassDefinition
             {
                 Namespace = "HumanResources",
-                Name = "Employee"
+                Name = "Employee",
+                Fields =
+                {
+                    new FieldDefinition("string", "m_firstName"),
+                    new FieldDefinition("string", "m_middleName"),
+                    new FieldDefinition("string", "m_lastName"),
+                    new FieldDefinition("string", "m_gender"),
+                    new FieldDefinition("Date", "m_birthDate")
+                },
+                Properties =
+                {
+                    new PropertyDefinition("string", "firstName"),
+                    new PropertyDefinition("string", "middleName"),
+                    new PropertyDefinition("string", "lastName"),
+                    new PropertyDefinition("string", "gender"),
+                    new PropertyDefinition("Date", "birthDate")
+                }
             };
-
-            definition.Fields.Add(new FieldDefinition("string", "m_firstName"));
-            definition.Fields.Add(new FieldDefinition("string", "m_middleName"));
-            definition.Fields.Add(new FieldDefinition("string", "m_lastName"));
-            definition.Fields.Add(new FieldDefinition("string", "m_gender"));
-            definition.Fields.Add(new FieldDefinition("Date", "m_birthDate"));
-
-            definition.Properties.Add(new PropertyDefinition("string", "firstName"));
-            definition.Properties.Add(new PropertyDefinition("string", "middleName"));
-            definition.Properties.Add(new PropertyDefinition("string", "lastName"));
-            definition.Properties.Add(new PropertyDefinition("string", "gender"));
-            definition.Properties.Add(new PropertyDefinition("Date", "birthDate"));
 
             TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
         }
@@ -73,24 +82,28 @@ namespace CatFactory.TypeScript.Tests
             var definition = new TypeScriptClassDefinition
             {
                 Namespace = "School",
-                Name = "Student"
+                Name = "Student",
+                Fields =
+                {
+                    new FieldDefinition("string", "m_firstName"),
+                    new FieldDefinition("string", "m_middleName"),
+                    new FieldDefinition("string", "m_lastName"),
+                    new FieldDefinition("string", "m_gender"),
+                    new FieldDefinition("Date", "m_birthDate"),
+                    new FieldDefinition("string", "m_fullName"),
+                    new FieldDefinition("number", "m_age")
+                },
+                Properties =
+                {
+                    new PropertyDefinition("string", "firstName"),
+                    new PropertyDefinition("string", "middleName"),
+                    new PropertyDefinition("string", "lastName"),
+                    new PropertyDefinition("string", "gender"),
+                    new PropertyDefinition("Date", "birthDate"),
+                    new PropertyDefinition("string", "fullName"),
+                    new PropertyDefinition("number", "age")
+                }
             };
-
-            definition.Fields.Add(new FieldDefinition("string", "m_firstName"));
-            definition.Fields.Add(new FieldDefinition("string", "m_middleName"));
-            definition.Fields.Add(new FieldDefinition("string", "m_lastName"));
-            definition.Fields.Add(new FieldDefinition("string", "m_gender"));
-            definition.Fields.Add(new FieldDefinition("Date", "m_birthDate"));
-            definition.Fields.Add(new FieldDefinition("string", "m_fullName"));
-            definition.Fields.Add(new FieldDefinition("number", "m_age"));
-
-            definition.Properties.Add(new PropertyDefinition("string", "firstName"));
-            definition.Properties.Add(new PropertyDefinition("string", "middleName"));
-            definition.Properties.Add(new PropertyDefinition("string", "lastName"));
-            definition.Properties.Add(new PropertyDefinition("string", "gender"));
-            definition.Properties.Add(new PropertyDefinition("Date", "birthDate"));
-            definition.Properties.Add(new PropertyDefinition("string", "fullName"));
-            definition.Properties.Add(new PropertyDefinition("number", "age"));
 
             definition.Methods.Add(new MethodDefinition("boolean", "equals", new ParameterDefinition("any", "obj"))
             {
@@ -139,10 +152,12 @@ namespace CatFactory.TypeScript.Tests
         {
             var definition = new TypeScriptClassDefinition
             {
+                Attributes =
+                {
+                    new MetadataAttribute("Injectable")
+                },
                 Name = "NorthwindService"
             };
-
-            definition.Attributes.Add(new MetadataAttribute("Injectable"));
 
             definition.AddImport("Injectable", "@angular/core");
             definition.AddImport(new string[] { "Http", "Response" }, "@angular/http");

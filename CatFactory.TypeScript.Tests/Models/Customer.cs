@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CatFactory.TypeScript.Tests
+namespace CatFactory.TypeScript.Tests.Models
 {
     public class Customer
     {

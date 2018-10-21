@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using CatFactory.CodeFactory;
 using CatFactory.OOP;
+using CatFactory.TypeScript.CodeFactory;
+using CatFactory.TypeScript.ObjectOrientedProgramming;
 using Xunit;
 
 namespace CatFactory.TypeScript.Tests

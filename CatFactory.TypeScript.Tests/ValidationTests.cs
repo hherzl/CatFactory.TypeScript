@@ -1,4 +1,6 @@
 ﻿using CatFactory.OOP;
+using CatFactory.TypeScript.ObjectOrientedProgramming;
+using CatFactory.TypeScript.ObjectOrientedProgramming.Validation;
 using Xunit;
 
 namespace CatFactory.TypeScript.Tests

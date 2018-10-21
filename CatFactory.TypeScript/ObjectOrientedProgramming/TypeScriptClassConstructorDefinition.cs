@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using CatFactory.OOP;
 
-namespace CatFactory.TypeScript
+namespace CatFactory.TypeScript.ObjectOrientedProgramming
 {
     public class TypeScriptClassConstructorDefinition : ClassConstructorDefinition
     {

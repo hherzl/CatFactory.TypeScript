@@ -2,7 +2,7 @@
 using CatFactory.CodeFactory;
 using CatFactory.OOP;
 
-namespace CatFactory.TypeScript
+namespace CatFactory.TypeScript.CodeFactory
 {
     public static class TypeScriptCodeBuilderExtensions
     {
@@ -16,24 +16,21 @@ namespace CatFactory.TypeScript
                     "("
                 };
 
-                if (attribute.Sets.Count > 0)
+                if (attribute.Sets.Count > 0 && attribute.HasMembers)
                 {
-                    if (attribute.HasMembers)
+                    declaration.Add("{");
+
+                    codeBuilder.Lines.Add(new CodeLine(string.Join("", declaration)));
+
+                    for (var i = 0; i < attribute.Sets.Count; i++)
                     {
-                        declaration.Add("{");
+                        var set = attribute.Sets[i];
 
-                        codeBuilder.Lines.Add(new CodeLine(string.Join("", declaration)));
-
-                        for (var i = 0; i < attribute.Sets.Count; i++)
-                        {
-                            var set = attribute.Sets[i];
-
-                            codeBuilder.Lines.Add(new CodeLine("{0}{1}: {2}{3}", codeBuilder.Indent(start + 1), set.Name, set.Value, i < attribute.Sets.Count - 1 ? "," : string.Empty));
-                        }
+                        codeBuilder.Lines.Add(new CodeLine("{0}{1}: {2}{3}", codeBuilder.Indent(start + 1), set.Name, set.Value, i < attribute.Sets.Count - 1 ? "," : string.Empty));
                     }
-
-                    codeBuilder.Lines.Add(new CodeLine("})"));
                 }
+
+                codeBuilder.Lines.Add(new CodeLine("})"));
             }
         }
 

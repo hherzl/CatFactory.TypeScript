@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CatFactory.CodeFactory;
+using CatFactory.TypeScript.ObjectOrientedProgramming;
 
-namespace CatFactory.TypeScript
+namespace CatFactory.TypeScript.CodeFactory
 {
     public class TypeScriptClassBuilder : TypeScriptCodeBuilder
     {
@@ -167,12 +168,10 @@ namespace CatFactory.TypeScript
 
                         foreach (var line in property.GetBody)
                         {
-                            var commentCast = line as CommentLine;
-
-                            if (commentCast == null)
-                                Lines.Add(new CodeLine("{0}{1}", Indent(start + line.Indent), line.Content));
-                            else
+                            if (line is CommentLine)
                                 Lines.Add(new CodeLine("{0}{1}", Indent(start + line.Indent), GetComment(line.Content)));
+                            else
+                                Lines.Add(new CodeLine("{0}{1}", Indent(start + line.Indent), line.Content));
                         }
 
                         Lines.Add(new CodeLine("{0}{1}", Indent(start + 1), "}"));
@@ -183,12 +182,10 @@ namespace CatFactory.TypeScript
 
                         foreach (var line in property.SetBody)
                         {
-                            var commentCast = line as CommentLine;
-
-                            if (commentCast == null)
-                                Lines.Add(new CodeLine("{0}{1}", Indent(start + line.Indent), line.Content));
-                            else
+                            if (line is CommentLine)
                                 Lines.Add(new CodeLine("{0}{1}", Indent(start + line.Indent), GetComment(line.Content)));
+                            else
+                                Lines.Add(new CodeLine("{0}{1}", Indent(start + line.Indent), line.Content));
                         }
 
                         Lines.Add(new CodeLine("{0}{1}", Indent(start + 1), "}"));
