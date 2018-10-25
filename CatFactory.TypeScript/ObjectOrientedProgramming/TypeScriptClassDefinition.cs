@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using CatFactory.OOP;
+using CatFactory.ObjectOrientedProgramming;
 
 namespace CatFactory.TypeScript.ObjectOrientedProgramming
 {
     public class TypeScriptClassDefinition : ClassDefinition, ITypeScriptClassDefinition
     {
         public TypeScriptClassDefinition()
+            : base()
         {
         }
 

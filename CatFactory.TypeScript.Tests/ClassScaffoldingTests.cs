@@ -1,5 +1,7 @@
-﻿using CatFactory.CodeFactory;
-using CatFactory.OOP;
+﻿using System.Diagnostics;
+using System.IO;
+using CatFactory.CodeFactory;
+using CatFactory.ObjectOrientedProgramming;
 using CatFactory.TypeScript.CodeFactory;
 using CatFactory.TypeScript.ObjectOrientedProgramming;
 using CatFactory.TypeScript.Tests.Models;
@@ -9,15 +11,104 @@ namespace CatFactory.TypeScript.Tests
 {
     public class ClassScaffoldingTests
     {
+        public string TscPath { get; }
+        public string TsFilesPath { get; }
+        public string OutPath { get; }
+
+        public ClassScaffoldingTests()
+        {
+            TscPath = @"C:\Program Files (x86)\Microsoft SDKs\TypeScript\3.0\tsc.exe";
+            TsFilesPath = @"C:\Temp\CatFactory.TypeScript";
+            OutPath = @"c:\Temp\CatFactory.TypeScript\js";
+        }
+
         [Fact]
-        public void TestTypeScriptBaseClassGeneration()
+        public void ScaffoldServiceClass()
         {
             var definition = new TypeScriptClassDefinition
             {
-                Name = "Entity"
+                Name = "Service",
+                Fields =
+                {
+                    new FieldDefinition("string", "url")
+                },
+                Constructors =
+                {
+                    new TypeScriptClassConstructorDefinition
+                    {
+                        Lines =
+                        {
+                            new CodeLine("this.url = 'http://localhost:1234/api/v1';")
+                        }
+                    }
+                }
             };
 
             TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
+
+            Process.Start(TscPath, string.Format("{0} --outDir {1}", Path.Combine(TsFilesPath, "Service.ts"), OutPath));
+        }
+
+        [Fact]
+        public void ScaffoldResponseClass()
+        {
+            var definition = new TypeScriptClassDefinition
+            {
+                Name = "Response"
+            };
+
+            TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
+
+            Process.Start(TscPath, string.Format("{0} --outDir {1}", Path.Combine(TsFilesPath, "Response.ts"), OutPath));
+        }
+
+        [Fact]
+        public void ScaffoldWarehouseServiceClass()
+        {
+            var definition = new TypeScriptClassDefinition
+            {
+                Name = "WarehouseService",
+                BaseClass = "Service",
+                Constructors =
+                {
+                    new TypeScriptClassConstructorDefinition
+                    {
+                        Lines =
+                        {
+                            new CodeLine("super();")
+                        }
+                    }
+                },
+                Methods =
+                {
+                    new MethodDefinition("Response", "getProducts", new ParameterDefinition("string", "productName"))
+                    {
+                        Lines =
+                        {
+                            new TodoLine("Apply productName parameter to filter products by product name"),
+                            new CodeLine(),
+                            new CodeLine("return new Response();")
+                        }
+                    },
+                    new MethodDefinition("Response", "getProduct", new ParameterDefinition("Product", "entity"))
+                    {
+                        Lines =
+                        {
+                            new TodoLine("Search product by id"),
+                            new CodeLine(),
+                            new CodeLine("return new Response();")
+                        }
+                    }
+                }
+            };
+
+            definition.AddImport("Response", "./Response");
+            definition.AddImport("Service", "./Service");
+            definition.AddImport("Product", "./Product");
+
+            TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
+
+            Process.Start(TscPath, string.Format("{0} --outDir {1}", Path.Combine(TsFilesPath, "WarehouseService.ts"), OutPath));
         }
 
         [Fact]
@@ -25,236 +116,22 @@ namespace CatFactory.TypeScript.Tests
         {
             var definition = new TypeScriptClassDefinition
             {
-                Namespace = "ContactManager",
-                Name = "Contact",
-                BaseClass = "Entity",
-                Implements =
-                {
-                    "IContact"
-                },
+                Name = "Product",
                 Fields =
                 {
-                    new FieldDefinition("string", "firstName"),
-                    new FieldDefinition("string", "middleName"),
-                    new FieldDefinition("string", "lastName"),
-                    new FieldDefinition("string", "gender"),
-                    new FieldDefinition("Date", "birthDate")
-                }
-            };
-
-            definition.AddImport("IContact", "./IContact");
-            definition.AddImport("Entity", "./Entity");
-
-            TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
-        }
-
-        [Fact]
-        public void TestTypeScriptClassWithPropertiesGeneration()
-        {
-            var definition = new TypeScriptClassDefinition
-            {
-                Namespace = "HumanResources",
-                Name = "Employee",
-                Fields =
-                {
-                    new FieldDefinition("string", "m_firstName"),
-                    new FieldDefinition("string", "m_middleName"),
-                    new FieldDefinition("string", "m_lastName"),
-                    new FieldDefinition("string", "m_gender"),
-                    new FieldDefinition("Date", "m_birthDate")
-                },
-                Properties =
-                {
-                    new PropertyDefinition("string", "firstName"),
-                    new PropertyDefinition("string", "middleName"),
-                    new PropertyDefinition("string", "lastName"),
-                    new PropertyDefinition("string", "gender"),
-                    new PropertyDefinition("Date", "birthDate")
+                    new FieldDefinition("number", "id"),
+                    new FieldDefinition("string", "productName"),
+                    new FieldDefinition("number", "categoryId"),
+                    new FieldDefinition("string", "unitPrice"),
+                    new FieldDefinition("string", "description"),
+                    new FieldDefinition("string", "tags"),
+                    new FieldDefinition("Date", "releaseDate")
                 }
             };
 
             TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
-        }
 
-        [Fact]
-        public void TestTypeScriptClassWithPropertiesAndMethodsGeneration()
-        {
-            var definition = new TypeScriptClassDefinition
-            {
-                Namespace = "School",
-                Name = "Student",
-                Fields =
-                {
-                    new FieldDefinition("string", "m_firstName"),
-                    new FieldDefinition("string", "m_middleName"),
-                    new FieldDefinition("string", "m_lastName"),
-                    new FieldDefinition("string", "m_gender"),
-                    new FieldDefinition("Date", "m_birthDate"),
-                    new FieldDefinition("string", "m_fullName"),
-                    new FieldDefinition("number", "m_age")
-                },
-                Properties =
-                {
-                    new PropertyDefinition("string", "firstName"),
-                    new PropertyDefinition("string", "middleName"),
-                    new PropertyDefinition("string", "lastName"),
-                    new PropertyDefinition("string", "gender"),
-                    new PropertyDefinition("Date", "birthDate"),
-                    new PropertyDefinition("string", "fullName"),
-                    new PropertyDefinition("number", "age")
-                }
-            };
-
-            definition.Methods.Add(new MethodDefinition("boolean", "equals", new ParameterDefinition("any", "obj"))
-            {
-                Lines =
-                {
-                    new CodeLine("return false;")
-                }
-            });
-
-            definition.Methods.Add(new MethodDefinition("number", "getHashCode")
-            {
-                Lines =
-                {
-                    new CodeLine("return 0;")
-                }
-            });
-
-            definition.Methods.Add(new MethodDefinition("string", "tostring")
-            {
-                Lines =
-                {
-                    new CodeLine("return '';")
-                }
-            });
-
-            TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
-        }
-
-        [Fact]
-        public void TestTypeScriptClassWithReadOnlyFieldsGeneration()
-        {
-            var definition = new TypeScriptClassDefinition
-            {
-                Name = "Tokens"
-            };
-
-            definition.AddConstant("number", "foo", "123");
-            definition.AddConstant("string", "bar", "'hello'");
-            definition.AddConstant("string", "zaz", "\"ABCDEF\"");
-
-            TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
-        }
-
-        [Fact]
-        public void TestTypeScriptClassServiceGeneration()
-        {
-            var definition = new TypeScriptClassDefinition
-            {
-                Attributes =
-                {
-                    new MetadataAttribute("Injectable")
-                },
-                Name = "NorthwindService"
-            };
-
-            definition.AddImport("Injectable", "@angular/core");
-            definition.AddImport(new string[] { "Http", "Response" }, "@angular/http");
-            definition.AddImport("Observable", "rxjs/Observable");
-
-            definition.Constructors.Add(new TypeScriptClassConstructorDefinition(new TypeScriptParameterDefinition("Http", "http"))
-            {
-                Lines =
-                {
-                    new CodeLine("this.api = '{0}';", "api/Northwind")
-                }
-            });
-
-            definition.Fields.Add(new FieldDefinition("string", "api"));
-
-            definition.Methods.Add(new MethodDefinition("Observable<Response>", "getOrders", new ParameterDefinition("number", "pageNumber"), new ParameterDefinition("number", "pageSize"))
-            {
-                Lines =
-                {
-                    new CodeLine("return this.http.get([this.api, 'Sales', 'Order'].join('/'));")
-                }
-            });
-
-            definition.Methods.Add(new MethodDefinition("Observable<Response>", "getOrder", new ParameterDefinition("number", "id"))
-            {
-                Lines =
-                {
-                    new CodeLine("return this.http.get([this.api, 'Sales', 'Order', id].join('/'));")
-                }
-            });
-
-            TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
-        }
-
-        [Fact]
-        public void TestTypeScriptClassComponentGeneration()
-        {
-            var definition = new TypeScriptClassDefinition
-            {
-                Name = "OrderListComponent",
-                Implements =
-                {
-                    "OnInit"
-                }
-            };
-
-            definition.AddImport(new string[] { "Component", "Injectable", "OnInit" }, "@angular/core");
-            definition.AddImport("Router", "@angular/router");
-            definition.AddImport("SalesService", "../../services/sales.service");
-            definition.AddImport("OrderSummary", "../../models/order.summary");
-            definition.AddImport("IListResponse", "../../responses/list.response");
-
-            definition.Attributes.Add(new MetadataAttribute("Component")
-            {
-                Sets =
-                {
-                    new MetadataAttributeSet("selector", "'order-list'"),
-                    new MetadataAttributeSet("template", "require('./order-list.component.html')")
-                }
-            });
-
-            definition.Constructors.Add(new TypeScriptClassConstructorDefinition(
-                new TypeScriptParameterDefinition(AccessModifier.Private, "Router", "router"),
-                new TypeScriptParameterDefinition(AccessModifier.Private, "SalesService", "service"))
-            );
-
-            definition.Fields.Add(new FieldDefinition("number", "pageSize"));
-            definition.Fields.Add(new FieldDefinition("number", "pageNumber"));
-            definition.Fields.Add(new FieldDefinition("string", "salesOrderNumber"));
-            definition.Fields.Add(new FieldDefinition("string", "customerName"));
-            definition.Fields.Add(new FieldDefinition("IListResponse<OrderSummary>", "result"));
-
-            definition.Methods.Add(new MethodDefinition("void", "ngOnInit")
-            {
-                Lines =
-                {
-                    new TodoLine("Add logic for this operation")
-                }
-            });
-
-            definition.Methods.Add(new MethodDefinition("void", "search")
-            {
-                Lines =
-                {
-                    new TodoLine("Add logic for this operation")
-                }
-            });
-
-            definition.Methods.Add(new MethodDefinition("void", "details", new ParameterDefinition("OrderSummary", "order"))
-            {
-                Lines =
-                {
-                    new TodoLine("Add logic for this operation")
-                }
-            });
-
-            TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
+            Process.Start(TscPath, string.Format("{0} --outDir {1}", Path.Combine(TsFilesPath, "Product.ts"), OutPath));
         }
 
         [Fact]
@@ -263,6 +140,8 @@ namespace CatFactory.TypeScript.Tests
             var definition = (new Customer()).RefactClass();
 
             TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
+
+            Process.Start(TscPath, string.Format("{0} --outDir {1}", Path.Combine(TsFilesPath, "Customer.ts"), OutPath));
         }
 
         [Fact]
@@ -271,6 +150,8 @@ namespace CatFactory.TypeScript.Tests
             var definition = (new { ID = 0, Name = "", Description = "" }).RefactClass(name: "Anonymous");
 
             TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
+
+            Process.Start(TscPath, string.Format("{0} --outDir {1}", Path.Combine(TsFilesPath, "Anonymous.ts"), OutPath));
         }
     }
 }

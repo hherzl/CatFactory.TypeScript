@@ -1,4 +1,4 @@
-﻿using CatFactory.OOP;
+﻿using CatFactory.ObjectOrientedProgramming;
 using CatFactory.TypeScript.ObjectOrientedProgramming;
 using CatFactory.TypeScript.ObjectOrientedProgramming.Validation;
 using Xunit;

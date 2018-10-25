@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using CatFactory.OOP;
+using CatFactory.ObjectOrientedProgramming;
 
 namespace CatFactory.TypeScript.ObjectOrientedProgramming
 {

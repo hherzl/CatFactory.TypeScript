@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 using CatFactory.Diagnostics;
-using CatFactory.OOP;
+using CatFactory.ObjectOrientedProgramming;
+using CatFactory.ObjectOrientedProgramming.Validation;
 using Microsoft.Extensions.Logging;
 
 namespace CatFactory.TypeScript.ObjectOrientedProgramming.Validation

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CatFactory.CodeFactory;
-using CatFactory.OOP;
+using CatFactory.ObjectOrientedProgramming;
 using CatFactory.TypeScript.CodeFactory;
 
 namespace CatFactory.TypeScript.ObjectOrientedProgramming
@@ -48,9 +48,11 @@ namespace CatFactory.TypeScript.ObjectOrientedProgramming
 
             foreach (var property in sourceType.GetProperties().Where(item => item.CanRead))
             {
-                classDefinition.Fields.Add(new FieldDefinition(TypeScriptTypeResolver.Resolve(property.PropertyType.Name), namingConvention.GetFieldName(property.Name)));
+                var type = TypeScriptTypeResolver.Resolve(property.PropertyType.Name);
 
-                classDefinition.Properties.Add(new PropertyDefinition(TypeScriptTypeResolver.Resolve(property.PropertyType.Name), namingConvention.GetPropertyName(property.Name)));
+                classDefinition.Fields.Add(new FieldDefinition(type, namingConvention.GetFieldName(property.Name)));
+
+                classDefinition.Properties.Add(new PropertyDefinition(type, namingConvention.GetPropertyName(property.Name)));
             }
 
             return classDefinition;
@@ -63,9 +65,8 @@ namespace CatFactory.TypeScript.ObjectOrientedProgramming
             if (namingConvention == null)
                 namingConvention = new TypeScriptNamingConvention();
 
-            interfaceDefinition.Name = namingConvention.GetInterfaceName(classDefinition.Name);
-
             interfaceDefinition.Namespaces = classDefinition.Namespaces;
+            interfaceDefinition.Name = namingConvention.GetInterfaceName(classDefinition.Name);
 
             foreach (var @event in classDefinition.Events.Where(item => item.AccessModifier == AccessModifier.Public && !exclusions.Contains(item.Name)))
                 interfaceDefinition.Events.Add(new EventDefinition(@event.Type, @event.Name));

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using CatFactory.CodeFactory;
-using CatFactory.OOP;
+using CatFactory.ObjectOrientedProgramming;
 using CatFactory.TypeScript.CodeFactory;
 using CatFactory.TypeScript.ObjectOrientedProgramming;
 using Xunit;
@@ -10,7 +10,7 @@ namespace CatFactory.TypeScript.Tests
     public class ModuleScaffoldingTests
     {
         [Fact]
-        public void TestTypeScriptModule()
+        public void TestScaffoldingTypeScriptModule()
         {
             var definition = new TypeScriptModuleDefinition
             {
@@ -21,12 +21,10 @@ namespace CatFactory.TypeScript.Tests
                     new ConstantDefinition(AccessModifier.Public, "boolean", "zaz", "true")
                 }
             };
-
-            TypeScriptModuleBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, "Shipping", true, definition);
         }
 
         [Fact]
-        public void TestAngularConfigurationGeneration()
+        public void TestScaffoldingNgModuleConfiguration()
         {
             var definition = new TypeScriptModuleDefinition();
 
@@ -43,8 +41,6 @@ namespace CatFactory.TypeScript.Tests
             };
 
             definition.Constants.Add(new ConstantDefinition("NgModule", "sharedConfig", new TypeScriptObjectValue { Value = constantLines }));
-
-            TypeScriptModuleBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, "app.module.shared", true, definition);
         }
     }
 }

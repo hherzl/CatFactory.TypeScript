@@ -1,30 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using CatFactory.OOP;
+using CatFactory.ObjectOrientedProgramming;
 
 namespace CatFactory.TypeScript.ObjectOrientedProgramming
 {
-    public class TypeScriptModuleDefinition
+    public class TypeScriptModuleDefinition : ObjectDefinition
     {
         public TypeScriptModuleDefinition()
+            : base()
         {
-        }
-
-        public string Name { get; set; }
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private List<string> m_namespaces;
-
-        public List<string> Namespaces
-        {
-            get
-            {
-                return m_namespaces ?? (m_namespaces = new List<string>());
-            }
-            set
-            {
-                m_namespaces = value;
-            }
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

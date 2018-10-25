@@ -33,6 +33,16 @@ namespace CatFactory.TypeScript.CodeFactory
 
         public override void Translating()
         {
+            if (ObjectDefinition.Namespaces.Count > 0)
+            {
+                foreach (var import in ObjectDefinition.Namespaces)
+                {
+                    Lines.Add(new CodeLine("import {0};", import));
+                }
+
+                Lines.Add(new CodeLine());
+            }
+
             var start = 0;
 
             if (!string.IsNullOrEmpty(ObjectDefinition.Namespace))
