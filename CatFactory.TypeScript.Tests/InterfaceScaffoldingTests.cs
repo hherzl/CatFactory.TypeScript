@@ -9,17 +9,6 @@ namespace CatFactory.TypeScript.Tests
 {
     public class InterfaceScaffoldingTests
     {
-        public string TscPath { get; }
-        public string TsFilesPath { get; }
-        public string OutPath { get; }
-
-        public InterfaceScaffoldingTests()
-        {
-            TscPath = @"C:\Program Files (x86)\Microsoft SDKs\TypeScript\3.0\tsc.exe";
-            TsFilesPath = @"C:\Temp\CatFactory.TypeScript";
-            OutPath = @"c:\Temp\CatFactory.TypeScript\js";
-        }
-
         [Fact]
         public void ScaffoldWarehouseServiceInterface()
         {
@@ -35,10 +24,11 @@ namespace CatFactory.TypeScript.Tests
 
             definition.AddImport("Response", "./Response");
             definition.AddImport("Product", "./Product");
-
-            TypeScriptInterfaceBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
-
-            Process.Start(TscPath, string.Format("{0} --outDir {1}", Path.Combine(TsFilesPath, "IWarehouseService.ts"), OutPath));
+            
+            foreach (var filePath in TypeScriptInterfaceBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition))
+            {
+                Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
+            }
         }
 
         [Fact]
@@ -46,9 +36,19 @@ namespace CatFactory.TypeScript.Tests
         {
             var classDefinition = new TypeScriptClassDefinition
             {
-                Name = "Gamer",
+                Name = "Person",
+                Fields =
+                {
+                    new FieldDefinition("number", "m_id"),
+                    new FieldDefinition("string", "m_firstName"),
+                    new FieldDefinition("string", "m_middleName"),
+                    new FieldDefinition("string", "m_lastName"),
+                    new FieldDefinition("string", "m_gender"),
+                    new FieldDefinition("Date", "m_birthDate")
+                },
                 Properties =
                 {
+                    new PropertyDefinition("number", "id"),
                     new PropertyDefinition("string", "firstName"),
                     new PropertyDefinition("string", "middleName"),
                     new PropertyDefinition("string", "lastName"),
@@ -58,6 +58,10 @@ namespace CatFactory.TypeScript.Tests
             };
 
             var interfaceDefinition = classDefinition.RefactInterface();
+
+            TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, classDefinition);
+
+            TypeScriptInterfaceBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, interfaceDefinition);
 
             Assert.True(classDefinition.Properties.Count == interfaceDefinition.Properties.Count);
             Assert.True(interfaceDefinition.Methods.Count == 0);

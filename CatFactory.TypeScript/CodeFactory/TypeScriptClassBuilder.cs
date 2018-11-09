@@ -2,12 +2,13 @@
 using System.Linq;
 using CatFactory.CodeFactory;
 using CatFactory.TypeScript.ObjectOrientedProgramming;
+using Microsoft.Extensions.Logging;
 
 namespace CatFactory.TypeScript.CodeFactory
 {
     public class TypeScriptClassBuilder : TypeScriptCodeBuilder
     {
-        public static void CreateFiles(string outputDirectory, string subdirectory, bool forceOverwrite, params TypeScriptClassDefinition[] definitions)
+        public static IEnumerable<string> CreateFiles(string outputDirectory, string subdirectory, bool forceOverwrite, params TypeScriptClassDefinition[] definitions)
         {
             foreach (var definition in definitions)
             {
@@ -19,10 +20,18 @@ namespace CatFactory.TypeScript.CodeFactory
                 };
 
                 codeBuilder.CreateFile(subdirectory);
+
+                yield return codeBuilder.FilePath;
             }
         }
 
         public TypeScriptClassBuilder()
+            : base()
+        {
+        }
+
+        public TypeScriptClassBuilder(ILogger<TypeScriptClassBuilder> logger)
+            : base(logger)
         {
         }
 
@@ -30,12 +39,6 @@ namespace CatFactory.TypeScript.CodeFactory
 
         public override string FileName
             => ObjectDefinition.Name;
-
-        protected virtual string GetComment(string description)
-            => string.Format("//{0}", description);
-
-        protected string GetTodo(string description)
-            => string.Format("// todo: {0}", description);
 
         public override void Translating()
         {
@@ -230,7 +233,7 @@ namespace CatFactory.TypeScript.CodeFactory
             Lines.Add(new CodeLine("{0}{1}", Indent(start), "}"));
 
             if (!string.IsNullOrEmpty(ObjectDefinition.Namespace))
-                Lines.Add(new CodeLine("{0}", "}"));
+                Lines.Add(new CodeLine("}"));
         }
     }
 }

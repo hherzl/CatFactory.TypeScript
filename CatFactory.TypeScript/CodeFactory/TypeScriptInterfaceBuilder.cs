@@ -2,12 +2,13 @@
 using System.Linq;
 using CatFactory.CodeFactory;
 using CatFactory.TypeScript.ObjectOrientedProgramming;
+using Microsoft.Extensions.Logging;
 
 namespace CatFactory.TypeScript.CodeFactory
 {
     public class TypeScriptInterfaceBuilder : TypeScriptCodeBuilder
     {
-        public static void CreateFiles(string outputDirectory, string subdirectory, bool forceOverwrite, params TypeScriptInterfaceDefinition[] definitions)
+        public static IEnumerable<string> CreateFiles(string outputDirectory, string subdirectory, bool forceOverwrite, params TypeScriptInterfaceDefinition[] definitions)
         {
             foreach (var definition in definitions)
             {
@@ -19,10 +20,18 @@ namespace CatFactory.TypeScript.CodeFactory
                 };
 
                 codeBuilder.CreateFile(subdirectory);
+
+                yield return codeBuilder.FilePath;
             }
         }
 
         public TypeScriptInterfaceBuilder()
+            : base()
+        {
+        }
+
+        public TypeScriptInterfaceBuilder(ILogger<TypeScriptInterfaceBuilder> logger)
+            : base(logger)
         {
         }
 

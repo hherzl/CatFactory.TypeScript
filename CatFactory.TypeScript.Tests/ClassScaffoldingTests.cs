@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using CatFactory.CodeFactory;
 using CatFactory.ObjectOrientedProgramming;
@@ -11,17 +12,6 @@ namespace CatFactory.TypeScript.Tests
 {
     public class ClassScaffoldingTests
     {
-        public string TscPath { get; }
-        public string TsFilesPath { get; }
-        public string OutPath { get; }
-
-        public ClassScaffoldingTests()
-        {
-            TscPath = @"C:\Program Files (x86)\Microsoft SDKs\TypeScript\3.0\tsc.exe";
-            TsFilesPath = @"C:\Temp\CatFactory.TypeScript";
-            OutPath = @"c:\Temp\CatFactory.TypeScript\js";
-        }
-
         [Fact]
         public void ScaffoldServiceClass()
         {
@@ -44,9 +34,10 @@ namespace CatFactory.TypeScript.Tests
                 }
             };
 
-            TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
-
-            Process.Start(TscPath, string.Format("{0} --outDir {1}", Path.Combine(TsFilesPath, "Service.ts"), OutPath));
+            foreach (var filePath in TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition))
+            {
+                Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
+            }
         }
 
         [Fact]
@@ -57,9 +48,10 @@ namespace CatFactory.TypeScript.Tests
                 Name = "Response"
             };
 
-            TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
-
-            Process.Start(TscPath, string.Format("{0} --outDir {1}", Path.Combine(TsFilesPath, "Response.ts"), OutPath));
+            foreach (var filePath in TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition))
+            {
+                Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
+            }
         }
 
         [Fact]
@@ -106,9 +98,10 @@ namespace CatFactory.TypeScript.Tests
             definition.AddImport("Service", "./Service");
             definition.AddImport("Product", "./Product");
 
-            TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
-
-            Process.Start(TscPath, string.Format("{0} --outDir {1}", Path.Combine(TsFilesPath, "WarehouseService.ts"), OutPath));
+            foreach (var filePath in TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition))
+            {
+                Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
+            }
         }
 
         [Fact]
@@ -129,9 +122,10 @@ namespace CatFactory.TypeScript.Tests
                 }
             };
 
-            TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
-
-            Process.Start(TscPath, string.Format("{0} --outDir {1}", Path.Combine(TsFilesPath, "Product.ts"), OutPath));
+            foreach (var filePath in TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition))
+            {
+                Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
+            }
         }
 
         [Fact]
@@ -139,19 +133,21 @@ namespace CatFactory.TypeScript.Tests
         {
             var definition = (new Customer()).RefactClass();
 
-            TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
-
-            Process.Start(TscPath, string.Format("{0} --outDir {1}", Path.Combine(TsFilesPath, "Customer.ts"), OutPath));
+            foreach (var filePath in TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition))
+            {
+                Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
+            }
         }
 
         [Fact]
         public void TestRefactAnonymous()
         {
-            var definition = (new { ID = 0, Name = "", Description = "" }).RefactClass(name: "Anonymous");
+            var definition = (new { ID = 0, Name = "", UnitPrice = 0m, ReleaseDate = DateTime.Now, Description = "" }).RefactClass(name: "Anonymous");
 
-            TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition);
-
-            Process.Start(TscPath, string.Format("{0} --outDir {1}", Path.Combine(TsFilesPath, "Anonymous.ts"), OutPath));
+            foreach (var filePath in TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition))
+            {
+                Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
+            }
         }
     }
 }

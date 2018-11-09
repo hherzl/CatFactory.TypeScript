@@ -36,6 +36,9 @@ namespace CatFactory.TypeScript.ObjectOrientedProgramming
 
         public static TypeScriptClassDefinition RefactClass(this object obj, string name = null, ICodeNamingConvention namingConvention = null)
         {
+            if (namingConvention == null)
+                namingConvention = new TypeScriptNamingConvention();
+
             var sourceType = obj.GetType();
 
             var classDefinition = new TypeScriptClassDefinition
@@ -43,14 +46,11 @@ namespace CatFactory.TypeScript.ObjectOrientedProgramming
                 Name = string.IsNullOrEmpty(name) ? sourceType.Name : name
             };
 
-            if (namingConvention == null)
-                namingConvention = new TypeScriptNamingConvention();
-
             foreach (var property in sourceType.GetProperties().Where(item => item.CanRead))
             {
                 var type = TypeScriptTypeResolver.Resolve(property.PropertyType.Name);
 
-                classDefinition.Fields.Add(new FieldDefinition(type, namingConvention.GetFieldName(property.Name)));
+                classDefinition.Fields.Add(new FieldDefinition(type, namingConvention.GetFieldName(property.Name)) { AccessModifier = AccessModifier.Private });
 
                 classDefinition.Properties.Add(new PropertyDefinition(type, namingConvention.GetPropertyName(property.Name)));
             }
@@ -60,13 +60,14 @@ namespace CatFactory.TypeScript.ObjectOrientedProgramming
 
         public static TypeScriptInterfaceDefinition RefactInterface(this TypeScriptClassDefinition classDefinition, ICodeNamingConvention namingConvention = null, params string[] exclusions)
         {
-            var interfaceDefinition = new TypeScriptInterfaceDefinition();
-
             if (namingConvention == null)
                 namingConvention = new TypeScriptNamingConvention();
 
-            interfaceDefinition.Namespaces = classDefinition.Namespaces;
-            interfaceDefinition.Name = namingConvention.GetInterfaceName(classDefinition.Name);
+            var interfaceDefinition = new TypeScriptInterfaceDefinition
+            {
+                Namespaces = classDefinition.Namespaces,
+                Name = namingConvention.GetInterfaceName(classDefinition.Name)
+            };
 
             foreach (var @event in classDefinition.Events.Where(item => item.AccessModifier == AccessModifier.Public && !exclusions.Contains(item.Name)))
                 interfaceDefinition.Events.Add(new EventDefinition(@event.Type, @event.Name));
