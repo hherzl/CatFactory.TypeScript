@@ -142,7 +142,15 @@ namespace CatFactory.TypeScript.Tests
         [Fact]
         public void TestRefactAnonymous()
         {
-            var definition = (new { ID = 0, Name = "", UnitPrice = 0m, ReleaseDate = DateTime.Now, Description = "" }).RefactClass(name: "Anonymous");
+            var definition = new
+            {
+                ID = 0,
+                Name = "",
+                UnitPrice = 0m,
+                ReleaseDate = DateTime.Now,
+                Description = ""
+            }
+            .RefactClass(name: "Anonymous");
 
             foreach (var filePath in TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition))
             {
