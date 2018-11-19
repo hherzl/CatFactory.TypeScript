@@ -21,6 +21,8 @@ namespace CatFactory.TypeScript.Tests
                     new ConstantDefinition(AccessModifier.Public, "boolean", "zaz", "true")
                 }
             };
+
+            TypeScriptModuleBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, "constants", true, definition);
         }
 
         [Fact]
@@ -41,6 +43,8 @@ namespace CatFactory.TypeScript.Tests
             };
 
             definition.Constants.Add(new ConstantDefinition("NgModule", "sharedConfig", new TypeScriptObjectValue { Value = constantLines }));
+
+            TypeScriptModuleBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, "app.module.shared", true, definition);
         }
     }
 }
