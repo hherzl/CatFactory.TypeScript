@@ -10,7 +10,7 @@
     <PackageTags>TypeScript</PackageTags>
     <PackageReleaseNotes>1.0.0-beta-sun-build17 Version:
 
-* Addition of module scaffolding
+* Core package update
 
 Quick start: https://www.codeproject.com/Tips/1166380/Scaffolding-TypeScript-with-CatFactory
 </PackageReleaseNotes>
@@ -19,7 +19,7 @@ Quick start: https://www.codeproject.com/Tips/1166380/Scaffolding-TypeScript-wit
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CatFactory" Version="1.0.0-beta-sun-build12" />
+    <PackageReference Include="CatFactory" Version="1.0.0-beta-sun-build13" />
   </ItemGroup>
 
 </Project>
