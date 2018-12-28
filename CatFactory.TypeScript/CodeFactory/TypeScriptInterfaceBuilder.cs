@@ -61,31 +61,10 @@ namespace CatFactory.TypeScript.CodeFactory
                 start = 1;
             }
 
-            foreach (var attribute in ObjectDefinition.Attributes)
-            {
-                var dec = new List<string>
-                {
-                    string.Format("{0}@{1}(", Indent(start), attribute.Name)
-                };
+            this.AddAttributes(start);
 
-                if (attribute.Sets.Count > 0)
-                {
-                    dec.Add("{");
-                    dec.Add("\r\n");
-
-                    for (var i = 0; i < attribute.Sets.Count; i++)
-                    {
-                        dec.Add(string.Format("{0}{1}", Indent(start + 1), attribute.Sets[i]));
-
-                        if (i < attribute.Sets.Count - 1)
-                            dec.Add(";");
-
-                        dec.Add("\r\n");
-                    }
-
-                    dec.Add("}");
-                }
-            }
+            if (ObjectDefinition.Documentation.HasSummary)
+                Lines.Add(new CodeLine("{0}/** {1} */", Indent(start), ObjectDefinition.Documentation.Summary));
 
             var declaration = new List<string>
             {
@@ -107,13 +86,36 @@ namespace CatFactory.TypeScript.CodeFactory
             if (ObjectDefinition.Properties.Count > 0)
             {
                 foreach (var property in ObjectDefinition.Properties)
+                {
+                    if (property.Documentation.HasSummary)
+                    {
+                        Lines.Add(new CodeLine("{0}/**", Indent(start + 1)));
+
+                        Lines.Add(new CodeLine("{0}* {1}", Indent(start + 1), property.Documentation.Summary));
+
+                        Lines.Add(new CodeLine("{0}*/", Indent(start + 1)));
+                    }
+
                     Lines.Add(new CodeLine("{0}{1}: {2};", Indent(start + 1), property.Name, property.Type));
+                }
             }
 
             if (ObjectDefinition.Methods.Count > 0)
             {
                 foreach (var method in ObjectDefinition.Methods)
                 {
+                    if (method.Documentation.HasSummary)
+                    {
+                        Lines.Add(new CodeLine("{0}/**", Indent(start + 1)));
+
+                        Lines.Add(new CodeLine("{0}* {1}", Indent(start + 1), method.Documentation.Summary));
+
+                        foreach (var parameter in method.Parameters)
+                            Lines.Add(new CodeLine("{0}* @{1} {2}", Indent(start + 1), parameter.Name, parameter.Documentation.Summary));
+
+                        Lines.Add(new CodeLine("{0}*/", Indent(start + 1)));
+                    }
+
                     var parameters = string.Join(", ", method.Parameters.Select(item => string.Format("{0}: {1}", item.Name, item.Type)));
 
                     Lines.Add(new CodeLine("{0}{1}({2}): {3};", Indent(start + 1), method.Name, method.Parameters.Count == 0 ? string.Empty : parameters, method.Type));

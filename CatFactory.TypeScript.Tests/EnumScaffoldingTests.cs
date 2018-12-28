@@ -35,6 +35,10 @@ namespace CatFactory.TypeScript.Tests
         {
             var definition = new TypeScriptEnumDefinition
             {
+                Documentation = new Documentation
+                {
+                    Summary = "Represents the state for connections"
+                },
                 Name = "ConnectionState",
                 Sets =
                 {

@@ -2,15 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <Version>1.0.0-beta-sun-build18</Version>
+    <Version>1.0.0-beta-sun-build19</Version>
     <Authors>H. Herzl</Authors>
     <Description>CatFactory package for TypeScript scaffolding</Description>
     <RepositoryUrl>https://github.com/hherzl/CatFactory.TypeScript</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>TypeScript</PackageTags>
-    <PackageReleaseNotes>1.0.0-beta-sun-build18 Version:
+    <PackageReleaseNotes>1.0.0-beta-sun-build19 Version:
 
-* Core package update
+* Addition of comments for interface
+* Addition of comments for class
+* Addition of comments for enum
 
 Quick start: https://www.codeproject.com/Tips/1166380/Scaffolding-TypeScript-with-CatFactory
 </PackageReleaseNotes>

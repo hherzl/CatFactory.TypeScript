@@ -8,25 +8,25 @@ namespace CatFactory.TypeScript.CodeFactory
     {
         private static void AddAttributes(TypeScriptCodeBuilder codeBuilder, List<MetadataAttribute> attributes, int start)
         {
-            foreach (var attribute in attributes)
+            foreach (var attrib in attributes)
             {
                 var declaration = new List<string>
                 {
-                    string.Format("@{0}", attribute.Name),
+                    string.Format("@{0}", attrib.Name),
                     "("
                 };
 
-                if (attribute.Sets.Count > 0 && attribute.HasMembers)
+                if (attrib.Sets.Count > 0 && attrib.HasMembers)
                 {
                     declaration.Add("{");
 
                     codeBuilder.Lines.Add(new CodeLine(string.Join("", declaration)));
 
-                    for (var i = 0; i < attribute.Sets.Count; i++)
+                    for (var i = 0; i < attrib.Sets.Count; i++)
                     {
-                        var set = attribute.Sets[i];
+                        var set = attrib.Sets[i];
 
-                        codeBuilder.Lines.Add(new CodeLine("{0}{1}: {2}{3}", codeBuilder.Indent(start + 1), set.Name, set.Value, i < attribute.Sets.Count - 1 ? "," : string.Empty));
+                        codeBuilder.Lines.Add(new CodeLine("{0}{1}: {2}{3}", codeBuilder.Indent(start + 1), set.Name, set.Value, i < attrib.Sets.Count - 1 ? "," : string.Empty));
                     }
                 }
 

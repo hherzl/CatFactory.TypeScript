@@ -61,16 +61,18 @@ namespace CatFactory.TypeScript.CodeFactory
                 start = 1;
             }
 
-            var enumDeclaration = new List<string>
+            if (ObjectDefinition.Documentation.HasSummary)
+                Lines.Add(new CodeLine("{0}/** {1} */", Indent(start), ObjectDefinition.Documentation.Summary));
+
+            var declaration = new List<string>
             {
                 ObjectDefinition.Export ? "export " : string.Empty,
                 "enum",
-                ObjectDefinition.Name
+                ObjectDefinition.Name,
+                "{"
             };
 
-            enumDeclaration.Add("{");
-
-            Lines.Add(new CodeLine("{0}{1}", Indent(start), string.Join(" ", enumDeclaration.Where(item => !string.IsNullOrEmpty(item)))));
+            Lines.Add(new CodeLine("{0}{1}", Indent(start), string.Join(" ", declaration.Where(item => !string.IsNullOrEmpty(item)))));
 
             for (var i = 0; i < ObjectDefinition.Sets.Count; i++)
             {

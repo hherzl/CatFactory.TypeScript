@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CatFactory.CodeFactory;
+using CatFactory.ObjectOrientedProgramming;
 using CatFactory.TypeScript.ObjectOrientedProgramming;
 using Microsoft.Extensions.Logging;
 
@@ -63,7 +64,10 @@ namespace CatFactory.TypeScript.CodeFactory
 
             this.AddAttributes(start);
 
-            var classDeclaration = new List<string>
+            if (ObjectDefinition.Documentation.HasSummary)
+                Lines.Add(new CodeLine("{0}/** {1} */", Indent(start), ObjectDefinition.Documentation.Summary));
+
+            var declaration = new List<string>
             {
                 ObjectDefinition.Export ? "export" : string.Empty,
                 "class",
@@ -74,51 +78,20 @@ namespace CatFactory.TypeScript.CodeFactory
             {
                 if (!string.IsNullOrEmpty(ObjectDefinition.BaseClass))
                 {
-                    classDeclaration.Add("extends");
-                    classDeclaration.Add(ObjectDefinition.BaseClass);
+                    declaration.Add("extends");
+                    declaration.Add(ObjectDefinition.BaseClass);
                 }
 
                 if (ObjectDefinition.Implements.Count > 0)
                 {
-                    classDeclaration.Add("implements");
-                    classDeclaration.Add(string.Join(", ", ObjectDefinition.Implements));
+                    declaration.Add("implements");
+                    declaration.Add(string.Join(", ", ObjectDefinition.Implements));
                 }
             }
 
-            classDeclaration.Add("{");
+            declaration.Add("{");
 
-            Lines.Add(new CodeLine("{0}{1}", Indent(start), string.Join(" ", classDeclaration)));
-
-            if (ObjectDefinition.Fields.Count > 0)
-            {
-                for (var i = 0; i < ObjectDefinition.Fields.Count; i++)
-                {
-                    var field = ObjectDefinition.Fields[i];
-
-                    var fieldDefinition = new List<string>
-                    {
-                        field.AccessModifier.ToString().ToLower()
-                    };
-
-                    if (field.IsStatic)
-                        fieldDefinition.Add("static");
-
-                    if (field.IsReadOnly)
-                        fieldDefinition.Add("readonly");
-
-                    fieldDefinition.Add(field.Name);
-                    fieldDefinition.Add(":");
-                    fieldDefinition.Add(field.Type);
-
-                    if (!string.IsNullOrEmpty(field.Value))
-                    {
-                        fieldDefinition.Add("=");
-                        fieldDefinition.Add(field.Value);
-                    }
-
-                    Lines.Add(new CodeLine("{0}{1};", Indent(start + 1), string.Join(" ", fieldDefinition)));
-                }
-            }
+            Lines.Add(new CodeLine("{0}{1}", Indent(start), string.Join(" ", declaration)));
 
             if (ObjectDefinition.Constructors.Count > 0)
             {
@@ -127,6 +100,18 @@ namespace CatFactory.TypeScript.CodeFactory
                 var constructor = ObjectDefinition.Constructors.First();
 
                 var parameters = constructor.Parameters.Select(item => string.Format("{0} {1}: {2}", item.AccessModifier.ToString().ToLower(), item.Name, item.Type)).ToList();
+
+                if (constructor.Documentation.HasSummary)
+                {
+                    Lines.Add(new CodeLine("{0}/**", Indent(start + 1)));
+
+                    Lines.Add(new CodeLine("{0}* {1}", Indent(start + 1), constructor.Documentation.Summary));
+
+                    foreach (var parameter in constructor.Parameters)
+                        Lines.Add(new CodeLine("{0}* @{1} {2}", Indent(start + 1), parameter.Name, parameter.Documentation.Summary));
+
+                    Lines.Add(new CodeLine("{0}*/", Indent(start + 1)));
+                }
 
                 Lines.Add(new CodeLine("{0}constructor({1}) {2}", Indent(start + 1), parameters.Count == 0 ? string.Empty : string.Join(", ", parameters), "{"));
 
@@ -144,9 +129,15 @@ namespace CatFactory.TypeScript.CodeFactory
                 {
                     var property = ObjectDefinition.Properties[i];
 
+                    if (property.Documentation.HasSummary)
+                        Lines.Add(new CodeLine("{0}/** {1} */", Indent(start + 1), property.Documentation.Summary));
+
                     if (property.IsAutomatic)
                     {
                         var fieldName = NamingConvention.GetFieldName(property.Name);
+
+                        if (ObjectDefinition.Fields.FirstOrDefault(item => item.Name == fieldName) == null)
+                            ObjectDefinition.Fields.Add(new FieldDefinition(property.Type, fieldName) { AccessModifier = AccessModifier.Private });
 
                         Lines.Add(new CodeLine("{0}{1} get {2}(): {3} {4}", Indent(start + 1), property.AccessModifier.ToString().ToLower(), property.Name, property.Type, "{"));
 
@@ -199,6 +190,42 @@ namespace CatFactory.TypeScript.CodeFactory
                 }
             }
 
+            if (ObjectDefinition.Fields.Count > 0)
+            {
+                Lines.Add(new CodeLine());
+
+                for (var i = 0; i < ObjectDefinition.Fields.Count; i++)
+                {
+                    var field = ObjectDefinition.Fields[i];
+
+                    if (field.Documentation.HasSummary)
+                        Lines.Add(new CodeLine("{0}/** {1} */", Indent(start + 1), field.Documentation.Summary));
+
+                    var fieldDefinition = new List<string>
+                    {
+                        field.AccessModifier.ToString().ToLower()
+                    };
+
+                    if (field.IsStatic)
+                        fieldDefinition.Add("static");
+
+                    if (field.IsReadOnly)
+                        fieldDefinition.Add("readonly");
+
+                    fieldDefinition.Add(field.Name);
+                    fieldDefinition.Add(":");
+                    fieldDefinition.Add(field.Type);
+
+                    if (!string.IsNullOrEmpty(field.Value))
+                    {
+                        fieldDefinition.Add("=");
+                        fieldDefinition.Add(field.Value);
+                    }
+
+                    Lines.Add(new CodeLine("{0}{1};", Indent(start + 1), string.Join(" ", fieldDefinition)));
+                }
+            }
+
             if (ObjectDefinition.Methods.Count > 0)
             {
                 Lines.Add(new CodeLine());
@@ -206,6 +233,18 @@ namespace CatFactory.TypeScript.CodeFactory
                 for (var i = 0; i < ObjectDefinition.Methods.Count; i++)
                 {
                     var method = ObjectDefinition.Methods[i];
+
+                    if (method.Documentation.HasSummary)
+                    {
+                        Lines.Add(new CodeLine("{0}/**", Indent(start + 1)));
+
+                        Lines.Add(new CodeLine("{0}* {1}", Indent(start + 1), method.Documentation.Summary));
+
+                        foreach (var parameter in method.Parameters)
+                            Lines.Add(new CodeLine("{0}* @{1} {2}", Indent(start + 1), parameter.Name, parameter.Documentation.Summary));
+
+                        Lines.Add(new CodeLine("{0}*/", Indent(start + 1)));
+                    }
 
                     var parameters = method.Parameters.Select(item => string.Format("{0}: {1}", item.Name, item.Type));
 
