@@ -22,20 +22,14 @@ namespace CatFactory.TypeScript.Tests
                 {
                     new FieldDefinition("string", "url")
                     {
-                        Documentation = new Documentation
-                        {
-                            Summary = "Gets or sets the url"
-                        }
+                        Documentation = new Documentation("Gets or sets the url")
                     }
                 },
                 Constructors =
                 {
                     new TypeScriptClassConstructorDefinition
                     {
-                        Documentation = new Documentation
-                        {
-                            Summary = "Initializes a new instance of Service class"
-                        },
+                        Documentation = new Documentation("Initializes a new instance of Service class"),
                         Lines =
                         {
                             new CodeLine("this.url = 'http://localhost:1234/api/v1';")
@@ -69,20 +63,14 @@ namespace CatFactory.TypeScript.Tests
         {
             var definition = new TypeScriptClassDefinition
             {
-                Documentation = new Documentation
-                {
-                    Summary = "Provides methods to invoke Warehouse controller in OnLineStore Web API"
-                },
+                Documentation = new Documentation("Provides methods to invoke Warehouse controller in OnLineStore Web API"),
                 Name = "WarehouseService",
                 BaseClass = "Service",
                 Constructors =
                 {
                     new TypeScriptClassConstructorDefinition
                     {
-                        Documentation = new Documentation
-                        {
-                            Summary = "Initializes a new instance of WarehouseService class"
-                        },
+                        Documentation = new Documentation("Initializes a new instance of WarehouseService class"),
                         Lines =
                         {
                             new CodeLine("super();")
@@ -93,21 +81,15 @@ namespace CatFactory.TypeScript.Tests
                 {
                     new PropertyDefinition("string", "Url")
                     {
-                        Documentation = new Documentation
-                        {
-                            Summary = "Gets or sets the url for Web API"
-                        },
+                        Documentation = new Documentation("Gets or sets the url for Web API"),
                         IsAutomatic = true
                     }
                 },
                 Methods =
                 {
-                    new MethodDefinition("Response", "getProducts", new ParameterDefinition("string", "productName") { Documentation = new Documentation { Summary = "Name for product" } })
+                    new MethodDefinition("Response", "getProducts", new ParameterDefinition("string", "productName") { Documentation = new Documentation("Name for product") })
                     {
-                        Documentation = new Documentation
-                        {
-                            Summary = "Retrieves products from warehouse"
-                        },
+                        Documentation = new Documentation("Retrieves products from warehouse"),
                         Lines =
                         {
                             new TodoLine("Apply productName parameter to filter products by product name"),
@@ -142,10 +124,7 @@ namespace CatFactory.TypeScript.Tests
         {
             var definition = new TypeScriptClassDefinition
             {
-                Documentation = new Documentation
-                {
-                    Summary = "Represents a product in wharehouse"
-                },
+                Documentation = new Documentation("Represents a product in wharehouse"),
                 Name = "Product",
                 Fields =
                 {

@@ -17,10 +17,10 @@ namespace CatFactory.TypeScript.Tests
                 Name = "Direction",
                 Sets =
                 {
-                    new NameValue { Name = "Up", Value = "100" },
-                    new NameValue { Name = "Down", Value = "200" },
-                    new NameValue { Name = "Right", Value = "300" },
-                    new NameValue { Name = "Left", Value = "400" }
+                    new NameValue("Up", "100"),
+                    new NameValue("Down", "200"),
+                    new NameValue("Right", "300"),
+                    new NameValue("Left", "400")
                 }
             };
 
@@ -42,12 +42,12 @@ namespace CatFactory.TypeScript.Tests
                 Name = "ConnectionState",
                 Sets =
                 {
-                    new NameValue { Name = "Broken" },
-                    new NameValue { Name = "Closed" },
-                    new NameValue { Name = "Connecting" },
-                    new NameValue { Name = "Executing" },
-                    new NameValue { Name = "Fetching" },
-                    new NameValue { Name = "Open" }
+                    new NameValue("Broken"),
+                    new NameValue("Closed"),
+                    new NameValue("Connecting"),
+                    new NameValue("Executing"),
+                    new NameValue("Fetching"),
+                    new NameValue("Open")
                 }
             };
 
