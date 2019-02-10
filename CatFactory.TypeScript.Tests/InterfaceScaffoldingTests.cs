@@ -39,21 +39,12 @@ namespace CatFactory.TypeScript.Tests
                 Name = "Person",
                 Fields =
                 {
-                    new FieldDefinition("number", "m_id"),
-                    new FieldDefinition("string", "m_firstName"),
-                    new FieldDefinition("string", "m_middleName"),
-                    new FieldDefinition("string", "m_lastName"),
-                    new FieldDefinition("string", "m_gender"),
-                    new FieldDefinition("Date", "m_birthDate")
-                },
-                Properties =
-                {
-                    new PropertyDefinition("number", "id"),
-                    new PropertyDefinition("string", "firstName"),
-                    new PropertyDefinition("string", "middleName"),
-                    new PropertyDefinition("string", "lastName"),
-                    new PropertyDefinition("string", "gender"),
-                    new PropertyDefinition("Date", "birthDate")
+                    new FieldDefinition(AccessModifier.Public, "number", "id"),
+                    new FieldDefinition(AccessModifier.Public, "string", "firstName"),
+                    new FieldDefinition(AccessModifier.Public, "string", "middleName"),
+                    new FieldDefinition(AccessModifier.Public, "string", "lastName"),
+                    new FieldDefinition(AccessModifier.Public, "string", "gender"),
+                    new FieldDefinition(AccessModifier.Public, "Date", "birthDate")
                 }
             };
 
