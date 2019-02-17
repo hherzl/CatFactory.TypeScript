@@ -128,13 +128,13 @@ namespace CatFactory.TypeScript.Tests
                 Name = "Product",
                 Fields =
                 {
-                    new FieldDefinition("number", "id"),
-                    new FieldDefinition("string", "productName"),
-                    new FieldDefinition("number", "categoryId"),
-                    new FieldDefinition("string", "unitPrice"),
-                    new FieldDefinition("string", "description"),
-                    new FieldDefinition("string", "tags"),
-                    new FieldDefinition("Date", "releaseDate")
+                    new FieldDefinition(AccessModifier.Public, "number", "id"),
+                    new FieldDefinition(AccessModifier.Public, "string", "productName"),
+                    new FieldDefinition(AccessModifier.Public, "number", "categoryId"),
+                    new FieldDefinition(AccessModifier.Public, "string", "unitPrice"),
+                    new FieldDefinition(AccessModifier.Public, "string", "description"),
+                    new FieldDefinition(AccessModifier.Public, "string", "tags"),
+                    new FieldDefinition(AccessModifier.Public, "Date", "releaseDate")
                 }
             };
 

@@ -93,6 +93,40 @@ namespace CatFactory.TypeScript.CodeFactory
 
             Lines.Add(new CodeLine("{0}{1}", Indent(start), string.Join(" ", declaration)));
 
+            if (ObjectDefinition.Fields.Count > 0)
+            {
+                for (var i = 0; i < ObjectDefinition.Fields.Count; i++)
+                {
+                    var field = ObjectDefinition.Fields[i];
+
+                    if (field.Documentation.HasSummary)
+                        Lines.Add(new CodeLine("{0}/** {1} */", Indent(start + 1), field.Documentation.Summary));
+
+                    var fieldDefinition = new List<string>
+                    {
+                        field.AccessModifier.ToString().ToLower()
+                    };
+
+                    if (field.IsStatic)
+                        fieldDefinition.Add("static");
+
+                    if (field.IsReadOnly)
+                        fieldDefinition.Add("readonly");
+
+                    fieldDefinition.Add(field.Name);
+                    fieldDefinition.Add(":");
+                    fieldDefinition.Add(field.Type);
+
+                    if (!string.IsNullOrEmpty(field.Value))
+                    {
+                        fieldDefinition.Add("=");
+                        fieldDefinition.Add(field.Value);
+                    }
+
+                    Lines.Add(new CodeLine("{0}{1};", Indent(start + 1), string.Join(" ", fieldDefinition)));
+                }
+            }
+
             if (ObjectDefinition.Constructors.Count > 0)
             {
                 Lines.Add(new CodeLine());
@@ -190,42 +224,6 @@ namespace CatFactory.TypeScript.CodeFactory
                 }
             }
 
-            if (ObjectDefinition.Fields.Count > 0)
-            {
-                Lines.Add(new CodeLine());
-
-                for (var i = 0; i < ObjectDefinition.Fields.Count; i++)
-                {
-                    var field = ObjectDefinition.Fields[i];
-
-                    if (field.Documentation.HasSummary)
-                        Lines.Add(new CodeLine("{0}/** {1} */", Indent(start + 1), field.Documentation.Summary));
-
-                    var fieldDefinition = new List<string>
-                    {
-                        field.AccessModifier.ToString().ToLower()
-                    };
-
-                    if (field.IsStatic)
-                        fieldDefinition.Add("static");
-
-                    if (field.IsReadOnly)
-                        fieldDefinition.Add("readonly");
-
-                    fieldDefinition.Add(field.Name);
-                    fieldDefinition.Add(":");
-                    fieldDefinition.Add(field.Type);
-
-                    if (!string.IsNullOrEmpty(field.Value))
-                    {
-                        fieldDefinition.Add("=");
-                        fieldDefinition.Add(field.Value);
-                    }
-
-                    Lines.Add(new CodeLine("{0}{1};", Indent(start + 1), string.Join(" ", fieldDefinition)));
-                }
-            }
-
             if (ObjectDefinition.Methods.Count > 0)
             {
                 Lines.Add(new CodeLine());
@@ -257,9 +255,9 @@ namespace CatFactory.TypeScript.CodeFactory
                         if (line is CodeLine)
                             Lines.Add(new CodeLine("{0}{1}", Indent(start + 2 + line.Indent), line.Content));
                         else if (line is CommentLine)
-                            Lines.Add(new CodeLine("{0}{1}", Indent(start + 2 + line.Indent), GetComment(line.Content)));
+                            Lines.Add(new CommentLine("{0}{1}", Indent(start + 2 + line.Indent), GetComment(line.Content)));
                         else if (line is TodoLine)
-                            Lines.Add(new CodeLine("{0}{1}", Indent(start + 2 + line.Indent), GetTodo(line.Content)));
+                            Lines.Add(new TodoLine("{0}{1}", Indent(start + 2 + line.Indent), GetTodo(line.Content)));
                     }
 
                     Lines.Add(new CodeLine("{0}{1}", Indent(start + 1), "}"));

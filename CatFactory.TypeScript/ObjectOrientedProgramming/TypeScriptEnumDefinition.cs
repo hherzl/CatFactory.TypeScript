@@ -9,6 +9,6 @@ namespace CatFactory.TypeScript.ObjectOrientedProgramming
         {
         }
 
-        public bool Export { get; }
+        public bool Export { get; set; } = true;
     }
 }

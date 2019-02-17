@@ -42,7 +42,7 @@ namespace CatFactory.TypeScript.Tests
                 new CodeLine(1, "providers: []")
             };
 
-            definition.Constants.Add(new ConstantDefinition("NgModule", "sharedConfig", new TypeScriptObjectValue { Value = constantLines }));
+            definition.Constants.Add(new ConstantDefinition("NgModule", "sharedConfig", new TypeScriptObjectValue(constantLines)));
 
             TypeScriptModuleBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, "app.module.shared", true, definition);
         }

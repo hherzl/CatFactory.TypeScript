@@ -36,9 +36,6 @@ namespace CatFactory.TypeScript.ObjectOrientedProgramming
 
         public static TypeScriptClassDefinition RefactClass(this object obj, string name = null, ICodeNamingConvention namingConvention = null)
         {
-            if (namingConvention == null)
-                namingConvention = new TypeScriptNamingConvention();
-
             var sourceType = obj.GetType();
 
             var classDefinition = new TypeScriptClassDefinition
@@ -46,13 +43,16 @@ namespace CatFactory.TypeScript.ObjectOrientedProgramming
                 Name = string.IsNullOrEmpty(name) ? sourceType.Name : name
             };
 
+            if (namingConvention == null)
+                namingConvention = new TypeScriptNamingConvention();
+
             foreach (var property in sourceType.GetProperties().Where(item => item.CanRead))
             {
                 var type = TypeScriptTypeResolver.Resolve(property.PropertyType.Name);
 
-                classDefinition.Fields.Add(new FieldDefinition(type, namingConvention.GetFieldName(property.Name)) { AccessModifier = AccessModifier.Private });
+                classDefinition.Fields.Add(new FieldDefinition(AccessModifier.Private, type, namingConvention.GetFieldName(property.Name)));
 
-                classDefinition.Properties.Add(new PropertyDefinition(type, namingConvention.GetPropertyName(property.Name)));
+                classDefinition.Properties.Add(new PropertyDefinition(AccessModifier.Public, type, namingConvention.GetPropertyName(property.Name)));
             }
 
             return classDefinition;
@@ -66,6 +66,7 @@ namespace CatFactory.TypeScript.ObjectOrientedProgramming
             var interfaceDefinition = new TypeScriptInterfaceDefinition
             {
                 Namespaces = classDefinition.Namespaces,
+                AccessModifier = AccessModifier.Public,
                 Name = namingConvention.GetInterfaceName(classDefinition.Name)
             };
 

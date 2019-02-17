@@ -4,6 +4,6 @@ namespace CatFactory.TypeScript.ObjectOrientedProgramming
 {
     public interface ITypeScriptEnumDefinition : IEnumDefinition
     {
-        bool Export { get; }
+        bool Export { get; set; }
     }
 }
