@@ -50,9 +50,14 @@ namespace CatFactory.TypeScript.ObjectOrientedProgramming
             {
                 var type = TypeScriptTypeResolver.Resolve(property.PropertyType.Name);
 
-                classDefinition.Fields.Add(new FieldDefinition(AccessModifier.Private, type, namingConvention.GetFieldName(property.Name)));
+                var fieldName = string.Format("m_{0}", namingConvention.GetFieldName(property.Name));
 
-                classDefinition.Properties.Add(new PropertyDefinition(AccessModifier.Public, type, namingConvention.GetPropertyName(property.Name)));
+                classDefinition.Fields.Add(new FieldDefinition(AccessModifier.Private, type, fieldName));
+
+                classDefinition.Properties.Add(new PropertyDefinition(AccessModifier.Public, type, namingConvention.GetPropertyName(property.Name))
+                {
+                    IsAutomatic = true
+                });
             }
 
             return classDefinition;

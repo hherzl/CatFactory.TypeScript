@@ -65,7 +65,7 @@ namespace CatFactory.TypeScript.CodeFactory
             this.AddAttributes(start);
 
             if (ObjectDefinition.Documentation.HasSummary)
-                Lines.Add(new CodeLine("{0}/** {1} */", Indent(start), ObjectDefinition.Documentation.Summary));
+                Lines.Add(new CommentLine("{0}/** {1} */", Indent(start), ObjectDefinition.Documentation.Summary));
 
             var declaration = new List<string>
             {
@@ -100,7 +100,7 @@ namespace CatFactory.TypeScript.CodeFactory
                     var field = ObjectDefinition.Fields[i];
 
                     if (field.Documentation.HasSummary)
-                        Lines.Add(new CodeLine("{0}/** {1} */", Indent(start + 1), field.Documentation.Summary));
+                        Lines.Add(new CommentLine("{0}/** {1} */", Indent(start + 1), field.Documentation.Summary));
 
                     var fieldDefinition = new List<string>
                     {
@@ -113,8 +113,7 @@ namespace CatFactory.TypeScript.CodeFactory
                     if (field.IsReadOnly)
                         fieldDefinition.Add("readonly");
 
-                    fieldDefinition.Add(field.Name);
-                    fieldDefinition.Add(":");
+                    fieldDefinition.Add(string.Format("{0}:", field.Name));
                     fieldDefinition.Add(field.Type);
 
                     if (!string.IsNullOrEmpty(field.Value))
@@ -137,20 +136,29 @@ namespace CatFactory.TypeScript.CodeFactory
 
                 if (constructor.Documentation.HasSummary)
                 {
-                    Lines.Add(new CodeLine("{0}/**", Indent(start + 1)));
+                    Lines.Add(new CommentLine("{0}/**", Indent(start + 1)));
 
-                    Lines.Add(new CodeLine("{0}* {1}", Indent(start + 1), constructor.Documentation.Summary));
+                    Lines.Add(new CommentLine("{0}* {1}", Indent(start + 1), constructor.Documentation.Summary));
 
                     foreach (var parameter in constructor.Parameters)
-                        Lines.Add(new CodeLine("{0}* @{1} {2}", Indent(start + 1), parameter.Name, parameter.Documentation.Summary));
+                    {
+                        Lines.Add(new CommentLine("{0}* @{1} {2}", Indent(start + 1), parameter.Name, parameter.Documentation.Summary));
+                    }
 
-                    Lines.Add(new CodeLine("{0}*/", Indent(start + 1)));
+                    Lines.Add(new CommentLine("{0}*/", Indent(start + 1)));
                 }
 
                 Lines.Add(new CodeLine("{0}constructor({1}) {2}", Indent(start + 1), parameters.Count == 0 ? string.Empty : string.Join(", ", parameters), "{"));
 
                 foreach (var line in constructor.Lines)
-                    Lines.Add(new CodeLine("{0}{1}", Indent(start + 2), line.ToString()));
+                {
+                    if (line is CommentLine commentLine)
+                        Lines.Add(new CommentLine("{0}{1}", Indent(start + 2), GetComment(line.Content)));
+                    else if (line is TodoLine todoLine)
+                        Lines.Add(new TodoLine("{0}{1}", Indent(start + 2), GetTodo(line.Content)));
+                    else
+                        Lines.Add(new TodoLine("{0}{1}", Indent(start + 2), line.Content));
+                }
 
                 Lines.Add(new CodeLine("{0}{1}", Indent(start + 1), "}"));
             }
@@ -168,10 +176,13 @@ namespace CatFactory.TypeScript.CodeFactory
 
                     if (property.IsAutomatic)
                     {
-                        var fieldName = NamingConvention.GetFieldName(property.Name);
+                        var fieldName = string.Format("m_{0}", NamingConvention.GetFieldName(property.Name));
 
                         if (ObjectDefinition.Fields.FirstOrDefault(item => item.Name == fieldName) == null)
-                            ObjectDefinition.Fields.Add(new FieldDefinition(property.Type, fieldName) { AccessModifier = AccessModifier.Private });
+                            ObjectDefinition.Fields.Add(new FieldDefinition(property.Type, fieldName)
+                            {
+                                AccessModifier = AccessModifier.Private
+                            });
 
                         Lines.Add(new CodeLine("{0}{1} get {2}(): {3} {4}", Indent(start + 1), property.AccessModifier.ToString().ToLower(), property.Name, property.Type, "{"));
 
@@ -197,7 +208,9 @@ namespace CatFactory.TypeScript.CodeFactory
                         foreach (var line in property.GetBody)
                         {
                             if (line is CommentLine)
-                                Lines.Add(new CodeLine("{0}{1}", Indent(start + line.Indent), GetComment(line.Content)));
+                                Lines.Add(new CommentLine("{0}{1}", Indent(start + line.Indent), GetComment(line.Content)));
+                            if (line is TodoLine)
+                                Lines.Add(new TodoLine("{0}{1}", Indent(start + line.Indent), GetTodo(line.Content)));
                             else
                                 Lines.Add(new CodeLine("{0}{1}", Indent(start + line.Indent), line.Content));
                         }
@@ -211,7 +224,9 @@ namespace CatFactory.TypeScript.CodeFactory
                         foreach (var line in property.SetBody)
                         {
                             if (line is CommentLine)
-                                Lines.Add(new CodeLine("{0}{1}", Indent(start + line.Indent), GetComment(line.Content)));
+                                Lines.Add(new CommentLine("{0}{1}", Indent(start + line.Indent), GetComment(line.Content)));
+                            if (line is TodoLine)
+                                Lines.Add(new TodoLine("{0}{1}", Indent(start + line.Indent), GetTodo(line.Content)));
                             else
                                 Lines.Add(new CodeLine("{0}{1}", Indent(start + line.Indent), line.Content));
                         }
@@ -234,14 +249,16 @@ namespace CatFactory.TypeScript.CodeFactory
 
                     if (method.Documentation.HasSummary)
                     {
-                        Lines.Add(new CodeLine("{0}/**", Indent(start + 1)));
+                        Lines.Add(new CommentLine("{0}/**", Indent(start + 1)));
 
-                        Lines.Add(new CodeLine("{0}* {1}", Indent(start + 1), method.Documentation.Summary));
+                        Lines.Add(new CommentLine("{0}* {1}", Indent(start + 1), method.Documentation.Summary));
 
                         foreach (var parameter in method.Parameters)
-                            Lines.Add(new CodeLine("{0}* @{1} {2}", Indent(start + 1), parameter.Name, parameter.Documentation.Summary));
+                        {
+                            Lines.Add(new CommentLine("{0}* @{1} {2}", Indent(start + 1), parameter.Name, parameter.Documentation.Summary));
+                        }
 
-                        Lines.Add(new CodeLine("{0}*/", Indent(start + 1)));
+                        Lines.Add(new CommentLine("{0}*/", Indent(start + 1)));
                     }
 
                     var parameters = method.Parameters.Select(item => string.Format("{0}: {1}", item.Name, item.Type));
@@ -252,12 +269,12 @@ namespace CatFactory.TypeScript.CodeFactory
 
                     foreach (var line in method.Lines)
                     {
-                        if (line is CodeLine)
-                            Lines.Add(new CodeLine("{0}{1}", Indent(start + 2 + line.Indent), line.Content));
-                        else if (line is CommentLine)
+                        if (line is CommentLine)
                             Lines.Add(new CommentLine("{0}{1}", Indent(start + 2 + line.Indent), GetComment(line.Content)));
                         else if (line is TodoLine)
                             Lines.Add(new TodoLine("{0}{1}", Indent(start + 2 + line.Indent), GetTodo(line.Content)));
+                        else
+                            Lines.Add(new CodeLine("{0}{1}", Indent(start + 2 + line.Indent), line.Content));
                     }
 
                     Lines.Add(new CodeLine("{0}{1}", Indent(start + 1), "}"));

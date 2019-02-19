@@ -8,9 +8,10 @@
     <RepositoryUrl>https://github.com/hherzl/CatFactory.TypeScript</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>TypeScript Scaffolding</PackageTags>
-    <PackageReleaseNotes>1.0.0-beta-sun-build22 Version:
+    <PackageReleaseNotes>1.0.0-beta-sun-build23 Version:
 
 * Change order to scaffold fields in class
+* Minor fixes in code builder
 
 Quick start: https://www.codeproject.com/Tips/1166380/Scaffolding-TypeScript-with-CatFactory
 </PackageReleaseNotes>

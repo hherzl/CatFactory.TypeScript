@@ -24,7 +24,7 @@ namespace CatFactory.TypeScript.CodeFactory
         protected virtual string GetTodo(string description)
             => string.Format("// todo: {0}", description);
 
-        public TypeScriptNamingConvention NamingConvention
+        public virtual ICodeNamingConvention NamingConvention
             => new TypeScriptNamingConvention();
     }
 }

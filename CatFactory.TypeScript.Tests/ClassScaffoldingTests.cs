@@ -17,10 +17,11 @@ namespace CatFactory.TypeScript.Tests
         {
             var definition = new TypeScriptClassDefinition
             {
+                Export = true,
                 Name = "Service",
                 Fields =
                 {
-                    new FieldDefinition("string", "url")
+                    new FieldDefinition(AccessModifier.Protected, "string", "url")
                     {
                         Documentation = new Documentation("Gets or sets the url")
                     }
@@ -75,14 +76,6 @@ namespace CatFactory.TypeScript.Tests
                         {
                             new CodeLine("super();")
                         }
-                    }
-                },
-                Properties =
-                {
-                    new PropertyDefinition("string", "Url")
-                    {
-                        Documentation = new Documentation("Gets or sets the url for Web API"),
-                        IsAutomatic = true
                     }
                 },
                 Methods =
