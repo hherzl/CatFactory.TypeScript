@@ -142,6 +142,8 @@ namespace CatFactory.TypeScript.Tests
         {
             var definition = (new Customer()).RefactClass();
 
+            definition.Documentation.Summary = "Refacted from Customer class definition";
+
             foreach (var filePath in TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition))
             {
                 Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
@@ -159,7 +161,9 @@ namespace CatFactory.TypeScript.Tests
                 ReleaseDate = DateTime.Now,
                 Description = ""
             }
-            .RefactClass(name: "Anonymous");
+            .RefactClass(name: "Anonymous", convertPropertiesToFields: false);
+
+            definition.Documentation.Summary = "Refacted from anonymous definition";
 
             foreach (var filePath in TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition))
             {
