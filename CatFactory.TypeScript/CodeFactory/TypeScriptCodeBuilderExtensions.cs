@@ -10,17 +10,13 @@ namespace CatFactory.TypeScript.CodeFactory
         {
             foreach (var attrib in attributes)
             {
-                var declaration = new List<string>
+                if (attrib.Sets.Count == 0)
                 {
-                    string.Format("@{0}", attrib.Name),
-                    "("
-                };
-
-                if (attrib.Sets.Count > 0 && attrib.HasMembers)
+                    codeBuilder.Lines.Add(new CodeLine("@{0}()", attrib.Name));
+                }
+                else
                 {
-                    declaration.Add("{");
-
-                    codeBuilder.Lines.Add(new CodeLine(string.Join("", declaration)));
+                    codeBuilder.Lines.Add(new CodeLine("@{0}({{", attrib.Name));
 
                     for (var i = 0; i < attrib.Sets.Count; i++)
                     {
@@ -28,9 +24,9 @@ namespace CatFactory.TypeScript.CodeFactory
 
                         codeBuilder.Lines.Add(new CodeLine("{0}{1}: {2}{3}", codeBuilder.Indent(start + 1), set.Name, set.Value, i < attrib.Sets.Count - 1 ? "," : string.Empty));
                     }
-                }
 
-                codeBuilder.Lines.Add(new CodeLine("})"));
+                    codeBuilder.Lines.Add(new CodeLine("})"));
+                }
             }
         }
 

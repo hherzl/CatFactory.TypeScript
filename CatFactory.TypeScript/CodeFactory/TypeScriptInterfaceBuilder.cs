@@ -89,11 +89,11 @@ namespace CatFactory.TypeScript.CodeFactory
                 {
                     if (property.Documentation.HasSummary)
                     {
-                        Lines.Add(new CodeLine("{0}/**", Indent(start + 1)));
+                        Lines.Add(new CommentLine("{0}/**", Indent(start + 1)));
 
-                        Lines.Add(new CodeLine("{0}* {1}", Indent(start + 1), property.Documentation.Summary));
+                        Lines.Add(new CommentLine("{0}* {1}", Indent(start + 1), property.Documentation.Summary));
 
-                        Lines.Add(new CodeLine("{0}*/", Indent(start + 1)));
+                        Lines.Add(new CommentLine("{0}*/", Indent(start + 1)));
                     }
 
                     Lines.Add(new CodeLine("{0}{1}: {2};", Indent(start + 1), property.Name, property.Type));
@@ -106,14 +106,16 @@ namespace CatFactory.TypeScript.CodeFactory
                 {
                     if (method.Documentation.HasSummary)
                     {
-                        Lines.Add(new CodeLine("{0}/**", Indent(start + 1)));
+                        Lines.Add(new CommentLine("{0}/**", Indent(start + 1)));
 
-                        Lines.Add(new CodeLine("{0}* {1}", Indent(start + 1), method.Documentation.Summary));
+                        Lines.Add(new CommentLine("{0}* {1}", Indent(start + 1), method.Documentation.Summary));
 
                         foreach (var parameter in method.Parameters)
+                        {
                             Lines.Add(new CodeLine("{0}* @{1} {2}", Indent(start + 1), parameter.Name, parameter.Documentation.Summary));
+                        }
 
-                        Lines.Add(new CodeLine("{0}*/", Indent(start + 1)));
+                        Lines.Add(new CommentLine("{0}*/", Indent(start + 1)));
                     }
 
                     var parameters = string.Join(", ", method.Parameters.Select(item => string.Format("{0}: {1}", item.Name, item.Type)));

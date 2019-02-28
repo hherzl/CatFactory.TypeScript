@@ -22,7 +22,7 @@ namespace CatFactory.TypeScript.CodeFactory
             => NamingConvention.GetCamelCase(ValidName(value));
 
         public string GetFieldName(string value)
-            => string.Format("m_{0}", NamingConvention.GetCamelCase(ValidName(value)));
+            => NamingConvention.GetCamelCase(ValidName(value));
 
         public string GetPropertyName(string value)
             => NamingConvention.GetCamelCase(ValidName(value));
