@@ -13,7 +13,7 @@ namespace CatFactory.TypeScript.CodeFactory
             => ValidName(string.Join(".", values.Select(item => item)));
 
         public string GetInterfaceName(string value)
-            => ValidName(NamingConvention.GetPascalCase(string.Format("I{0}", value)));
+            => ValidName($"I{NamingConvention.GetPascalCase(value)}");
 
         public string GetClassName(string value)
             => ValidName(NamingConvention.GetPascalCase(value));
