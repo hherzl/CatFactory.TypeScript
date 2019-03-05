@@ -2,7 +2,7 @@
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace CatFactory.Tests.Helpers
+namespace CatFactory.TypeScript.Tests.Helpers
 {
     public static class XmlSerializerHelper
     {
