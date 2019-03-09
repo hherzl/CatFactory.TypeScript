@@ -10,27 +10,27 @@ namespace CatFactory.TypeScript.CodeFactory
             => string.Join("", name.Split(' ').Select(item => NamingConvention.GetPascalCase(item)));
 
         public string GetNamespace(params string[] values)
-            => string.Join(".", values.Select(item => ValidName(item)));
+            => ValidName(string.Join(".", values.Select(item => item)));
 
         public string GetInterfaceName(string value)
-            => NamingConvention.GetPascalCase(string.Format("I{0}", ValidName(value)));
+            => ValidName($"I{NamingConvention.GetPascalCase(value)}");
 
         public string GetClassName(string value)
-            => NamingConvention.GetPascalCase(ValidName(value));
+            => ValidName(NamingConvention.GetPascalCase(value));
 
         public string GetConstantName(string value)
-            => NamingConvention.GetCamelCase(ValidName(value));
+            => ValidName(NamingConvention.GetCamelCase(value));
 
         public string GetFieldName(string value)
-            => NamingConvention.GetCamelCase(ValidName(value));
+            => ValidName(NamingConvention.GetCamelCase(value));
 
         public string GetPropertyName(string value)
-            => NamingConvention.GetCamelCase(ValidName(value));
+            => ValidName(NamingConvention.GetCamelCase(value));
 
         public string GetMethodName(string value)
-            => NamingConvention.GetCamelCase(ValidName(value));
+            => ValidName(NamingConvention.GetCamelCase(value));
 
         public string GetParameterName(string value)
-            => NamingConvention.GetCamelCase(ValidName(value));
+            => ValidName(NamingConvention.GetCamelCase(value));
     }
 }
