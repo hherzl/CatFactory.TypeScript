@@ -39,7 +39,7 @@ namespace CatFactory.TypeScript.Tests
                 }
             };
 
-            foreach (var filePath in TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition))
+            foreach (var filePath in TypeScriptClassBuilder.CreateFiles(ScaffoldingPaths.TsFilesPath, string.Empty, true, definition))
             {
                 Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
             }
@@ -53,7 +53,7 @@ namespace CatFactory.TypeScript.Tests
                 Name = "Response"
             };
 
-            foreach (var filePath in TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition))
+            foreach (var filePath in TypeScriptClassBuilder.CreateFiles(ScaffoldingPaths.TsFilesPath, string.Empty, true, definition))
             {
                 Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
             }
@@ -106,7 +106,7 @@ namespace CatFactory.TypeScript.Tests
             definition.AddImport("Service", "./Service");
             definition.AddImport("Product", "./Product");
 
-            foreach (var filePath in TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition))
+            foreach (var filePath in TypeScriptClassBuilder.CreateFiles(ScaffoldingPaths.TsFilesPath, string.Empty, true, definition))
             {
                 Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
             }
@@ -131,7 +131,7 @@ namespace CatFactory.TypeScript.Tests
                 }
             };
 
-            foreach (var filePath in TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition))
+            foreach (var filePath in TypeScriptClassBuilder.CreateFiles(ScaffoldingPaths.TsFilesPath, string.Empty, true, definition))
             {
                 Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
             }
@@ -144,7 +144,7 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Documentation.Summary = "Refacted from Customer class definition";
 
-            foreach (var filePath in TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition))
+            foreach (var filePath in TypeScriptClassBuilder.CreateFiles(ScaffoldingPaths.TsFilesPath, string.Empty, true, definition))
             {
                 Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
             }
@@ -165,7 +165,7 @@ namespace CatFactory.TypeScript.Tests
 
             definition.Documentation.Summary = "Refacted from anonymous definition";
 
-            foreach (var filePath in TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition))
+            foreach (var filePath in TypeScriptClassBuilder.CreateFiles(ScaffoldingPaths.TsFilesPath, string.Empty, true, definition))
             {
                 Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
             }

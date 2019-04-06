@@ -24,8 +24,8 @@ namespace CatFactory.TypeScript.Tests
 
             definition.AddImport("Response", "./Response");
             definition.AddImport("Product", "./Product");
-            
-            foreach (var filePath in TypeScriptInterfaceBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, definition))
+
+            foreach (var filePath in TypeScriptInterfaceBuilder.CreateFiles(ScaffoldingPaths.TsFilesPath, string.Empty, true, definition))
             {
                 Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
             }
@@ -50,9 +50,9 @@ namespace CatFactory.TypeScript.Tests
 
             var interfaceDefinition = classDefinition.RefactInterface();
 
-            TypeScriptClassBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, classDefinition);
+            TypeScriptClassBuilder.CreateFiles(ScaffoldingPaths.TsFilesPath, string.Empty, true, classDefinition);
 
-            TypeScriptInterfaceBuilder.CreateFiles("C:\\Temp\\CatFactory.TypeScript", string.Empty, true, interfaceDefinition);
+            TypeScriptInterfaceBuilder.CreateFiles(ScaffoldingPaths.TsFilesPath, string.Empty, true, interfaceDefinition);
 
             Assert.True(classDefinition.Properties.Count == interfaceDefinition.Properties.Count);
             Assert.True(interfaceDefinition.Methods.Count == 0);
