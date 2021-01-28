@@ -26,7 +26,7 @@ namespace CatFactory.TypeScript.Tests
 
             foreach (var filePath in TypeScriptEnumBuilder.CreateFiles(ScaffoldingPaths.TsFilesPath, string.Empty, true, definition))
             {
-                Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
+                //Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
             }
         }
 
@@ -53,7 +53,7 @@ namespace CatFactory.TypeScript.Tests
 
             foreach (var filePath in TypeScriptEnumBuilder.CreateFiles(ScaffoldingPaths.TsFilesPath, string.Empty, true, definition))
             {
-                Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
+                //Process.Start(ScaffoldingPaths.TscPath, string.Format("{0} --outDir {1}", Path.Combine(ScaffoldingPaths.TsFilesPath, filePath), ScaffoldingPaths.OutPath));
             }
         }
     }

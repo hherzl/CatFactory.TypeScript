@@ -8,7 +8,7 @@
 
         static ScaffoldingPaths()
         {
-            TscPath = @"C:\Program Files (x86)\Microsoft SDKs\TypeScript\3.1\tsc.exe";
+            TscPath = @"C:\Program Files (x86)\Microsoft SDKs\TypeScript\4.0\tsc.js";
             TsFilesPath = @"C:\Temp\CatFactory.TypeScript";
             OutPath = @"C:\Temp\CatFactory.TypeScript\js";
         }
