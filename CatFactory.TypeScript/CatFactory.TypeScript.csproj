@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
         <LangVersion>latest</LangVersion>
-        <Version>1.0.0-beta-sun-build35</Version>
+        <Version>1.0.0-beta-sun-build36</Version>
         <Authors>H. Herzl</Authors>
         <Description>CatFactory package for TypeScript scaffolding</Description>
         <RepositoryUrl>https://github.com/hherzl/CatFactory.TypeScript</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>TypeScript Scaffolding</PackageTags>
-        <PackageReleaseNotes>1.0.0-beta-sun-build35 Version:
+        <PackageReleaseNotes>1.0.0-beta-sun-build36 Version:
 
-* Core package update
+ Upgrade for .NET Core version
 
 Quick start: https://www.codeproject.com/Tips/1166380/Scaffolding-TypeScript-with-CatFactory
 </PackageReleaseNotes>
@@ -21,7 +21,7 @@ Quick start: https://www.codeproject.com/Tips/1166380/Scaffolding-TypeScript-wit
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CatFactory" Version="1.0.0-beta-sun-build29" />
+        <PackageReference Include="CatFactory" Version="1.0.0-beta-sun-build31" />
         <PackageReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
 

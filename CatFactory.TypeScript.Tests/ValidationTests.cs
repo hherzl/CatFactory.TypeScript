@@ -8,7 +8,7 @@ namespace CatFactory.TypeScript.Tests
     public class ValidationTests
     {
         [Fact]
-        public void TestClassValidation()
+        public void ClassValidation()
         {
             var definition = new TypeScriptClassDefinition
             {
@@ -34,7 +34,7 @@ namespace CatFactory.TypeScript.Tests
         }
 
         [Fact]
-        public void TestClassValidationWithErrors()
+        public void ClassValidationWithErrors()
         {
             var definition = new TypeScriptClassDefinition
             {

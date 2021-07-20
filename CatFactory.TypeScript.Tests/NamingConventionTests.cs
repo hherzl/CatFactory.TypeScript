@@ -6,7 +6,7 @@ namespace CatFactory.TypeScript.Tests
     public class NamingConventionTests
     {
         [Fact]
-        public void TestGetClassName()
+        public void GetClassName()
         {
             var namingConvention = new TypeScriptNamingConvention();
 
@@ -16,7 +16,7 @@ namespace CatFactory.TypeScript.Tests
         }
 
         [Fact]
-        public void TestGetInterfaceName()
+        public void GetInterfaceName()
         {
             var namingConvention = new TypeScriptNamingConvention();
 

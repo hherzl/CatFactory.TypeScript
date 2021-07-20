@@ -10,7 +10,7 @@ namespace CatFactory.TypeScript.Tests
     public class ModuleScaffoldingTests
     {
         [Fact]
-        public void TestScaffoldingTypeScriptModule()
+        public void ScaffoldingTypeScriptModule()
         {
             var definition = new TypeScriptModuleDefinition
             {
@@ -26,7 +26,7 @@ namespace CatFactory.TypeScript.Tests
         }
 
         [Fact]
-        public void TestScaffoldingNgModuleConfiguration()
+        public void ScaffoldingNgModuleConfiguration()
         {
             var definition = new TypeScriptModuleDefinition();
 
