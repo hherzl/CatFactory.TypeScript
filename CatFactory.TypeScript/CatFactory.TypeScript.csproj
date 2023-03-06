@@ -1,27 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <LangVersion>latest</LangVersion>
-        <Version>1.0.0-beta-sun-build37</Version>
-        <Authors>H. Herzl</Authors>
-        <Description>CatFactory package for TypeScript scaffolding</Description>
-        <RepositoryUrl>https://github.com/hherzl/CatFactory.TypeScript</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
-        <PackageTags>TypeScript Scaffolding</PackageTags>
-        <PackageReleaseNotes>1.0.0-beta-sun-build37 Version:
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Version>1.0.0-beta-sun-build38</Version>
+    <Authors>H. Herzl</Authors>
+    <Description>CatFactory package for TypeScript scaffolding</Description>
+    <RepositoryUrl>https://github.com/hherzl/CatFactory.TypeScript</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>TypeScript Scaffolding</PackageTags>
+    <PackageReleaseNotes>
+      1.0.0-beta-sun-build38 Version:
 
-* Upgrade for .NET Version
+      * Upgrade for .NET Version
 
-Quick start: https://www.codeproject.com/Tips/1166380/Scaffolding-TypeScript-with-CatFactory
-</PackageReleaseNotes>
-        <PackageProjectUrl>https://github.com/hherzl/CatFactory.TypeScript</PackageProjectUrl>
-        <Company>Herzl Corp.</Company>
-        <PackageLicenseUrl>https://github.com/hherzl/CatFactory.TypeScript/blob/master/LICENSE</PackageLicenseUrl>
-    </PropertyGroup>
+      Quick start: https://www.codeproject.com/Tips/1166380/Scaffolding-TypeScript-with-CatFactory
+    </PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/hherzl/CatFactory.TypeScript</PackageProjectUrl>
+    <Company>Herzl Corp.</Company>
+    <PackageLicenseUrl>https://github.com/hherzl/CatFactory.TypeScript/blob/master/LICENSE</PackageLicenseUrl>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="CatFactory" Version="1.0.0-beta-sun-build32" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CatFactory" Version="1.0.0-beta-sun-build33" />
+  </ItemGroup>
 
 </Project>
