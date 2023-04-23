@@ -3,16 +3,16 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <Version>1.0.0-beta-sun-build38</Version>
+    <Version>1.0.0-beta-sun-build39</Version>
     <Authors>H. Herzl</Authors>
     <Description>CatFactory package for TypeScript scaffolding</Description>
     <RepositoryUrl>https://github.com/hherzl/CatFactory.TypeScript</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>TypeScript Scaffolding</PackageTags>
     <PackageReleaseNotes>
-      1.0.0-beta-sun-build38 Version:
+      1.0.0-beta-sun-build39 Version:
 
-      * Upgrade for .NET Version
+      Core package update
 
       Quick start: https://www.codeproject.com/Tips/1166380/Scaffolding-TypeScript-with-CatFactory
     </PackageReleaseNotes>
@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CatFactory" Version="1.0.0-beta-sun-build33" />
+    <PackageReference Include="CatFactory" Version="1.0.0-beta-sun-build34" />
   </ItemGroup>
 
 </Project>
