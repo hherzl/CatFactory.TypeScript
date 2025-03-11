@@ -1,28 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <Version>1.0.0-beta-sun-build40</Version>
+    <Version>1.0.0-beta-aurora-build00</Version>
     <Authors>H. Herzl</Authors>
     <Description>CatFactory package for TypeScript scaffolding</Description>
     <RepositoryUrl>https://github.com/hherzl/CatFactory.TypeScript</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>TypeScript Scaffolding</PackageTags>
     <PackageReleaseNotes>
-      1.0.0-beta-sun-build40 Version:
+      1.0.0-beta-aurora-build00 Version:
 
-      Core package update
+      Fix issue 3: https://github.com/hherzl/CatFactory.TypeScript/issues/3
 
       Quick start: https://www.codeproject.com/Tips/1166380/Scaffolding-TypeScript-with-CatFactory
     </PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/hherzl/CatFactory.TypeScript</PackageProjectUrl>
     <Company>Herzl Corp.</Company>
-    <PackageLicenseUrl>https://github.com/hherzl/CatFactory.TypeScript/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CatFactory" Version="1.0.0-beta-sun-build37" />
+    <PackageReference Include="CatFactory" Version="1.0.0-beta-aurora-build00" />
   </ItemGroup>
 
 </Project>
